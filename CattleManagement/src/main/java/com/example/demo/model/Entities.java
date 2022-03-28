@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,8 +36,11 @@ public class Entities {
 
     @ManyToOne(targetEntity = Cage.class)
     @JoinColumn(name = "cageId", referencedColumnName = "cageId")
+    @JsonBackReference
     private Cage cage;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "entities", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+
     private Set<EntitiesIllness> entities;
 }

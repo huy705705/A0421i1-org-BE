@@ -1,4 +1,6 @@
 package com.example.demo.service;
 
-public interface EntitiesService {
+import com.example.demo.model.Entities;
+
+public interface EntitiesService extends IGeneralEntitiesService<Entities> {
 }
