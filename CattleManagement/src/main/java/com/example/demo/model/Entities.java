@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Entities {
     @Id
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Column(columnDefinition = "VARCHAR(255)",nullable = false)
     private String entitiesId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -32,9 +33,11 @@ public class Entities {
     private float weight;
 
     private Boolean isDelete;
+    private String cageId;
 
     @ManyToOne(targetEntity = Cage.class)
-    @JoinColumn(name = "cageId", referencedColumnName = "cageId")
+    @JoinColumn(name = "cageId",nullable = false, referencedColumnName = "cageId",insertable = false,updatable = false)
+    @JsonBackReference
     private Cage cage;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "entities", cascade = CascadeType.REMOVE)
