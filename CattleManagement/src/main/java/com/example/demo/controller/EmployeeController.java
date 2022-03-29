@@ -4,7 +4,9 @@ import com.example.demo.model.Employee;
 import com.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +21,16 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @GetMapping("/list")
-    public ResponseEntity<Iterable<Employee>> allEmployee(Pageable pageable) {
-        Page<Employee> employees = employeeService.findAll(pageable);
+    public ResponseEntity<Page<Employee>> listEmployee(@PageableDefault(size = 2) Pageable pageable,
+                                                       @RequestParam Optional<String> search) {
+        Page<Employee> employees;
+
+        if (search.isPresent()) {
+            employees = employeeService.findAllByEmployeeNameContaining(search.get(), pageable);
+        } else{
+            employees = employeeService.findAll(pageable);
+        }
+
         if (employees.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -36,4 +46,5 @@ public class EmployeeController {
         employee.setEmployeeId(employeeOptional.get().getEmployeeId());
         return new ResponseEntity<>(employeeService.save(employee), HttpStatus.OK);
     }
+
 }
