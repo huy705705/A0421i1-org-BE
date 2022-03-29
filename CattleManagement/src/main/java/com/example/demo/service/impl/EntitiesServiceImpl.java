@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@SuppressWarnings("unchecked")
 @Service
 public class EntitiesServiceImpl implements EntitiesService {
     @Autowired

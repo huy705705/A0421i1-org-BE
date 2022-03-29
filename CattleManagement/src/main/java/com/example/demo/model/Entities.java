@@ -11,8 +11,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,4 +40,76 @@ public class Entities {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "entities", cascade = CascadeType.REMOVE)
     private Set<EntitiesIllness> entities;
+
+    public String getEntitiesId() {
+        return entitiesId;
+    }
+
+    public LocalDate getInDate() {
+        return inDate;
+    }
+
+    public LocalDate getOutDate() {
+        return outDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public String getCageId() {
+        return cageId;
+    }
+
+    public Cage getCage() {
+        return cage;
+    }
+
+    public Set<EntitiesIllness> getEntities() {
+        return entities;
+    }
+
+    public void setEntitiesId(String entitiesId) {
+        this.entitiesId = entitiesId;
+    }
+
+    public void setInDate(LocalDate inDate) {
+        this.inDate = inDate;
+    }
+
+    public void setOutDate(LocalDate outDate) {
+        this.outDate = outDate;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
+    }
+
+    public void setCageId(String cageId) {
+        this.cageId = cageId;
+    }
+
+    public void setCage(Cage cage) {
+        this.cage = cage;
+    }
+
+    public void setEntities(Set<EntitiesIllness> entities) {
+        this.entities = entities;
+    }
 }
