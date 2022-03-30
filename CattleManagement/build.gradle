@@ -24,6 +24,12 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-context-support
+    implementation group: 'org.springframework', name: 'spring-context-support', version: '5.3.14'
+
 }
 
 test {
