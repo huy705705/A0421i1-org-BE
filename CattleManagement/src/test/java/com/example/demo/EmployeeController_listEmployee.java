@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -31,7 +32,7 @@ public class EmployeeController_listEmployee {
     @Test
     public void getListStudent_1() {
         ResponseEntity<Page<Employee>> responseEntity
-                = this.employeeController.listEmployee(PageRequest.of(0, 2), null);
+                = this.employeeController.listEmployee(PageRequest.of(0, 2), "");
 
         Assertions.assertEquals(404, responseEntity.getStatusCodeValue());
     }
@@ -39,7 +40,7 @@ public class EmployeeController_listEmployee {
     @Test
     public void getListStudent_2() {
         ResponseEntity<Page<Employee>> responseEntity
-                = this.employeeController.listEmployee(PageRequest.of(0, 2), null);
+                = this.employeeController.listEmployee(PageRequest.of(0, 2), "");
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(3, responseEntity.getBody().getTotalPages());
@@ -65,4 +66,42 @@ public class EmployeeController_listEmployee {
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
+
+    @Test
+    public void getInfoStudent_4() throws Exception {
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/employee/list",""))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void getInfoStudent_5() throws Exception {
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/employee/list","Hoa An"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void getInfoStudent_6() throws Exception {
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/employee/list","Phạm Lê Khanh"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void getInfoStudent_7() throws Exception {
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/employee/list","Trần Thuỳ My"))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+        .andExpect(jsonPath("$.employeeId").value("N02"))
+        .andExpect(jsonPath("$.email").value("my@gmail.com"))
+        .andExpect(jsonPath("$.birthDay").value("1999-12-30"))
+        .andExpect(jsonPath("$.gender").value(false));
+    }
+
+
 }

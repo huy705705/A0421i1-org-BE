@@ -16,8 +16,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepo employeeRepo;
 
     @Override
-    public Page<Employee> findAllByEmployeeNameContaining(String name, Pageable pageable) {
-        return employeeRepo.findAllByEmployeeNameContaining(name, pageable);
+    public Page<Employee> findByEmployeeNameContaining(String name, Pageable pageable) {
+        return employeeRepo.findByEmployeeNameContaining(name, pageable);
     }
 
     @Override

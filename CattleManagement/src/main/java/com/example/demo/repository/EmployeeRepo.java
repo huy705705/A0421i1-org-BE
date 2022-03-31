@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepo extends PagingAndSortingRepository<Employee, String> {
-    Page<Employee> findAllByEmployeeNameContaining(String employeeName, Pageable pageable);
+    Page<Employee> findByEmployeeNameContaining(String employeeName, Pageable pageable);
 }
