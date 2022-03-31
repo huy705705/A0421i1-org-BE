@@ -27,9 +27,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationEntryPoint jwtEntryPoint;
 
-//    @Autowired
-//    private JwtRequestFilter jwtRequestFilter;
-
     @Bean
     public JwtRequestFilter jwtRequestFilter(){
         return new JwtRequestFilter();
@@ -53,28 +50,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().and().csrf().disable().
-                authorizeRequests().antMatchers("/api/public/**").permitAll()
+        httpSecurity.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/api/public/**").permitAll()
+                .antMatchers("/api/employee/**").hasAnyRole("EMPLOYEE","ADMIN")
+                .antMatchers("api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-//                .and().exceptionHandling()
-//                .authenticationEntryPoint(jwtEntryPoint)
+                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.addFilterBefore(jwtRequestFilter() , UsernamePasswordAuthenticationFilter.class);
-
-//        httpSecurity.csrf()
-//                .disable()
-//                .authorizeRequests()
-//                .antMatchers("/api/public/**")
-//                .permitAll()
-//                .antMatchers("/api/user/**").hasAnyRole("USER","ADMIN")
-//                .antMatchers("api/admin/**").hasRole("ADMIN")
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
 
     }
 }

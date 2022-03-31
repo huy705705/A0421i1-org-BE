@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.model.Account;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface AccountService {
@@ -16,7 +18,13 @@ public interface AccountService {
 
     Account save(Account account);
 
-//    void addNewAccount(String accountName, String password)throws MessagingException, UnsupportedEncodingException;
-//
-//    void saveNewPassword(String password);
+    Account findAccountByEmail(String email);
+
+    Boolean findAccountByResetPasswordToken(String token);
+
+    void saveNewPassword(String password,String code);
+
+    void addResetPasswordToken(String accountName) throws UnsupportedEncodingException, MessagingException;
+
+    void sendEmailForResetPassword(String accountName, String token, String email) throws UnsupportedEncodingException, MessagingException;
 }

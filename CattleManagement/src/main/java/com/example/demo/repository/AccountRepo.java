@@ -17,20 +17,23 @@ public interface AccountRepo extends JpaRepository<Account, Long> {
 
     Boolean existsByAccountName(String name);
 
+    Account findAccountByEmail(String email);
+
+    Account findAccountByResetPasswordToken(String token);
+
     @Query(value = "select account_id from account where account_name = ?", nativeQuery = true)
     Long findAccountIdByAccountName(String accountName);
-//
-//    @Query(value = "select account_name from account where account_name = ?", nativeQuery = true)
-//    Boolean existsByAccountName(String accountName);
+
 
     @Query(value = "select * from account", nativeQuery = true)
     List<Account> getAllAccount();
 
-    @Modifying
-    @Query(value = "insert into account(account_name,account_password) values (?,?)", nativeQuery = true)
-    void addNewAccount(String accountName, String password);
 
     @Modifying
-    @Query(value = "update account set account_password =? where account_name=? ",nativeQuery = true)
-    void saveNewPassword(String password);
+    @Query(value ="update account set reset_password_token=? where account_name =?",nativeQuery = true)
+    void addResetPassToken(String token, String accountName);
+
+    @Modifying
+    @Query(value = "update account set password =?,reset_password_token=null where reset_password_token=? ",nativeQuery = true)
+    void saveNewPassword(String password, String token);
 }

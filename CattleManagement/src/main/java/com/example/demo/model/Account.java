@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -27,7 +28,6 @@ public class Account {
 
     @Column(columnDefinition = "VARCHAR(255)")
     @NotBlank
-//    @UniqueElements
     @Size(min = 3, max = 50)
     private String accountName;
 
@@ -36,6 +36,15 @@ public class Account {
     @NotBlank
     @Size(min = 6, max = 50)
     private String password;
+
+    @Column(columnDefinition = "VARCHAR(255)")
+    @NotBlank
+    @Email
+    private String email;
+
+    @Column(columnDefinition = "VARCHAR(50)")
+    private String resetPasswordToken;
+
 
     //    It
     @OneToOne(mappedBy = "account")
