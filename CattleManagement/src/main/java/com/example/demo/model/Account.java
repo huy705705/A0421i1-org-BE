@@ -61,4 +61,12 @@ public class Account {
             this.accountName = userName;
             this.password = encode;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
