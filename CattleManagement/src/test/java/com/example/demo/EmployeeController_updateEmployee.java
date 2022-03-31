@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.model.Account;
 import com.example.demo.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,16 +59,17 @@ public class EmployeeController_updateEmployee {
     }
 
     @Test
-    public void updateEmployee_Id_19() throws Exception {
+    public void updateEmployee_Id_1() throws Exception {
         Employee employee = new Employee();
         employee.setEmployeeId(null);
         employee.setEmployeeName("Hoa An");
-//        LocalDate outDate = LocalDate.of(2021,10,20);
-//        entities.setOutDate(outDate);
-//        entities.setStatus("Khoe");
-//        entities.setWeight(10);
-//        entities.setDelete(false);
-//        entities.setCageId("1");
+//        employee.setAccountId();
+        LocalDate birthday = LocalDate.of(1998,10,20);
+        employee.setBirthday(birthday);
+        employee.setGender("true");
+        employee.setGender("19459801");
+        employee.setGender("DN");
+        employee.setDelete(false);
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .patch("/employee/update/{id}")
@@ -73,5 +77,131 @@ public class EmployeeController_updateEmployee {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void updateEmployee_Id_2() throws Exception {
+        Employee employee = new Employee();
+        employee.setEmployeeId("");
+        employee.setEmployeeName("Hoa An");
+//        employee.setAccountId();
+        LocalDate birthday = LocalDate.of(1998,10,20);
+        employee.setBirthday(birthday);
+        employee.setGender("true");
+        employee.setGender("19459801");
+        employee.setGender("DN");
+        employee.setDelete(false);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .patch("/employee/update/{id}")
+                        .content(this.objectMapper.writeValueAsString(employee))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void updateEmployee_Id_3() throws Exception {
+        Employee employee = new Employee();
+        employee.setEmployeeId("001");
+        employee.setEmployeeName("Hoa An");
+//        employee.setAccountId();
+        LocalDate birthday = LocalDate.of(1998,10,20);
+        employee.setBirthday(birthday);
+        employee.setGender("true");
+        employee.setGender("19459801");
+        employee.setGender("DN");
+        employee.setDelete(false);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .patch("/employee/update/{id}")
+                        .content(this.objectMapper.writeValueAsString(employee))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void updateEmployee_Id_4() throws Exception {
+        Employee employee = new Employee();
+        employee.setEmployeeId("@#2134");
+        employee.setEmployeeName("Hoa An");
+//        employee.setAccountId();
+        LocalDate birthday = LocalDate.of(1998,10,20);
+        employee.setBirthday(birthday);
+        employee.setGender("true");
+        employee.setGender("19459801");
+        employee.setGender("DN");
+        employee.setDelete(false);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .patch("/employee/update/{id}")
+                        .content(this.objectMapper.writeValueAsString(employee))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void updateEmployee_Id_5() throws Exception {
+        Employee employee = new Employee();
+        employee.setEmployeeId("HoaAn@Gmail.com");
+        employee.setEmployeeName("Hoa An");
+//        employee.setAccountId();
+        LocalDate birthday = LocalDate.of(1998,10,20);
+        employee.setBirthday(birthday);
+        employee.setGender("true");
+        employee.setGender("19459801");
+        employee.setGender("DN");
+        employee.setDelete(false);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .patch("/employee/update/{id}")
+                        .content(this.objectMapper.writeValueAsString(employee))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void updateEmployee_Id_6() throws Exception {
+        Employee employee = new Employee();
+        employee.setEmployeeId("1");
+        employee.setEmployeeName("Hoa An");
+//        employee.setAccountId();
+        LocalDate birthday = LocalDate.of(1998,10,20);
+        employee.setBirthday(birthday);
+        employee.setGender("true");
+        employee.setGender("19459801");
+        employee.setGender("DN");
+        employee.setDelete(false);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .patch("/employee/update/{id}")
+                        .content(this.objectMapper.writeValueAsString(employee))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void updateEmployee_Id_7() throws Exception {
+        Employee employee = new Employee();
+        employee.setEmployeeId("N01");
+        employee.setEmployeeName("Hoa An");
+//        employee.setAccountId();
+        LocalDate birthday = LocalDate.of(1998,10,20);
+        employee.setBirthday(birthday);
+        employee.setGender("true");
+        employee.setGender("19459801");
+        employee.setGender("DN");
+        employee.setDelete(false);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .patch("/employee/update/{id}")
+                        .content(this.objectMapper.writeValueAsString(employee))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
     }
 }

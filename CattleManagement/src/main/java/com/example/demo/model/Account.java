@@ -19,7 +19,7 @@ import java.util.Set;
 public class Account {
     @Id
     @Column(columnDefinition = "VARCHAR(255)")
-    private String accountId;
+    private String setAccountId;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String accountName;
@@ -34,6 +34,5 @@ public class Account {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.REMOVE)
     private Set<AccountRole> roleSet;
-
 
 }
