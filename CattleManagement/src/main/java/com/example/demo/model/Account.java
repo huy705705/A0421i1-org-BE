@@ -19,7 +19,7 @@ import java.util.Set;
 public class Account {
     @Id
     @Column(columnDefinition = "VARCHAR(255)")
-    private String setAccountId;
+    private String AccountId;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String accountName;

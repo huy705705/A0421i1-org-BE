@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +7,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -20,21 +19,28 @@ import java.util.Set;
 public class Employee {
     @Id
     @Column(columnDefinition = "VARCHAR(255)")
+    @NotBlank(message = "{employeeId.empty}")
     private String employeeId;
 
     @Column(columnDefinition = "VARCHAR(255)")
+    @Size(min = 2, max = 50)
+    @NotBlank(message = "{employeeName.empty}")
     private String employeeName;
 
     @Column(columnDefinition = "VARCHAR(255)")
+    @Email(message = "Phải đúng định dạng Email")
     private String email;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "{employeeBirthday.empty}")
     private LocalDate birthday;
 
     @Column(columnDefinition = "VARCHAR(255)")
+    @NotNull(message = "{employeeGender.empty}")
     private String gender;
 
     @Column(columnDefinition = "VARCHAR(255)")
+    @NotBlank(message = "{employeeIdCard.empty}")
     private String idCard;
 
     @Column(columnDefinition = "VARCHAR(255)")
@@ -43,6 +49,7 @@ public class Employee {
     private Boolean isDelete;
 
     @Column(columnDefinition = "VARCHAR(255)")
+    @NotNull(message = "{employeeAddress.empty}")
     private String address;
 
     //    mot role
