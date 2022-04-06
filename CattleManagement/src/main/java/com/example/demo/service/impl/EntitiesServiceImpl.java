@@ -9,29 +9,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-@SuppressWarnings("unchecked")
+
 @Service
 public class EntitiesServiceImpl implements EntitiesService {
     @Autowired
-    private EntitiesRepo entitiesRepository;
-    @Override
-    public Page findAll(Pageable pageable) {
-        return entitiesRepository.findAll(pageable);
+    private EntitiesRepo entitiesRepo;
+
+    public Page<Entities> findAll(Pageable pageable){
+        return entitiesRepo.findAll(pageable);
     }
 
     @Override
-    public Optional findById(String id) {
-        return  entitiesRepository.findById(id);
+    public Optional<Entities> findById(String id) {
+        return entitiesRepo.findByEntitiesId(id);
+    }
+    public Entities save(Entities entities){
+        return entitiesRepo.save(entities);
     }
 
-    @Override
-    public Entities save(Entities entities) {
-        return entitiesRepository.save(entities);
 
-    }
 
-    @Override
-    public void remove(String id) {
 
-    }
 }
