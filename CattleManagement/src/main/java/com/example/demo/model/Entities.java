@@ -44,6 +44,11 @@ public class Entities {
     @JsonBackReference
     private Cage cage;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entities", cascade = CascadeType.REMOVE)
+    @JsonBackReference
+    private Set<EntitiesIllness> entities;
+
+
 
     public String getEntitiesId() {
         return entitiesId;
