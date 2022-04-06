@@ -16,10 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -27,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/public")
 public class AccountController {
     @Autowired
@@ -63,9 +61,9 @@ public class AccountController {
 
     @PostMapping("/forgot-password")
     public ResponseEntity<?> reset(@RequestBody LoginRequest loginRequest) throws UnsupportedEncodingException, MessagingException {
-        String accountName = loginRequest.getAccountName();
+//        String accountName = loginRequest.getAccountName();
         String email = loginRequest.getEmail();
-        System.out.println("accountName in controller: " + accountName);
+//        System.out.println("accountName in controller: " + accountName);
         System.out.println("email in controller: " + email);
 
         if (email != null){
@@ -75,18 +73,15 @@ public class AccountController {
 
                 return ResponseEntity.ok(new ResponseMessage("Sent email "));
 
-        } else if (accountName != null){
-
-                Account account = accountService.findAccountByAccountName(accountName);
-                accountService.addResetPasswordToken(accountName);
-
-//                System.out.println("Before send email: name: " + accountName + " - token: " + account.getResetPasswordToken() + " - email: " + account.getEmail());
-
-//                accountService.sendEmailForResetPassword(accountName, account.getResetPasswordToken(), account.getEmail());
-
-                return ResponseEntity.ok(new ResponseMessage("Sent email "));
-
-        } else {
+        }
+//        else if (accountName != null){
+//
+//                Account account = accountService.findAccountByAccountName(accountName);
+//                accountService.addResetPasswordToken(accountName);
+//                return ResponseEntity.ok(new ResponseMessage("Sent email "));
+//
+//        }
+        else {
             return ResponseEntity
                     .badRequest()
                     .body(new ResponseMessage("Tài khoản không đúng"));
