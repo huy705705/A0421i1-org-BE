@@ -11,10 +11,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -42,6 +46,26 @@ public class EntitiesController {
         return new ResponseEntity<>(entitiesOptional.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/update/{id}")
+    public ResponseEntity<Entities> findEntitiesByIdToUpdate(@PathVariable String id) {
+        Optional<Entities> entitiesOptional = entitiesService.findById(id);
+        if (!entitiesOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(entitiesOptional.get(), HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createEntities(@Valid @RequestBody Entities entities, BindingResult bindingResult) throws Exception  {
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
+        }
+        else {
+            return new ResponseEntity<>(entitiesService.save(entities), HttpStatus.CREATED);
+        }
+    }
+
+
 
     @PatchMapping("/delete/{id}")
     public ResponseEntity<Entities> deleteEntities(@PathVariable String id) {
@@ -49,8 +73,29 @@ public class EntitiesController {
         if (!entitiesOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        entitiesOptional.get().setIsDelete(false);
+        entitiesOptional.get().setDelete(false);
         return new ResponseEntity<>(entitiesService.save(entitiesOptional.get()), HttpStatus.NO_CONTENT);
+    }
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Entities> updateCustomer(@PathVariable String id, @RequestBody Entities entities) {
+        Optional<Entities> entitiesOptional = entitiesService.findById(id);
+        if (!entitiesOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        entitiesOptional.get().setDelete(false);
+        return new ResponseEntity<>(entitiesService.save(entities),HttpStatus.OK);
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 
 }

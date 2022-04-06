@@ -10,4 +10,5 @@ public interface EntitiesService extends IGeneralEntitiesService<Entities> {
     Page<Entities> findAll(Pageable pageable);
     Optional<Entities> findById(String id);
     Entities save(Entities entities);
+
 }

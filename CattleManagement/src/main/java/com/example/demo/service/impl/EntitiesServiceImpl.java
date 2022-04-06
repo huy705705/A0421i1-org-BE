@@ -8,16 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class EntitiesServiceImpl implements EntitiesService {
     @Autowired
     private EntitiesRepo entitiesRepo;
-
-
-
 
     public Page<Entities> findAll(Pageable pageable){
         return entitiesRepo.findAll(pageable);
@@ -30,5 +26,8 @@ public class EntitiesServiceImpl implements EntitiesService {
     public Entities save(Entities entities){
         return entitiesRepo.save(entities);
     }
+
+
+
 
 }

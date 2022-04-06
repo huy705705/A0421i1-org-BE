@@ -5,20 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class Entities {
     @Id
-    @Column(columnDefinition = "VARCHAR(255)")
+    @NotBlank(message = "{Mã vật nuôi không được trống !}")
+    @Pattern(regexp = "^[0-9]{4}+$", message = "{Mã vật nuôi sai định dạng")
+    @Column(columnDefinition = "VARCHAR(255)",nullable = false)
     private String entitiesId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -28,83 +31,87 @@ public class Entities {
     private LocalDate outDate;
 
     @Column(columnDefinition = "VARCHAR(255)")
+    @NotBlank(message = "{Status can't null}")
     private String status;
 
     private float weight;
 
     private Boolean isDelete;
+    private String cageId;
 
     @ManyToOne(targetEntity = Cage.class)
-    @JoinColumn(name = "cageId", referencedColumnName = "cageId")
+    @JoinColumn(name = "cageId",nullable = false, referencedColumnName = "cageId",insertable = false,updatable = false)
     @JsonBackReference
     private Cage cage;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "entities", cascade = CascadeType.REMOVE)
     @JsonBackReference
-
     private Set<EntitiesIllness> entities;
+
+
 
     public String getEntitiesId() {
         return entitiesId;
-    }
-
-    public void setEntitiesId(String entitiesId) {
-        this.entitiesId = entitiesId;
     }
 
     public LocalDate getInDate() {
         return inDate;
     }
 
-    public void setInDate(LocalDate inDate) {
-        this.inDate = inDate;
-    }
-
     public LocalDate getOutDate() {
         return outDate;
-    }
-
-    public void setOutDate(LocalDate outDate) {
-        this.outDate = outDate;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public float getWeight() {
         return weight;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
     }
 
     public Boolean getDelete() {
         return isDelete;
     }
 
-    public void setDelete(Boolean delete) {
-        isDelete = delete;
+    public String getCageId() {
+        return cageId;
     }
 
     public Cage getCage() {
         return cage;
     }
 
+
+    public void setEntitiesId(String entitiesId) {
+        this.entitiesId = entitiesId;
+    }
+
+    public void setInDate(LocalDate inDate) {
+        this.inDate = inDate;
+    }
+
+    public void setOutDate(LocalDate outDate) {
+        this.outDate = outDate;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
+    }
+
+    public void setCageId(String cageId) {
+        this.cageId = cageId;
+    }
+
     public void setCage(Cage cage) {
         this.cage = cage;
-    }
-
-    public Set<EntitiesIllness> getEntities() {
-        return entities;
-    }
-
-    public void setEntities(Set<EntitiesIllness> entities) {
-        this.entities = entities;
     }
 }
