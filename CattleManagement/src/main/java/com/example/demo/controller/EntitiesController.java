@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/entities")
+@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "*")
 public class EntitiesController {
     @Autowired
     private EntitiesService entitiesService;
