@@ -10,44 +10,69 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-public class EntitiesRestController_createEntitites {
+public class EntitiesRestController_updateEntitties {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
-@Test
-public void createEntities_Id_13() throws Exception {
-Entities entities = new Entities();
-    entities.setEntitiesId(null);
-    LocalDate inDate = LocalDate.of(2021,10,10);
-    entities.setInDate(inDate);
-    LocalDate outDate = LocalDate.of(2021,10,20);
-    entities.setOutDate(outDate);
-    entities.setStatus("Khoe");
-    entities.setWeight(10);
-    entities.setDelete(false);
-    entities.setCageId("1");
+    @Test
+    public void updateEntities_1() throws Exception {
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/entities/update/{id}","null"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+    @Test
+    public void updateEntities_2() throws Exception {
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/entities/update/{id}",""))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+    @Test
+    public void updateEntities_3() throws Exception {
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/entities/update/{id}","1"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+    @Test
+    public void updateEntities_4() throws Exception {
+        this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/entities/update/{id}","12354"))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+    }
+    @Test
+    public void updateEntities_Id_19() throws Exception {
+        Entities entities = new Entities();
+        entities.setEntitiesId(null);
+        LocalDate inDate = LocalDate.of(2021,10,10);
+        entities.setInDate(inDate);
+        LocalDate outDate = LocalDate.of(2021,10,20);
+        entities.setOutDate(outDate);
+        entities.setStatus("Khoe");
+        entities.setWeight(10);
+        entities.setDelete(false);
+        entities.setCageId("1");
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .patch("/entities/update/{id}")
+                        .content(this.objectMapper.writeValueAsString(entities))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
 
-    this.mockMvc
-            .perform(MockMvcRequestBuilders
-                    .post("/entities/create")
-                    .content(this.objectMapper.writeValueAsString(entities))
-                    .contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andDo(print())
-            .andExpect(status().is4xxClientError());
-}
 
     @Test
-    public void createEntities_Id_14() throws Exception {
+    public void updateEntities_Id_20() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("");
         LocalDate inDate = LocalDate.of(2021,10,10);
@@ -61,14 +86,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Id_15() throws Exception {
+    public void updateEntities_Id_21() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("**001@@");
         LocalDate inDate = LocalDate.of(2021,10,10);
@@ -82,14 +107,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Id_16() throws Exception {
+    public void updateEntities_Id_22() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("1");
         LocalDate inDate = LocalDate.of(2021,10,10);
@@ -103,14 +128,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Id_17() throws Exception {
+    public void updateEntities_Id_23() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("123456789123123");
         LocalDate inDate = LocalDate.of(2021,10,10);
@@ -124,14 +149,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Id_18() throws Exception {
+    public void updateEntities_Id_24() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,10);
@@ -141,18 +166,18 @@ Entities entities = new Entities();
         entities.setStatus("Khoe");
         entities.setWeight(10);
         entities.setDelete(false);
-        entities.setCageId("2");
+        entities.setCageId("1");
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
     @Test
-    public void createEntities_InDate_13() throws Exception {
+    public void updateEntities_InDate_19() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         entities.setInDate(null);
@@ -165,7 +190,7 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
@@ -173,7 +198,7 @@ Entities entities = new Entities();
     }
 
     @Test
-    public void createEntities_InDate_14() throws Exception {
+    public void updateEntities_InDate_20() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(0,0,0);
@@ -187,14 +212,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_InDate_15() throws Exception {
+    public void updateEntities_InDate_21() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,20,40);
@@ -208,14 +233,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_InDate_17() throws Exception {
+    public void updateEntities_InDate_23() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,30);
@@ -229,14 +254,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_InDate_16() throws Exception {
+    public void updateEntities_InDate_22() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("123456789123123");
         LocalDate inDate = LocalDate.of(LocalDate.now().getYear(),LocalDate.now().getMonth(),LocalDate.now().getDayOfMonth());
@@ -250,14 +275,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_InDate_18() throws Exception {
+    public void updateEntities_InDate_24() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,10);
@@ -271,14 +296,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
     @Test
-    public void createEntities_OutDate_13() throws Exception {
+    public void updateEntities_OutDate_19() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -291,7 +316,7 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
@@ -299,7 +324,7 @@ Entities entities = new Entities();
     }
 
     @Test
-    public void createEntities_OutDate_14() throws Exception {
+    public void updateEntities_OutDate_20() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -313,14 +338,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_OutDate_15() throws Exception {
+    public void updateEntities_OutDate_21() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -334,14 +359,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_OutDate_16() throws Exception {
+    public void updateEntities_OutDate_22() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,30);
@@ -354,16 +379,16 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_OutDate_18() throws Exception {
+    public void updateEntities_OutDate_24() throws Exception {
         Entities entities = new Entities();
-        entities.setEntitiesId("1234");
+        entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,10);
         entities.setInDate(inDate);
         LocalDate outDate = LocalDate.of(2021,10,20);
@@ -375,14 +400,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/Ga1234")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
     @Test
-    public void createEntities_Weight_13() throws Exception {
+    public void updateEntities_Weight_19() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -396,7 +421,7 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
@@ -404,7 +429,7 @@ Entities entities = new Entities();
     }
 
     @Test
-    public void createEntities_Weight_14() throws Exception {
+    public void updateEntities_Weight_20() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -418,14 +443,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Weight_15() throws Exception {
+    public void updateEntities_Weight_21() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -439,14 +464,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Weight_16() throws Exception {
+    public void updateEntities_Weight_22() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,30);
@@ -459,14 +484,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Weight_17() throws Exception {
+    public void updateEntities_Weight_23() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,30);
@@ -479,14 +504,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Weight_18() throws Exception {
+    public void updateEntities_Weight_24() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,10);
@@ -500,14 +525,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
     @Test
-    public void createEntities_Status_13() throws Exception {
+    public void updateEntities_Status_19() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -521,7 +546,7 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
@@ -529,7 +554,7 @@ Entities entities = new Entities();
     }
 
     @Test
-    public void createEntities_Status_14() throws Exception {
+    public void updateEntities_Status_20() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -543,14 +568,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Status_15() throws Exception {
+    public void updateEntities_Status_21() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -564,14 +589,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Status_16() throws Exception {
+    public void updateEntities_Status_22() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,30);
@@ -584,14 +609,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Status_17() throws Exception {
+    public void updateEntities_Status_23() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,30);
@@ -604,14 +629,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
     @Test
-    public void createEntities_Status_18() throws Exception {
+    public void updateEntities_Status_24() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,10);
@@ -625,7 +650,7 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
@@ -633,7 +658,7 @@ Entities entities = new Entities();
     }
 
     @Test
-    public void createEntities_IsDelete_13() throws Exception {
+    public void updateEntities_IsDelete_19() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -647,7 +672,7 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
@@ -655,7 +680,7 @@ Entities entities = new Entities();
     }
 
     @Test
-    public void createEntities_IsDelete_14() throws Exception {
+    public void updateEntities_IsDelete_20() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,20);
@@ -669,14 +694,14 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
-//    @Test
-//    public void createEntities_IsDelete_15() throws Exception {
+    //    @Test
+//    public void updateEntities_IsDelete_21() throws Exception {
 //        Entities entities = new Entities();
 //        entities.setEntitiesId("Ga1234");
 //        LocalDate inDate = LocalDate.of(2021,10,20);
@@ -690,14 +715,14 @@ Entities entities = new Entities();
 //
 //        this.mockMvc
 //                .perform(MockMvcRequestBuilders
-//                        .post("/entities/create")
+//                        .patch("/entities/update/{id}")
 //                        .content(this.objectMapper.writeValueAsString(entities))
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE))
 //                .andDo(print())
 //                .andExpect(status().is4xxClientError());
 //    }
 //    @Test
-//    public void createEntities_IsDelete_16() throws Exception {
+//    public void updateEntities_IsDelete_22() throws Exception {
 //        Entities entities = new Entities();
 //        entities.setEntitiesId("Ga1234");
 //        LocalDate inDate = LocalDate.of(2021,10,30);
@@ -710,14 +735,14 @@ Entities entities = new Entities();
 //
 //        this.mockMvc
 //                .perform(MockMvcRequestBuilders
-//                        .post("/entities/create")
+//                        .patch("/entities/update/{id}")
 //                        .content(this.objectMapper.writeValueAsString(entities))
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE))
 //                .andDo(print())
 //                .andExpect(status().is4xxClientError());
 //    }
 //    @Test
-//    public void createEntities_IsDelete_17() throws Exception {
+//    public void updateEntities_IsDelete_23() throws Exception {
 //        Entities entities = new Entities();
 //        entities.setEntitiesId("Ga1234");
 //        LocalDate inDate = LocalDate.of(2021,10,30);
@@ -730,14 +755,14 @@ Entities entities = new Entities();
 //
 //        this.mockMvc
 //                .perform(MockMvcRequestBuilders
-//                        .post("/entities/create")
+//                        .patch("/entities/update/{id}")
 //                        .content(this.objectMapper.writeValueAsString(entities))
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE))
 //                .andDo(print())
 //                .andExpect(status().is4xxClientError());
 //    }
     @Test
-    public void createEntities_IsDelete_18() throws Exception {
+    public void updateEntities_IsDelete_24() throws Exception {
         Entities entities = new Entities();
         entities.setEntitiesId("Ga1234");
         LocalDate inDate = LocalDate.of(2021,10,10);
@@ -751,7 +776,7 @@ Entities entities = new Entities();
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("/entities/create")
+                        .patch("/entities/update/{id}")
                         .content(this.objectMapper.writeValueAsString(entities))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())

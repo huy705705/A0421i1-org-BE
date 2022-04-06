@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -16,6 +19,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class Entities {
     @Id
+    @NotBlank(message = "{Mã vật nuôi không được trống !}")
+    @Pattern(regexp = "^[0-9]{4}+$", message = "{Mã vật nuôi sai định dạng")
     @Column(columnDefinition = "VARCHAR(255)",nullable = false)
     private String entitiesId;
 
@@ -26,6 +31,7 @@ public class Entities {
     private LocalDate outDate;
 
     @Column(columnDefinition = "VARCHAR(255)")
+    @NotBlank(message = "{Status can't null}")
     private String status;
 
     private float weight;
@@ -38,8 +44,6 @@ public class Entities {
     @JsonBackReference
     private Cage cage;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entities", cascade = CascadeType.REMOVE)
-    private Set<EntitiesIllness> entities;
 
     public String getEntitiesId() {
         return entitiesId;
@@ -73,9 +77,6 @@ public class Entities {
         return cage;
     }
 
-    public Set<EntitiesIllness> getEntities() {
-        return entities;
-    }
 
     public void setEntitiesId(String entitiesId) {
         this.entitiesId = entitiesId;
@@ -107,9 +108,5 @@ public class Entities {
 
     public void setCage(Cage cage) {
         this.cage = cage;
-    }
-
-    public void setEntities(Set<EntitiesIllness> entities) {
-        this.entities = entities;
     }
 }
