@@ -13,6 +13,5 @@ import java.util.Optional;
 public interface EntitiesRepo extends JpaRepository<Entities, String> {
     @Override
     Page<Entities> findAll(Pageable pageable);
-
     Optional<Entities> findByEntitiesId(String id);
 }
