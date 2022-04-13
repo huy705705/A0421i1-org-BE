@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Account;
 import com.example.demo.model.Employee;
+import com.example.demo.service.AccountService;
 import com.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,15 +29,20 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @GetMapping("")
-    public ResponseEntity<Page<Employee>> listEmployee(@PageableDefault(size = 5) Pageable pageable,
-                                                       @RequestParam(value = "search", defaultValue = "")  String search) {
-        Page<Employee> employees;
+    @Autowired
+    AccountService accountService;
 
-        if ("".equals(search)) {
-            employees = employeeService.findAll(pageable);
+    @GetMapping("")
+    public ResponseEntity<Page<Employee>> listEmployee(
+            @PageableDefault(size = 5) Pageable pageable,
+            @RequestParam(defaultValue = "") String searchName,
+            @RequestParam(defaultValue = "") String searchId) {
+        Page<Employee> employees;
+        if (!searchName.equals("") || !searchId.equals("")) {
+            return new ResponseEntity<Page<Employee>>(employeeService.findAllEmployeeByNameAndId
+                    ("%" + searchName + "%", "%" + searchId + "%", pageable),(HttpStatus.OK));
         } else{
-            employees = employeeService.findAllEmployeeName(search, pageable);
+            employees = employeeService.findAll(pageable);
         }
 
         if (employees.isEmpty()) {
@@ -43,6 +51,15 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
+    @GetMapping("/account")
+    public ResponseEntity<List<Account>> getAllAccount() {
+        List<Account> accountList = accountService.getAllAccount();
+        if (accountList.isEmpty()) {
+            return new ResponseEntity<List<Account>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Account>>(accountList, HttpStatus.OK);
+    }
+    
     @GetMapping("/update/{id}")
     public ResponseEntity<Employee> findEmployeeById(@PathVariable String id) {
         Optional<Employee> employeeOptional = employeeService.findById(id);
