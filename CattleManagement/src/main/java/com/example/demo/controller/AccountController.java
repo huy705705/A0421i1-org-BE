@@ -42,7 +42,7 @@ public class AccountController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateAccount(@Valid @RequestBody LoginRequest loginRequest){
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getAccountName(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getAccountName().trim(), loginRequest.getPassword().trim()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -68,9 +68,8 @@ public class AccountController {
 
         if (email != null){
 
-                Account account = accountService.findAccountByEmail(email);
+                Account account = accountService.findAccountByEmail(email.trim());
                 accountService.addResetPasswordToken(account.getAccountName());
-
                 return ResponseEntity.ok(new ResponseMessage("Sent email "));
 
         }

@@ -42,11 +42,11 @@ public class Account {
     @Email
     private String email;
 
-    @Column(columnDefinition = "VARCHAR(50)")
+    @Column(columnDefinition = "VARCHAR(255)")
     private String resetPasswordToken;
 
 
-    //    It
+
     @OneToOne(mappedBy = "account")
     @JsonBackReference
     private Employee employee;
