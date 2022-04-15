@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Entities;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,3 +14,4 @@ public interface IGeneralService<T> {
 
     void remove(String id);
 }
+

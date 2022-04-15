@@ -76,22 +76,22 @@ public class AccountServiceImpl  implements AccountService {
     @Override
     public void addResetPasswordToken(String accountName) throws UnsupportedEncodingException, MessagingException {
 
-            String token = jwtTokenUtil.generateJwtToken(accountName);
-            System.out.println("tooken là : " + token);
-            if (token != null && jwtTokenUtil.isTokenExpired(token)) {
-                System.out.println("token chưa hết hạn");
-                accountRepo.addResetPassToken(token, accountName);
-                Account account = accountRepo.findAccountByResetPasswordToken(token);
+        String token = jwtTokenUtil.generateJwtToken(accountName);
+        System.out.println("tooken là : " + token);
+        if (token != null && jwtTokenUtil.isTokenExpired(token)) {
+            System.out.println("token chưa hết hạn");
+            accountRepo.addResetPassToken(token, accountName);
+            Account account = accountRepo.findAccountByResetPasswordToken(token);
 
-                System.out.println("Email: " + account.getEmail());
-                System.out.println("accountName: " + account.getAccountName());
-                System.out.println("Token: " + token);
-                try {
-                    this.sendEmailForResetPassword(account.getAccountName(), token, account.getEmail());
-                } catch (MessagingException e) {
-                    throw new MessagingException("Something went wrong in sending email");
-                }
+            System.out.println("Email: " + account.getEmail());
+            System.out.println("accountName: " + account.getAccountName());
+            System.out.println("Token: " + token);
+            try {
+                this.sendEmailForResetPassword(account.getAccountName(), token, account.getEmail());
+            } catch (MessagingException e) {
+                throw new MessagingException("Something went wrong in sending email");
             }
+        }
     }
 
     @Override
