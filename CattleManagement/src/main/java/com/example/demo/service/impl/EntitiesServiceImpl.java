@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Optional;
 
 @Service
@@ -27,7 +28,13 @@ public class EntitiesServiceImpl implements EntitiesService {
         return entitiesRepo.save(entities);
     }
 
+    @Override
+    public Integer getEntitiesId(String cageId) {
+        return entitiesRepo.getEntitiesId(cageId);
+    }
 
-
-
+    @Override
+    public void updateAutoRender(String cageId) {
+        entitiesRepo.updateAutoRender(cageId);
+    }
 }

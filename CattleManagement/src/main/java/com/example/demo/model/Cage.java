@@ -1,13 +1,18 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -17,6 +22,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Cage {
     @Id
+    @NotBlank
     @Column(columnDefinition = "VARCHAR(255)")
     private String cageId;
 
@@ -37,7 +43,6 @@ public class Cage {
     private Employee employeeCage;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cage", cascade = CascadeType.REMOVE)
+    @JsonBackReference
     private Set<Entities> entities;
-
-
 }
