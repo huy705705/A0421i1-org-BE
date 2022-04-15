@@ -9,8 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -20,7 +19,6 @@ import java.util.Set;
 public class Entities {
     @Id
     @NotBlank(message = "{Mã vật nuôi không được trống !}")
-    @Pattern(regexp = "^[0-9]{4}+$", message = "{Mã vật nuôi sai định dạng")
     @Column(columnDefinition = "VARCHAR(255)",nullable = false)
     private String entitiesId;
 
@@ -32,16 +30,21 @@ public class Entities {
 
     @Column(columnDefinition = "VARCHAR(255)")
     @NotBlank(message = "{Status can't null}")
+    @Length(min = 3,max = 50,message = "Độ dài sai")
     private String status;
 
+    @NotNull(message = "{Cân nặng không được trống !}")
+    @Min(1)
+    @Max(500)
     private float weight;
 
     private Boolean isDelete;
+
+    @NotBlank(message = "{Mã chuồng được trống !}")
     private String cageId;
 
     @ManyToOne(targetEntity = Cage.class)
     @JoinColumn(name = "cageId",nullable = false, referencedColumnName = "cageId",insertable = false,updatable = false)
-    @JsonBackReference
     private Cage cage;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "entities", cascade = CascadeType.REMOVE)
