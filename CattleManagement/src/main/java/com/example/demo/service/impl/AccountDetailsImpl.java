@@ -19,17 +19,6 @@ public class AccountDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
     private Collection<? extends  GrantedAuthority> roles;
-//    List<GrantedAuthority> authorities = null;
-
-//    public AccountDetailsImpl(Long id, String username, String password,
-//                              List<GrantedAuthority> authorities  ) {
-//        this.id = id;
-//        this.username = username;
-//        this.password = password;
-//        this.authorities = authorities;
-//
-//    }
-
 
     public AccountDetailsImpl() {
     }
@@ -41,7 +30,7 @@ public class AccountDetailsImpl implements UserDetails {
         this.roles = roles;
     }
 
-    // This func help you to get account information to AccountDetailService
+
     public static AccountDetailsImpl build (Account account) {
         List<GrantedAuthority> authorities = account.getRoleSet().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRole().getRoleName()))
