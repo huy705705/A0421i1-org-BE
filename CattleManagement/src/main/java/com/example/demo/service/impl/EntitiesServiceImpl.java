@@ -29,6 +29,16 @@ public class EntitiesServiceImpl implements EntitiesService {
     }
 
     @Override
+    public void deleteEntities(String id) {
+        entitiesRepo.deleteEntities(id);
+    }
+
+    @Override
+    public Page<Entities> findAllByInDateAndCage22(Pageable pageable,String inDate,String cage) {
+        return entitiesRepo.findAllByInDateAndCage22(pageable,inDate,cage);
+    }
+
+
     public Integer getEntitiesId(String cageId) {
         return entitiesRepo.getEntitiesId(cageId);
     }
