@@ -10,8 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Getter
-@Setter
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -54,4 +53,5 @@ public class Employee {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeCage", cascade = CascadeType.REMOVE)
     private Set<Cage> cage;
+
 }
