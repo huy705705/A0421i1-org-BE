@@ -15,8 +15,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class Role {
     @Id
-    @Column(columnDefinition = "VARCHAR(50)")
-    private String roleId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BIGINT")
+    private Long roleId;
 
     @Column(columnDefinition = "VARCHAR(50)")
     private String roleName;

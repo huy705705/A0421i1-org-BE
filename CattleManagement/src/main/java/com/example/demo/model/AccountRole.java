@@ -14,8 +14,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class AccountRole {
     @Id
-    @Column(columnDefinition = "VARCHAR(255)")
-    private String accRoleId;
+    @Column(columnDefinition = "BIGINT")
+    private Long accRoleId;
 
 
     //    Nhieu

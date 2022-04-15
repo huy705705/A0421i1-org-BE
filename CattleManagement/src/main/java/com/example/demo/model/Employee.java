@@ -11,8 +11,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Getter
-@Setter
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -159,4 +158,5 @@ public class Employee {
     public void setCage(Set<Cage> cage) {
         this.cage = cage;
     }
+
 }
