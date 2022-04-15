@@ -21,13 +21,6 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
     Page<Employee> findAllEmployeeByNameAndId(String searchName, String searchId, Pageable pageable);
 
 
-//    @Query(value =  "select employee.employee_id, employee.employee_name, employee.avartar, employee.birthday, " +
-//            "employee.id_card, employee.address, employee.gender, employee.email, employee.is_delete, " +
-//            "employee.account_id from employee e " +
-//            "left join account on account.account_id = employee.account_id", nativeQuery = true)
-//    Page<Employee> findAll(Pageable pageable);
-
-
 //    @Query(value =  "select employee.employee_id as employeeId, employee.employee_name as employeeName, employee.birthday, \n" +
 //                    "employee.id_card as idCard, employee.address, employee.gender, employee.email, \n" +
 //                    "employee.account_name as accountName, employee.account_password as accountPassword from employee \n" +

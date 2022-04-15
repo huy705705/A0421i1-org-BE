@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "*")
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -69,16 +70,17 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeOptional.get(), HttpStatus.OK);
     }
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<Employee> updateEmployee(@Validated @PathVariable String id,
+    @PatchMapping(value ="/update/{id}", consumes ={MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Employee> updateEmployee(@PathVariable String id,
                                                    @RequestBody Employee employee, BindingResult bindingResult) {
         Optional<Employee> employeeOptional = employeeService.findById(id);
         if (!employeeOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if (bindingResult.hasFieldErrors()){
-            return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
-        }else {
+//        if (bindingResult.hasFieldErrors()){
+//            return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
+//        }
+        else {
             employee.setEmployeeId(employeeOptional.get().getEmployeeId());
             return new ResponseEntity<>(employeeService.save(employee), HttpStatus.OK);
         }
