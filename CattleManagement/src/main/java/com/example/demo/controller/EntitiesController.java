@@ -87,8 +87,8 @@ public class EntitiesController {
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
         else {
-            entities.setEntitiesId(entitiesService.getEntitiesId(entities.getCageId()).toString());
             entitiesService.updateAutoRender(entities.getCageId());
+            entities.setDelete(false);
             return new ResponseEntity<>(entitiesService.save(entities), HttpStatus.CREATED);
         }
 
@@ -111,7 +111,10 @@ public class EntitiesController {
         if (!entitiesOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        //entitiesOptional.get().setDelete(false);
+        entities.setDelete(false);
+        System.out.println("Đầu vào:"+entities.toString());
+        System.out.println("đầu ra: "+entitiesOptional.toString());
+
         return new ResponseEntity<>(entitiesService.save(entities),HttpStatus.OK);
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
