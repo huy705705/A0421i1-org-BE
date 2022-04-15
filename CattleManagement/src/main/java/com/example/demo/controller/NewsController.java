@@ -8,22 +8,34 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/news")
 public class NewsController {
     @Autowired
     private NewsService newsService;
     @GetMapping()
-    public ResponseEntity<Page<News>> findAllNews(@PageableDefault(size = 2) Pageable pageable){
-        Page<News> news= newsService.findAll(pageable);
-        if (news.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Page<News>> findAllNews(@PageableDefault(size = 6 ) Pageable pageable,
+                                                  @RequestParam(value = "search", defaultValue = "")  String search){
+//        Page<News> news= newsService.findAll(pageable);
+//        if (news.isEmpty()){
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(news,HttpStatus.OK);
+        Page<News> news;
+
+        if ("".equals(search)) {
+            news = newsService.findAll(pageable);
+        } else{
+            news = newsService.findAllByNewsName(search, pageable);
         }
-        return new ResponseEntity<>(news,HttpStatus.OK);
+
+        if (news.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(news, HttpStatus.OK);
     }
 
 

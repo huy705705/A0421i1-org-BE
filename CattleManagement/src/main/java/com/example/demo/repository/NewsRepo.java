@@ -14,5 +14,5 @@ public interface NewsRepo extends JpaRepository<News, String> {
     @Override
     Page<News> findAll(Pageable pageable);
 
-    List<News> findByNewsName(String name);
+    Page<News> findAllByNewsName(String name, Pageable pageable);
 }

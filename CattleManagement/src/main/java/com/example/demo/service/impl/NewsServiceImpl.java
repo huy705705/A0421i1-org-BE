@@ -20,8 +20,8 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public List<News> findByName(String name) {
-        return newsRepo.findByNewsName(name);
+    public Page<News> findAllByNewsName(String name, Pageable pageable) {
+        return newsRepo.findAllByNewsName(name, pageable);
     }
 
 
