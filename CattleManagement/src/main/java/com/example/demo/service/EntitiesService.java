@@ -10,5 +10,6 @@ public interface EntitiesService extends IGeneralEntitiesService<Entities> {
     Page<Entities> findAll(Pageable pageable);
     Optional<Entities> findById(String id);
     Entities save(Entities entities);
-
+    void deleteEntities(String id);
+    Page<Entities> findAllByInDateAndCage22(Pageable pageable,String inDate,String cage);
 }

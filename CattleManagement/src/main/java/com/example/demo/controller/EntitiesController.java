@@ -28,11 +28,12 @@ public class EntitiesController {
     @Autowired
     private EntitiesService entitiesService;
     @GetMapping()
-    public ResponseEntity<Page<Entities>> findAllEntities(@PageableDefault(size = 2) Pageable pageable){
+    public ResponseEntity<Page<Entities>> findAllEntities(@PageableDefault(size = 10) Pageable pageable){
         Page<Entities> entities= entitiesService.findAll(pageable);
         if (entities.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+//        return new ResponseEntity<>(entities,HttpStatus.OK);
         return new ResponseEntity<>(entities,HttpStatus.OK);
     }
 
@@ -45,7 +46,11 @@ public class EntitiesController {
         }
         return new ResponseEntity<>(entitiesOptional.get(), HttpStatus.OK);
     }
-
+    @PatchMapping("/delete/{id}")
+    public  ResponseEntity<Entities> deleteEntities(@PathVariable String id){
+        entitiesService.deleteEntities(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     @GetMapping("/update/{id}")
     public ResponseEntity<Entities> findEntitiesByIdToUpdate(@PathVariable String id) {
         Optional<Entities> entitiesOptional = entitiesService.findById(id);
@@ -67,15 +72,7 @@ public class EntitiesController {
 
 
 
-    @PatchMapping("/delete/{id}")
-    public ResponseEntity<Entities> deleteEntities(@PathVariable String id) {
-        Optional<Entities> entitiesOptional = entitiesService.findById(id);
-        if (!entitiesOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        entitiesOptional.get().setDelete(false);
-        return new ResponseEntity<>(entitiesService.save(entitiesOptional.get()), HttpStatus.NO_CONTENT);
-    }
+
     @PatchMapping("/update/{id}")
     public ResponseEntity<Entities> updateCustomer(@PathVariable String id, @RequestBody Entities entities) {
         Optional<Entities> entitiesOptional = entitiesService.findById(id);
@@ -97,5 +94,20 @@ public class EntitiesController {
         });
         return errors;
     }
-
+    @GetMapping("/search")
+    public ResponseEntity<Page<Entities>> findAllEntitiesByInDateAndCage(@PageableDefault(size = 10) Pageable pageable,@RequestParam(defaultValue = "0") Integer page,@RequestParam(defaultValue = "",name = "inDate") String inDate,
+                                                          @RequestParam(defaultValue = "",name = "cage") String cage){
+        System.out.println("indate"+inDate);
+        System.out.println("cage "+cage);
+        System.out.println("1");
+        inDate="%"+inDate+"%";
+        cage="%"+cage+"%";
+        System.out.println("inDate"+inDate);
+        System.out.println("cage "+cage);
+        Page<Entities> entities= entitiesService.findAllByInDateAndCage22(pageable,inDate,cage);
+        if (entities.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(entities,HttpStatus.OK);
+    }
 }
