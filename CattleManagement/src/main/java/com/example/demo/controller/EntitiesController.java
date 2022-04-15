@@ -1,13 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Entities;
-import com.example.demo.repository.EntitiesIllnessRepo;
-import com.example.demo.repository.EntitiesRepo;
 import com.example.demo.service.CageService;
 import com.example.demo.service.EntitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
