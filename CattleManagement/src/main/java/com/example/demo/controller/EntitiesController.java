@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/entities")
 @CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "*")
+@RequestMapping("employee/entities")
 public class EntitiesController {
     @Autowired
     private EntitiesService entitiesService;
@@ -104,8 +104,6 @@ public class EntitiesController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         entities.setDelete(false);
-        System.out.println("Đầu vào:"+entities.toString());
-        System.out.println("đầu ra: "+entitiesOptional.toString());
 
         return new ResponseEntity<>(entitiesService.save(entities),HttpStatus.OK);
     }

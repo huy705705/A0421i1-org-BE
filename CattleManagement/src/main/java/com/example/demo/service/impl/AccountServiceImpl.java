@@ -77,9 +77,11 @@ public class AccountServiceImpl  implements AccountService {
     public void addResetPasswordToken(String accountName) throws UnsupportedEncodingException, MessagingException {
 
             String token = jwtTokenUtil.generateJwtToken(accountName);
-            System.out.println("tooken là : " + token);
-            if (token != null && jwtTokenUtil.isTokenExpired(token)) {
+
+            if (token != null && jwtTokenUtil.validateJwtToken(token)) {
+
                 System.out.println("token chưa hết hạn");
+
                 accountRepo.addResetPassToken(token, accountName);
                 Account account = accountRepo.findAccountByResetPasswordToken(token);
 

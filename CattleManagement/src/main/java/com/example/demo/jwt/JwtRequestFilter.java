@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtRequestFilter.class);
     @Autowired
@@ -33,6 +33,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             if (jwt != null && jwtTokenUtil.validateJwtToken(jwt)) {
 
                 String username = jwtTokenUtil.getUserNameFromJwtToken(jwt);
+
+                System.out.println("Username in jwtFilter " + username);
 
                 UserDetails userDetails = accountDetailService.loadUserByUsername(username);
 
@@ -53,14 +55,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private String getJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 
-//        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-//            return headerAuth.substring(7, headerAuth.length());
-//        }
-
-        if (headerAuth != null && headerAuth.startsWith("Bearer")){
-            return headerAuth.replace("Bearer", "");
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7);
         }
-
         return null;
     }
 }
