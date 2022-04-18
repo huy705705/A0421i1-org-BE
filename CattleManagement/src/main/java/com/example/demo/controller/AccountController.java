@@ -46,11 +46,11 @@ public class AccountController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-//        String token = jwtTokenUtil.createToken(authentication);
+        String token = jwtTokenUtil.createToken(authentication);
 
         AccountDetailsImpl accountDetails = (AccountDetailsImpl) authentication.getPrincipal();
-        // from git tq
-        String token = jwtTokenUtil.doGenerateToken(accountDetails);
+
+//        String token = jwtTokenUtil.doGenerateToken(accountDetails);
         return ResponseEntity.ok(
                 new JwtResponse(
                         token,

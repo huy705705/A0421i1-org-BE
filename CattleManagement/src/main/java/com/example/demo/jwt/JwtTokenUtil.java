@@ -1,8 +1,10 @@
 package com.example.demo.jwt;
 
+import com.example.demo.service.impl.AccountDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -24,16 +26,16 @@ public class JwtTokenUtil implements Serializable {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
-//
-//    public String createToken(Authentication authentication) {
-//        AccountDetailsImpl accountDetails = (AccountDetailsImpl) authentication.getPrincipal();
-//        return Jwts.builder()
-//                .setSubject(accountDetails.getUsername())
-//                .setIssuedAt(new Date())
-//                .setExpiration(new Date(new Date().getTime() + (1000 * JWT_TOKEN_LONGEVITY))) /* expiration in 5 hr */
-//                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-//                .compact();
-//    }
+
+    public String createToken(Authentication authentication) {
+        AccountDetailsImpl accountDetails = (AccountDetailsImpl) authentication.getPrincipal();
+        return Jwts.builder()
+                .setSubject(accountDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + (1000 * 18000L))) /* expiration in 5 hr */
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
 
     // from git tq
     private String generateToken(Map<String, Object> claims) {
