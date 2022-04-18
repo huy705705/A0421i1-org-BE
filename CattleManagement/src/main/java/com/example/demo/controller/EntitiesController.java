@@ -94,8 +94,8 @@ public class EntitiesController {
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
         else {
-            entities.setEntitiesId(entitiesService.getEntitiesId(entities.getCageId()).toString());
             entitiesService.updateAutoRender(entities.getCageId());
+            entities.setDelete(false);
             return new ResponseEntity<>(entitiesService.save(entities), HttpStatus.CREATED);
         }
 
@@ -108,8 +108,29 @@ public class EntitiesController {
         if (!entitiesOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+<<<<<<< HEAD
         entitiesOptional.get().setDelete(false);
         return new ResponseEntity<>(entitiesService.save(entitiesOptional.get()),HttpStatus.OK);
+=======
+        entities.setDelete(false);
+        System.out.println("Đầu vào:"+entities.toString());
+        System.out.println("đầu ra: "+entitiesOptional.toString());
+
+        return new ResponseEntity<>(entitiesService.save(entities),HttpStatus.OK);
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        System.out.println(errors.toString());
+        return errors;
+>>>>>>> 6726947957984a2cfe97e3feb63739768273d8b0
     }
 
     @GetMapping("/search")
