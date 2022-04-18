@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface NewsService {
     Page<News> findAll(Pageable pageable);
-    Page<News> findAllByNewsName(String name, Pageable pageable);
+    Page<News> findAllByNewsNameContaining(String name, Pageable pageable);
+    Page<News> findAllByHighlight(String name, Pageable pageable);
+
 }

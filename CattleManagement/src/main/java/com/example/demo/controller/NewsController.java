@@ -23,13 +23,13 @@ public class NewsController {
 //        if (news.isEmpty()){
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //        }
-//        return new ResponseEntity<>(news,HttpStatus.OK);
+//        return new ResponseEntity<>( news,HttpStatus.OK);
         Page<News> news;
-
         if ("".equals(search)) {
             news = newsService.findAll(pageable);
         } else{
-            news = newsService.findAllByNewsName(search, pageable);
+            System.out.println(search);
+            news = newsService.findAllByNewsNameContaining(search, pageable);
         }
 
         if (news.isEmpty()) {
@@ -37,6 +37,21 @@ public class NewsController {
         }
         return new ResponseEntity<>(news, HttpStatus.OK);
     }
+    @GetMapping("/hl")
+    public ResponseEntity<Page<News>> findAllNewsHightLight(@PageableDefault(size = 3 ) Pageable pageable){
+//        Page<News> news= newsService.findAll(pageable);
+//        if (news.isEmpty()){
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>( news,HttpStatus.OK);
+        System.out.println("hehe");
+        Page<News> news;
+            news = newsService.findAllByHighlight("1", pageable);
 
+        if (news.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(news, HttpStatus.OK);
+    }
 
 }

@@ -20,8 +20,13 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Page<News> findAllByNewsName(String name, Pageable pageable) {
-        return newsRepo.findAllByNewsName(name, pageable);
+    public Page<News> findAllByNewsNameContaining(String name, Pageable pageable) {
+        return newsRepo.findAllByNewsNameContaining(name, pageable);
+    }
+
+    @Override
+    public Page<News> findAllByHighlight(String hightLight, Pageable pageable) {
+        return newsRepo.findAllByHighlight(hightLight, pageable);
     }
 
 
