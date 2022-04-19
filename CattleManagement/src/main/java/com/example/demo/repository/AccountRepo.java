@@ -2,16 +2,15 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
-public interface AccountRepo extends JpaRepository<Account, Long> {
+public interface AccountRepo extends JpaRepository<Account, String> {
 
     Account findAccountByAccountName (String accountName);
 

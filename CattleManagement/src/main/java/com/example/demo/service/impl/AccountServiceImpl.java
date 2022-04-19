@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class AccountServiceImpl  implements AccountService {
+public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private AccountRepo accountRepo;
@@ -76,26 +76,28 @@ public class AccountServiceImpl  implements AccountService {
     @Override
     public void addResetPasswordToken(String accountName) throws UnsupportedEncodingException, MessagingException {
 
-            String token = jwtTokenUtil.generateJwtToken(accountName);
-            System.out.println("token reset password: " + token);
+        String token = jwtTokenUtil.generateJwtToken(accountName);
+        System.out.println("token reset password: " + token);
 
-            if (token != null && jwtTokenUtil.validateJwtToken(token)) {
+        if (token != null && jwtTokenUtil.validateJwtToken(token)) {
 
-                System.out.println("token chưa hết hạn");
+            System.out.println("token chưa hết hạn");
 
-                accountRepo.addResetPassToken(token, accountName);
-                Account account = accountRepo.findAccountByResetPasswordToken(token);
+            accountRepo.addResetPassToken(token, accountName);
+            Account account = accountRepo.findAccountByResetPasswordToken(token);
 
-                System.out.println("Email: " + account.getEmail());
-                System.out.println("accountName: " + account.getAccountName());
-                System.out.println("Token: " + token);
-                try {
-                    this.sendEmailForResetPassword(account.getAccountName(), token, account.getEmail());
-                } catch (MessagingException e) {
-                    throw new MessagingException("Something went wrong in sending email");
-                }
+            System.out.println("Email: " + account.getEmail());
+            System.out.println("accountName: " + account.getAccountName());
+            System.out.println("Token: " + token);
+            try {
+                this.sendEmailForResetPassword(account.getAccountName(), token, account.getEmail());
+            } catch (MessagingException e) {
+                throw new MessagingException("Something went wrong in sending email");
             }
+
+        }
     }
+
 
     @Override
     public void sendEmailForResetPassword(String accountName, String token, String email) throws UnsupportedEncodingException, MessagingException {
@@ -106,7 +108,7 @@ public class AccountServiceImpl  implements AccountService {
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-        helper.setFrom(fromEmail,"Cattle Management Support");
+        helper.setFrom(fromEmail, "Cattle Management Support");
         helper.setTo(email);
         helper.setSubject(subject);
         mailContent = "<p>Xin chào " + accountName + ",</p>"

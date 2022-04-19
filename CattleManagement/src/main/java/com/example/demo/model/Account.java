@@ -58,8 +58,8 @@ public class Account {
 
     public Account(@NotBlank @Size(min = 3, max = 50) String userName,
                    @NotBlank @Size(min = 6, max = 50)String encode) {
-            this.accountName = userName;
-            this.password = encode;
+        this.accountName = userName;
+        this.password = encode;
     }
 
     public String getPassword() {

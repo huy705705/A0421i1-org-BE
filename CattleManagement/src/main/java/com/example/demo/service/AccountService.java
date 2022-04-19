@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
-
 import com.example.demo.model.Account;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
-
 import java.util.List;
 
 public interface AccountService {
