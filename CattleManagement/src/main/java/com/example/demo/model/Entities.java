@@ -2,14 +2,15 @@ package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -44,6 +45,7 @@ public class Entities {
     private String cageId;
 
     @ManyToOne(targetEntity = Cage.class)
+    @JsonBackReference
     @JoinColumn(name = "cageId",nullable = false, referencedColumnName = "cageId",insertable = false,updatable = false)
     private Cage cage;
 

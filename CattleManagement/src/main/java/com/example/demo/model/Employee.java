@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -59,9 +60,11 @@ public class Employee {
 
     //    mot news
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee", cascade = CascadeType.REMOVE)
+    @JsonBackReference
     private Set<News> news;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeCage", cascade = CascadeType.REMOVE)
+    @JsonBackReference
     private Set<Cage> cage;
 
     public String getEmployeeId() {

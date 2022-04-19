@@ -5,14 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -39,6 +36,7 @@ public class Cage {
     private Boolean isDelete;
 
     @ManyToOne(targetEntity = Employee.class)
+    @JsonBackReference
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employeeCage;
 

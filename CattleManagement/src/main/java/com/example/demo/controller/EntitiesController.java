@@ -84,12 +84,14 @@ public class EntitiesController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createEntities(@Valid @RequestBody Entities entities, BindingResult bindingResult) throws Exception  {
-
+        System.out.println(entities.toString() + "vo controller");
         if(bindingResult.hasErrors()){
+
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
         else {
-            entitiesService.updateAutoRender(entities.getCageId());
+            System.out.println("tao moi thanh cong"+entities.toString());
+    //        entitiesService.updateAutoRender(entities.getCageId());
             entities.setDelete(false);
             return new ResponseEntity<>(entitiesService.save(entities), HttpStatus.CREATED);
         }

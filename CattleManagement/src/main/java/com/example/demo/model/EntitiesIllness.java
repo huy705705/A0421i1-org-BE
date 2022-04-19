@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class EntitiesIllness {
     private Boolean isDelete;
 
     @ManyToOne(targetEntity = Entities.class)
+    @JsonBackReference
     @JoinColumn(name = "entitiesId", referencedColumnName = "entitiesId")
     private Entities entities;
 
