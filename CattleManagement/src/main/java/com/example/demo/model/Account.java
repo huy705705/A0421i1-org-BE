@@ -48,11 +48,11 @@ public class Account {
 
 
     @OneToOne(mappedBy = "account")
-    @JsonBackReference
+    @JsonBackReference(value = "Json_back_account")
     private Employee employee;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.REMOVE)
-    @JsonBackReference
+    @JsonBackReference(value = "Json_back_roleset")
     private Set<AccountRole> roleSet;
 
 

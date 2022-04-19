@@ -36,11 +36,10 @@ public class Cage {
     private Boolean isDelete;
 
     @ManyToOne(targetEntity = Employee.class)
-    @JsonBackReference
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employeeCage;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cage", cascade = CascadeType.REMOVE)
-    @JsonBackReference
+    @JsonBackReference(value = "JsonBackEntities")
     private Set<Entities> entities;
 }

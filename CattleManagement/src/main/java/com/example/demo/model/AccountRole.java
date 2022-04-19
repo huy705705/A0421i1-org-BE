@@ -21,13 +21,11 @@ public class AccountRole {
 
     //    Nhieu
     @ManyToOne(targetEntity = Account.class)
-    @JsonBackReference
     @JoinColumn(name = "accountId", referencedColumnName = "accountId")
     private Account account;
 
     //    Nhieu
     @ManyToOne(targetEntity = Role.class)
-    @JsonBackReference
     @JoinColumn(name = "roleId", referencedColumnName = "roleId")
     private Role role;
 }

@@ -24,6 +24,6 @@ public class Role {
     private String roleName;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "role", cascade = CascadeType.REMOVE)
-    @JsonBackReference
+    @JsonBackReference(value = "RoleBackToRoleSet")
     private Set<AccountRole> roleSet;
 }

@@ -60,11 +60,11 @@ public class Employee {
 
     //    mot news
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee", cascade = CascadeType.REMOVE)
-    @JsonBackReference
+    @JsonBackReference(value = "JsonBackNews")
     private Set<News> news;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeCage", cascade = CascadeType.REMOVE)
-    @JsonBackReference
+    @JsonBackReference(value = "JsonBackCage")
     private Set<Cage> cage;
 
     public String getEmployeeId() {

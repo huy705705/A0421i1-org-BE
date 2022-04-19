@@ -45,12 +45,11 @@ public class Entities {
     private String cageId;
 
     @ManyToOne(targetEntity = Cage.class)
-    @JsonBackReference
     @JoinColumn(name = "cageId",nullable = false, referencedColumnName = "cageId",insertable = false,updatable = false)
     private Cage cage;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "entities", cascade = CascadeType.REMOVE)
-    @JsonBackReference
+    @JsonBackReference(value = "JsonBackEntitiesIllNess")
     private Set<EntitiesIllness> entities;
 
 
