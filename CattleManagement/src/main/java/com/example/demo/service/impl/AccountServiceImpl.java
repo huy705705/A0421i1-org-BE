@@ -77,6 +77,7 @@ public class AccountServiceImpl  implements AccountService {
     public void addResetPasswordToken(String accountName) throws UnsupportedEncodingException, MessagingException {
 
             String token = jwtTokenUtil.generateJwtToken(accountName);
+            System.out.println("token reset password: " + token);
 
             if (token != null && jwtTokenUtil.validateJwtToken(token)) {
 

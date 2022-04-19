@@ -21,8 +21,8 @@ public class JwtTokenUtil implements Serializable {
     public String generateJwtToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date((new Date()).getTime() + (1000 * 60 * 5))) /* expiration in 5 min */
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + (1000 * 60 * 5))) /* expiration in 5 min */
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
