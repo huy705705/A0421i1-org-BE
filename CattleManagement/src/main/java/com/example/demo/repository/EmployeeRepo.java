@@ -21,6 +21,9 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
     Page<Employee> findAllEmployeeByNameAndId(String searchName, String searchId, Pageable pageable);
 
 
+    @Query(value = "SELECT * FROM employee  where is_delete!=1 or is_delete=null", nativeQuery = true)
+    Page<Employee> findAll(Pageable pageable);
+
 //    @Query(value =  "select employee.employee_id as employeeId, employee.employee_name as employeeName, employee.birthday, \n" +
 //                    "employee.id_card as idCard, employee.address, employee.gender, employee.email, \n" +
 //                    "employee.account_name as accountName, employee.account_password as accountPassword from employee \n" +

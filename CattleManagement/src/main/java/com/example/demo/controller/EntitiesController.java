@@ -91,7 +91,7 @@ public class EntitiesController {
         }
         else {
             System.out.println("tao moi thanh cong"+entities.toString());
-    //        entitiesService.updateAutoRender(entities.getCageId());
+            entitiesService.updateAutoRender(entities.getCageId());
             entities.setDelete(false);
             return new ResponseEntity<>(entitiesService.save(entities), HttpStatus.CREATED);
         }

@@ -34,7 +34,7 @@ public class EmployeeController {
 
     @GetMapping("")
     public ResponseEntity<Page<Employee>> listEmployee(
-            @PageableDefault(size = 5) Pageable pageable,
+            @PageableDefault(size = 8) Pageable pageable,
             @RequestParam(defaultValue = "") String searchName,
             @RequestParam(defaultValue = "") String searchId) {
         Page<Employee> employees;
@@ -43,6 +43,7 @@ public class EmployeeController {
                     ("%" + searchName + "%", "%" + searchId + "%", pageable),(HttpStatus.OK));
         } else{
             employees = employeeService.findAll(pageable);
+            System.out.println("finish query from db");
         }
 
         if (employees.isEmpty()) {
@@ -80,7 +81,9 @@ public class EmployeeController {
 //            return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
 //        }
         else {
+
             employee.setEmployeeId(employeeOptional.get().getEmployeeId());
+//            employee.setDelete(false);
             return new ResponseEntity<>(employeeService.save(employee), HttpStatus.OK);
         }
     }
