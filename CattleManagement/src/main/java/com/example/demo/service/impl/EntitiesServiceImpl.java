@@ -34,8 +34,8 @@ public class EntitiesServiceImpl implements EntitiesService {
     }
 
     @Override
-    public Page<Entities> findAllByInDateAndCage22(Pageable pageable,String inDate,String cage) {
-        return entitiesRepo.findAllByInDateAndCage22(pageable,inDate,cage);
+    public Page<Entities> findAllByInDateAndCage22(Pageable pageable,String inDate,String outDate,String cage) {
+        return entitiesRepo.findAllByInDateAndCage22(pageable,inDate,outDate,cage);
     }
 
 
@@ -47,4 +47,10 @@ public class EntitiesServiceImpl implements EntitiesService {
     public void updateAutoRender(String cageId) {
         entitiesRepo.updateAutoRender(cageId);
     }
+
+//    @Override
+//    public Page<Entities> findAllByInDateCAndCageAndOutDate(Pageable pageable, String cage, String outDate, String inDate) {
+//
+//        return entitiesRepo.findAllByInDateAndCage22( pageable,  cage,  outDate,  inDate);
+//    }
 }

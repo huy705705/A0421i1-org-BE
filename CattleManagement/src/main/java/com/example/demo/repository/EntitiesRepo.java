@@ -37,7 +37,8 @@ public interface EntitiesRepo extends JpaRepository<Entities, String> {
 
     Page<Entities> findAllByInDateAndCage(Pageable pageable, String inDate, String cage);
 
-    @Query(value = "SELECT * FROM entities  where in_date like :inDate and  cage_id LIKE :cage", nativeQuery = true)
-    Page<Entities> findAllByInDateAndCage22(@Param("page") Pageable pageable, @Param("inDate") String inDate, @Param("cage") String cage);
+    @Query(value = "SELECT * FROM entities  where   :inDate < in_date  and in_date < :outDate   and  cage_id LIKE :cage", nativeQuery = true)
+    Page<Entities> findAllByInDateAndCage22(@Param("page") Pageable pageable, @Param("inDate") String inDate,
+                                            @Param("outDate") String outDate, @Param("cage") String cage);
 
 }
