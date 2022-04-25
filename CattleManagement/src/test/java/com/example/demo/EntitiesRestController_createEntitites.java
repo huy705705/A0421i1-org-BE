@@ -30,7 +30,7 @@ Entities entities = new Entities();
     entities.setEntitiesId(null);
     LocalDate inDate = LocalDate.of(2021,10,10);
     entities.setInDate(inDate);
-    LocalDate outDate = LocalDate.of(2021,10,20);
+    LocalDate outDate = LocalDate.now();
     entities.setOutDate(outDate);
     entities.setStatus("Khoe");
     entities.setWeight(10);
