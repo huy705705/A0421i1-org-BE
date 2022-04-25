@@ -89,6 +89,10 @@ public class EntitiesController {
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
         else {
+<<<<<<< HEAD
+=======
+            System.out.println("tao moi thanh cong"+entities.toString());
+>>>>>>> 87fd790704f93889a64159c4cf488f51a8e92f07
             entitiesService.updateAutoRender(entities.getCageId());
             entities.setDelete(false);
             return new ResponseEntity<>(entitiesService.save(entities), HttpStatus.CREATED);
