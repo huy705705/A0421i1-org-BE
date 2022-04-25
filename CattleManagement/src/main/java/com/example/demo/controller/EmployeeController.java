@@ -81,9 +81,8 @@ public class EmployeeController {
 //            return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
 //        }
         else {
-
             employee.setEmployeeId(employeeOptional.get().getEmployeeId());
-//            employee.setDelete(false);
+            employee.setDelete(false);
             return new ResponseEntity<>(employeeService.save(employee), HttpStatus.OK);
         }
     }
@@ -98,6 +97,7 @@ public class EmployeeController {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+        
         return errors;
     }
 }
