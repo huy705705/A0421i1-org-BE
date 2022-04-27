@@ -90,6 +90,7 @@ public class EntitiesController {
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
         else {
+            
             System.out.println("tao moi thanh cong"+entities.toString());
             entitiesService.updateAutoRender(entities.getCageId());
             entities.setDelete(false);
@@ -123,19 +124,36 @@ public class EntitiesController {
         return errors;
     }
     @GetMapping("/search")
-    public ResponseEntity<Page<Entities>> findAllEntitiesByInDateAndCage(@PageableDefault(size = 10) Pageable pageable,@RequestParam(defaultValue = "0") Integer page,@RequestParam(defaultValue = "",name = "inDate") String inDate,
-                                                          @RequestParam(defaultValue = "",name = "cage") String cage){
-        System.out.println("indate"+inDate);
-        System.out.println("cage "+cage);
-        System.out.println("1");
-        inDate="%"+inDate+"%";
-        cage="%"+cage+"%";
-        System.out.println("inDate"+inDate);
-        System.out.println("cage "+cage);
-        Page<Entities> entities= entitiesService.findAllByInDateAndCage22(pageable,inDate,cage);
-        if (entities.isEmpty()){
+    public ResponseEntity<Page<Entities>> findAllEntitiesByInDateAndCage(@PageableDefault(size = 10) Pageable pageable, @RequestParam(defaultValue = "0") Integer page,
+                                                                         @RequestParam(defaultValue = "", name = "inDateMin") String inDateMin,
+                                                                         @RequestParam(defaultValue = "", name = "inDateMax") String inDateMax,
+                                                                         @RequestParam(defaultValue = "", name = "cage") String cage) {
+        System.out.println("inDateMin" + inDateMin);
+        System.out.println("cage " + cage);
+//        inDate = "%" + inDate + "%";
+//        cage = "%" + cage + "%";
+        System.out.println("inDateMax" + inDateMax);
+        System.out.println("cage " + cage);
+        if (inDateMin.isEmpty()){
+            inDateMin="2000-03-15";
+        }
+        if (inDateMax.isEmpty()){
+            inDateMax="2025-03-13";
+        }
+        if(cage.isEmpty()){
+            cage="%";
+        }
+        System.out.println("inDateMin" + inDateMin);
+        System.out.println("cage " + cage);
+//        inDate = "%" + inDate + "%";
+//        cage = "%" + cage + "%";
+        System.out.println("inDateMax" + inDateMax);
+        System.out.println("cage " + cage);
+        Page<Entities> entities = entitiesService.findAllByInDateAndCage3(pageable, inDateMin,inDateMax, cage);
+
+        if (entities.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(entities,HttpStatus.OK);
+        return new ResponseEntity<>(entities, HttpStatus.OK);
     }
 }

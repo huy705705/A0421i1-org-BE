@@ -9,6 +9,14 @@ import java.util.List;
 
 @Repository
 public interface CageRepo extends JpaRepository<Cage, String> {
-    @Query(value = "select cage_id from cage",nativeQuery = true)
+
+    @Query(value = "select cage_id from cage where is_delete = 0",nativeQuery = true)
     List<String> getListCageId();
+
+    Cage findByCageId(String Id);
+
+    @Query(value=" UPDATE cage SET is_delete = b'1' WHERE cage_id = ? ", nativeQuery= true)
+    void removeCage(String id);
+
+
 }
