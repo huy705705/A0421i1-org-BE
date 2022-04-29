@@ -83,7 +83,7 @@ public class EmployeeController {
         else {
 
             employee.setEmployeeId(employeeOptional.get().getEmployeeId());
-//            employee.setDelete(false);
+            employee.setDelete(false);
             return new ResponseEntity<>(employeeService.save(employee), HttpStatus.OK);
         }
     }
