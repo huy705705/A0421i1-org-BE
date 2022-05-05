@@ -37,6 +37,11 @@ public class News {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdDate;
 
+    private int totalView;
+
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String type;
+
     private Boolean isDelete;
 
     @ManyToOne(targetEntity = Employee.class)

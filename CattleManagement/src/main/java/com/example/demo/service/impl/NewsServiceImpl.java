@@ -26,5 +26,15 @@ public class NewsServiceImpl implements NewsService {
         return newsRepo.findAllByHighlight(hightLight, pageable);
     }
 
+    @Override
+    public Page<News> findAllByTotalView(Pageable pageable) {
+        return newsRepo.findAllSortTotalView(pageable);
+    }
+
+    @Override
+    public News findNewsByNewsId(String newsId) {
+        return newsRepo.findNewsByNewsId(newsId);
+    }
+
 
 }

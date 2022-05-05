@@ -43,5 +43,15 @@ public class NewsController {
         }
         return new ResponseEntity<>(news, HttpStatus.OK);
     }
+    @GetMapping("/view")
+    public ResponseEntity<Page<News>> findAllNewsTotalView(@PageableDefault(size = 3 ) Pageable pageable){
+        Page<News> news;
+        news = newsService.findAllByTotalView(pageable);
 
+        if (news.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(news, HttpStatus.OK);
+    }
+//'/'
 }

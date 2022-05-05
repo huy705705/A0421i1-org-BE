@@ -9,11 +9,16 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NewsRepo extends JpaRepository<News, String> {
-    @Query(value = "select * from news "  + " order by created_date desc ", nativeQuery = true)
+    @Query(value = "select * from news " + " where is_delete = '0' " + " order by created_date desc " , nativeQuery = true)
     Page<News> findAllSortDate(Pageable pageable);
-    @Override
+//    @Override
+    @Query(value = "SELECT news.news_id, news.content, news.created_date, news.detail_description, news.highlight, news.image, news.is_delete, news.news_name, news.total_view, news.type, employee.employee_name FROM news inner join employee on news.employee_id = employee.employee_id " + " where news.is_delete = 0 " + " order by created_date desc " , nativeQuery = true)
     Page<News> findAll(Pageable pageable);
-
+//    @Query(value = "SELECT news.content, news.created_date, news.detail_description, news.highlight, news.image, news.is_delete, news.news_name,employee.employee_name FROM news inner join employee on news.employee_id = employee.employee_id " + " where news.news_id = username and news.is_delete = 0 " , nativeQuery = true)
+//    News findNewsByNewsId(String newsId);
     Page<News> findAllByNewsNameContaining(String name, Pageable pageable);
     Page<News> findAllByHighlight(String name, Pageable pageable);
+    News findNewsByNewsId(String newsId);
+    @Query(value = "select * from news "+ " order by total_view desc " , nativeQuery = true)
+    Page<News> findAllSortTotalView(Pageable pageable);
 }

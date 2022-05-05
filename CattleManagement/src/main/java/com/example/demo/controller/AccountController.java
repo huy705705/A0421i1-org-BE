@@ -44,7 +44,7 @@ public class AccountController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getAccountName().trim(), loginRequest.getPassword().trim()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authentication);103-+6
 
         String token = jwtTokenUtil.createToken(authentication);
 
