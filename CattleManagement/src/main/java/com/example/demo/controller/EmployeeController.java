@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Account;
 import com.example.demo.model.Employee;
+import com.example.demo.model.Entities;
 import com.example.demo.service.AccountService;
 import com.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,21 @@ public class EmployeeController {
         }
         return new ResponseEntity<List<Account>>(accountList, HttpStatus.OK);
     }
-    
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<Employee> findEmployeeByIdToDelete(@PathVariable String id) {
+        Optional<Employee> employeeOptional = employeeService.findById(id);
+        if (!employeeOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(employeeOptional.get(), HttpStatus.OK);
+    }
+    @PatchMapping("/delete/{id}")
+    public  ResponseEntity<Employee> deleteEmployee(@PathVariable String id){
+        employeeService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/update/{id}")
     public ResponseEntity<Employee> findEmployeeById(@PathVariable String id) {
         Optional<Employee> employeeOptional = employeeService.findById(id);

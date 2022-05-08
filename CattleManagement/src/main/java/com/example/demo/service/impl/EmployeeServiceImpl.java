@@ -37,6 +37,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void remove(String id) {
-        employeeRepo.deleteById(id);
+        employeeRepo.deleteEmployee(id);
     }
 }
