@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.demo.model.category.CatDistrict;
+import com.example.demo.model.category.CatProvince;
+import com.example.demo.model.category.CatWard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -38,6 +39,16 @@ public class Customer {
 
     private Boolean isDelete;
 
-// Hoi Thang lai cho One to One
-    
+    @ManyToOne(targetEntity = CatProvince.class)
+    @JoinColumn(name = "provinceId", referencedColumnName = "provinceId")
+    private CatProvince province;
+
+    @ManyToOne(targetEntity = CatDistrict.class)
+    @JoinColumn(name = "districtId", referencedColumnName = "districtId")
+    private CatDistrict district;
+
+    @ManyToOne(targetEntity = CatWard.class)
+    @JoinColumn(name = "wardId", referencedColumnName = "wardId")
+    private CatWard ward;
+
 }

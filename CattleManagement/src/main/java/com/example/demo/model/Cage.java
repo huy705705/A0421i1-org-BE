@@ -31,10 +31,6 @@ public class Cage {
 
     private int quantity;
 
-    private float area;
-
-    private Boolean isDelete;
-
     @ManyToOne(targetEntity = Employee.class)
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employeeCage;

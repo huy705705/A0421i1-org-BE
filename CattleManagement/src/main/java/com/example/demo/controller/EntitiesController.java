@@ -84,9 +84,7 @@ public class EntitiesController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createEntities(@Valid @RequestBody Entities entities, BindingResult bindingResult) throws Exception  {
-        System.out.println(entities.toString() + "vo controller");
         if(bindingResult.hasErrors()){
-
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
         else {
@@ -110,6 +108,7 @@ public class EntitiesController {
 
         return new ResponseEntity<>(entitiesService.save(entities),HttpStatus.OK);
     }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
@@ -120,6 +119,7 @@ public class EntitiesController {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+
         System.out.println(errors.toString());
         return errors;
     }

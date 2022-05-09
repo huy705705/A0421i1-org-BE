@@ -13,7 +13,6 @@ public interface NewsRepo extends JpaRepository<News, String> {
     Page<News> findAllSortDate(Pageable pageable);
     @Override
     Page<News> findAll(Pageable pageable);
-
     Page<News> findAllByNewsNameContaining(String name, Pageable pageable);
     Page<News> findAllByHighlight(String name, Pageable pageable);
 }

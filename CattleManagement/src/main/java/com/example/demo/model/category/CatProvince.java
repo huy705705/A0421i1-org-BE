@@ -1,7 +1,9 @@
 package com.example.demo.model.category;
 
+import com.example.demo.model.Customer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -10,14 +12,14 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
 import java.util.Set;
-
+@Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cat_Province {
+public class CatProvince {
         @Id
         @Column(columnDefinition = "int",nullable = false)
-        private int provinceId;
+        private Integer provinceId;
 
         @Column(columnDefinition = "VARCHAR(50)")
         @NotBlank
@@ -28,18 +30,22 @@ public class Cat_Province {
         private String provinceCode;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "province", cascade = CascadeType.REMOVE)
-    @JsonBackReference(value = "JsonBackDistrict")
-    private Set<Cat_District> districts;
+    @JsonBackReference(value = "ProvinceToDistrict")
+    private Set<CatDistrict> districts;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "province", cascade = CascadeType.REMOVE)
-    @JsonBackReference(value = "JsonBackProvinceToWard")
-    private Set<Cat_Ward> wards;
+    @JsonBackReference(value = "ProvinceToWard")
+    private Set<CatWard> wards;
 
-    public int getId() {
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "province", cascade = CascadeType.REMOVE)
+    @JsonBackReference(value = "ProvinceToCustomer")
+    private Set<Customer> customers;
+
+    public Integer getProvinceId() {
         return provinceId;
     }
 
-    public String getProvince_name() {
+    public String getProvinceName() {
         return provinceName;
     }
 
@@ -54,4 +60,5 @@ public class Cat_Province {
     public void setProvinceCode(String provinceCode) {
         this.provinceCode = provinceCode;
     }
+
 }
