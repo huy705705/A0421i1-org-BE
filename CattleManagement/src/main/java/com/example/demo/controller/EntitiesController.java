@@ -46,6 +46,7 @@ public class EntitiesController {
         String entitiesId=currentId.toString();
         return new ResponseEntity<>(entitiesId,HttpStatus.OK);
     }
+
     @GetMapping("")
     public ResponseEntity<Page<Entities>> findAllEntities(@PageableDefault(size = 10) Pageable pageable){
         Page<Entities> entities= entitiesService.findAll(pageable);
