@@ -107,4 +107,89 @@ public class CageController_createCage {
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
+
+    @Test
+    public void createCage_CreatedDate_15() throws Exception {
+        CageCreateDto cageCreateDto = new CageCreateDto(
+                "N05",
+                LocalDate.of(2022,4,5),
+                LocalDate.of(2022,6,20),
+                13 );
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/api/public/create")
+                        .content(this.objectMapper.writeValueAsString(cageCreateDto))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void createCage_ClosedDate_15() throws Exception {
+        CageCreateDto cageCreateDto = new CageCreateDto(
+                "N05",
+                LocalDate.of(2022,5,15),
+                LocalDate.of(2022,4,20),
+                13 );
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/api/public/create")
+                        .content(this.objectMapper.writeValueAsString(cageCreateDto))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void createCage_Quantity_16() throws Exception {
+        CageCreateDto cageCreateDto = new CageCreateDto(
+                "N05",
+                LocalDate.of(2022,5,15),
+                LocalDate.of(2022,5,30),
+                0 );
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/api/public/create")
+                        .content(this.objectMapper.writeValueAsString(cageCreateDto))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void createCage_Quantity_17() throws Exception {
+        CageCreateDto cageCreateDto = new CageCreateDto(
+                "N05",
+                LocalDate.of(2022,5,15),
+                LocalDate.of(2022,5,30),
+                55 );
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/api/public/create")
+                        .content(this.objectMapper.writeValueAsString(cageCreateDto))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void createCage_Quantity_18() throws Exception {
+        CageCreateDto cageCreateDto = new CageCreateDto(
+                "N05",
+                LocalDate.of(2022,5,15),
+                LocalDate.of(2022,5,30),
+                20 );
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/api/public/create")
+                        .content(this.objectMapper.writeValueAsString(cageCreateDto))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+    }
 }

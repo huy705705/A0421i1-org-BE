@@ -43,8 +43,9 @@ public class Cage {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate closedDate;
 
-    @Min(1)
-    @Max(50)
+    @Min(value = 1, message = "quantity must greater than 1")
+    @Max(value = 50,  message = "quantity must less than 50")
+    @NotNull
     private int quantity;
 
 

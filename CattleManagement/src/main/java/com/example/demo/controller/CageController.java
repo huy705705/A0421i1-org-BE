@@ -93,6 +93,11 @@ public class CageController {
             listErrors.put("cageError", "Mã chuồng nuôi đã tồn tại.");
         }
 
+        if (cage.getQuantity() < 1 || cage.getQuantity() > 50) {
+            System.out.println("Sai gia tri quantity");
+            listErrors.put("quantity", "So luong ca the sai.");
+        }
+
         if (!cageService.isValidDate(cage)){
             System.out.println("Lỗi ngày tạo và đóng chuồng.");
             listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
@@ -109,7 +114,7 @@ public class CageController {
             System.out.println(listErrors.keySet());
             return ResponseEntity.badRequest().body(listErrors);
         }
-
+        System.out.println("cage to save: " + cage.toString());
         cageService.save(cage);
         return new ResponseEntity<>(HttpStatus.CREATED);
 
