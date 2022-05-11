@@ -22,6 +22,21 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    public Page<News> findAllByNewsNameContainingDate(String name, Pageable pageable) {
+        return newsRepo.findAllByNewsNameContainingDate(name, pageable);
+    }
+
+    @Override
+    public Page<News> findAllByNewsNameContainingDateAsc(String name, Pageable pageable) {
+        return newsRepo.findAllByNewsNameContainingDateEsc(name, pageable);
+    }
+
+    @Override
+    public Page<News> findAllByNewsNameContainingTotalViews(String name, Pageable pageable) {
+        return newsRepo.findAllByNewsNameContainingViews(name, pageable);
+    }
+
+    @Override
     public Page<News> findAllByHighlight(String hightLight, Pageable pageable) {
         return newsRepo.findAllByHighlight(hightLight, pageable);
     }
@@ -34,6 +49,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public News findNewsByNewsId(String newsId) {
         return newsRepo.findNewsByNewsId(newsId);
+    }
+
+    @Override
+    public News save(News news) {
+        return newsRepo.save(news);
     }
 
 
