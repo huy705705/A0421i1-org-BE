@@ -30,6 +30,69 @@ public class NewsControllerTest {
     NewsController newsController;
     @Test
     public void getListSNews_1() {
+        ResponseEntity<News> responseEntity
+                = this.newsController.showDetailNews("1");
+
+        Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
+        Assertions.assertEquals("1",
+                responseEntity.getBody().getNewsId());
+        Assertions.assertEquals("Sửa đổi, bổ sung về xử phạt trong lĩnh vực thú y…",
+                responseEntity.getBody().getNewsName());
+        Assertions.assertEquals("Ngày 11/01/2022, Chính phủ ban hành Nghị định 07/2022/NĐ-CP về việc sửa đổi, bổ sung một số điều của các Nghị định về xử phạt vi phạm hành chính trong lĩnh vực lâm nghiệp; bảo vệ và kiểm dịch thực vật; thú y; chăn nuôi.",
+                responseEntity.getBody().getDetailDescription());
+        Assertions.assertEquals("Ông Paul A. Anderson, Tổng Giám đốc của Genesus Inc cho rằng, thị trường dự kiến sẽ trải qua thời kỳ khó khăn phía trước, do dịch tả lợn Châu Phi tiếp tục ảnh hưởng đến các trang trại chăn nuôi lợn ở Thái Lan. Mọi người đều biết rằng giá lao dốc chỉ là tạm thời. Tình trạng thiệt hại hàng loạt lợn nái và lợn thương phẩm do Dịch tả ASF vẫn chưa được giải quyết và thậm chí ngày càng gia tăng do hầu hết các trang trại bị dịch bệnh ASF vẫn phải cung cấp sản phẩm.",
+                responseEntity.getBody().getContent());
+        LocalDate date = LocalDate.of(2022,04,22);
+        Assertions.assertEquals( date ,
+                responseEntity.getBody().getCreatedDate());
+        Assertions.assertEquals("1",
+                responseEntity.getBody().getHighlight());
+        Assertions.assertEquals("https://firebasestorage.googleapis.com/v0/b/sprint-affd0.appspot.com/o/AdobeStock_287230388.jpeg?alt=media&token=5fa351ac-81b5-4f94-9356-63cd84c50b03",
+                responseEntity.getBody().getImage());
+        Assertions.assertEquals(false,
+                responseEntity.getBody().getDelete());
+        Assertions.assertEquals("Luật Chăn Nuôi",
+                responseEntity.getBody().getType());
+
+    }
+    // trương hợp id = null trả về status 4xx
+    @Test
+    void getListSNews_2() throws Exception{
+        this.mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/api/public/news/detail/{id}","null"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+    // trương hợp id bằng rỗng trả về status 4xx
+    @Test
+    void getListSNews_3() throws Exception{
+        this.mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/api/public/news/detail/{id}",""))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+    // trương hợp id khong có trong database trả về status 4xx
+    @Test
+    void getListSNews_4() throws Exception{
+        this.mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/api/public/news/detail/{id}","khong ton tai"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+    // trường hơp id có trong database trả về 2xx
+    @Test
+    void getListSNews_5() throws Exception{
+        this.mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/api/public/news/detail/{id}","1"))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+    }
+    @Test
+    public void getListSNews_6() {
         ResponseEntity<Page<News>> responseEntity
                 = this.newsController.findAllNews(PageRequest.of(0, 6), "", "");
 
@@ -44,8 +107,9 @@ public class NewsControllerTest {
                 responseEntity.getBody().getContent().get(1).getDetailDescription());
         Assertions.assertEquals("Ông Paul A. Anderson, Tổng Giám đốc của Genesus Inc cho rằng, thị trường dự kiến sẽ trải qua thời kỳ khó khăn phía trước, do dịch tả lợn Châu Phi tiếp tục ảnh hưởng đến các trang trại chăn nuôi lợn ở Thái Lan. Mọi người đều biết rằng giá lao dốc chỉ là tạm thời. Tình trạng thiệt hại hàng loạt lợn nái và lợn thương phẩm do Dịch tả ASF vẫn chưa được giải quyết và thậm chí ngày càng gia tăng do hầu hết các trang trại bị dịch bệnh ASF vẫn phải cung cấp sản phẩm.",
                 responseEntity.getBody().getContent().get(1).getContent());
-//        Assertions.assertEquals(2022-04-22,
-//                responseEntity.getBody().getContent().get(1).getCreatedDate());
+        LocalDate date = LocalDate.of(2022,04,22);
+        Assertions.assertEquals( date ,
+                responseEntity.getBody().getContent().get(1).getCreatedDate());
         Assertions.assertEquals("1",
                 responseEntity.getBody().getContent().get(1).getHighlight());
         Assertions.assertEquals("https://firebasestorage.googleapis.com/v0/b/sprint-affd0.appspot.com/o/AdobeStock_287230388.jpeg?alt=media&token=5fa351ac-81b5-4f94-9356-63cd84c50b03",
@@ -58,21 +122,36 @@ public class NewsControllerTest {
                 responseEntity.getBody().getContent().get(1).getType());
 
     }
-
+    //Trường hợp Trả về list có size > 0
     @Test
-    public void getListSNews_2() throws Exception {
+    void getListSNews_7() throws Exception{
         this.mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/public/news"))
+                MockMvcRequestBuilders
+                        .get("/api/public/news",""))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
-    @Test
-    public void getListSNews_3() throws Exception {
-        this.mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/public/news", "1"))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
-    }
+//    @Test
+//    public void getListSNews_2() throws Exception {
+//        this.mockMvc.perform(
+//                MockMvcRequestBuilders.get("/api/public/news",""))
+//                .andDo(print())
+//                .andExpect(status().is4xxClientError());
+//    }
+//    @Test
+//    public void getListSNews_3() throws Exception {
+//        this.mockMvc.perform(
+//                MockMvcRequestBuilders.get("/api/public/news/hl", "1", "s"))
+//                .andDo(print())
+//                .andExpect(status().is2xxSuccessful());
+//    }
+//    @Test
+//    public void getListSNews_4() throws Exception {
+//        this.mockMvc.perform(
+//                MockMvcRequestBuilders.get("/api/public/news/hl", "", "s"))
+//                .andDo(print())
+//                .andExpect(status().is2xxSuccessful());
+//    }
 //    @Test
 //    public void getInfoStudent_3() throws Exception {
 //        this.mockMvc.perform(

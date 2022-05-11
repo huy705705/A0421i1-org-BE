@@ -72,6 +72,9 @@ public class NewsController {
     public ResponseEntity<News> showDetailNews(@PathVariable String id){
         News news;
         news = newsService.findNewsByNewsId(id);
+        if (news==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         news.setTotalView(news.getTotalView()+1);
         newsService.save(news);
         return new ResponseEntity<>(news, HttpStatus.OK);
