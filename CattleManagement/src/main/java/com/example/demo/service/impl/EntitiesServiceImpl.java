@@ -38,6 +38,13 @@ public class EntitiesServiceImpl implements EntitiesService {
         return entitiesRepo.findAllByInDateAndCage22(pageable,inDate,cage);
     }
 
+    @Override
+    public Page<Entities> findAllByInDateAndCage3(Pageable pageable, String inDateMin, String inDateMax, String cage) {
+        System.out.println("Service-inDateMin: "+inDateMin);
+        System.out.println("Service-inDateMax: "+inDateMax);
+        return entitiesRepo.findAllByInDateAndCage3(pageable,inDateMin,inDateMax,cage);
+    }
+
 
     public Integer getEntitiesId(String cageId) {
         return entitiesRepo.getEntitiesId(cageId);
