@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface NotificationRepo extends JpaRepository<Notification,String> {
-    @Query(value = "SELECT * FROM entities  where is_delete!=1 or is_delete=null", nativeQuery = true)
+    @Query(value = "SELECT * FROM notification  where is_delete!=1 or is_delete=null", nativeQuery = true)
     Page<Notification> findAll(Pageable pageable);
     Optional<Notification> findByNotificationId(String id);
 

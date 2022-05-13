@@ -48,7 +48,7 @@ public class EntitiesController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Page<Entities>> findAllEntities(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Page<Entities>> findAllEntities(@PageableDefault(size = 2) Pageable pageable) {
         Page<Entities> entities = entitiesService.findAll(pageable);
         if (entities.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -125,7 +125,7 @@ public class EntitiesController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<Entities>> findAllEntitiesByInDateAndCage(@PageableDefault(size = 10) Pageable pageable, @RequestParam(defaultValue = "0") Integer page,
+    public ResponseEntity<Page<Entities>> findAllEntitiesByInDateAndCage(@PageableDefault(size = 2) Pageable pageable, @RequestParam(defaultValue = "0") Integer page,
                                                                          @RequestParam(defaultValue = "", name = "inDateMin") String inDateMin,
                                                                          @RequestParam(defaultValue = "", name = "inDateMax") String inDateMax,
                                                                          @RequestParam(defaultValue = "", name = "cage") String cage) {
