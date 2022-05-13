@@ -2,8 +2,8 @@ package com.example.demo.model.dto;
 
 public interface CageListDTO {
     String getCageId();
-    String getCloseDate();
-    String getCreateDate();
+    String getClosedDate();
+    String getCreatedDate();
     Float getQuantity();
     String getEmployeeName();
     Integer getEntitiesQuantity();

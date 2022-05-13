@@ -11,5 +11,7 @@ import java.util.List;
 public interface CageService {
     List<String> getListCageId();
     Page<CageListDTO> findAllCage(Pageable pageable);
+    Page<CageListDTO> findCageByCreatedDate(  String searchCageId, String dateFrom, String dateTo,Pageable pageable);
+    Page<CageListDTO> findCageByCloseDate(String searchCageId, String dateFrom, String dateTo,Pageable pageable);
 
 }

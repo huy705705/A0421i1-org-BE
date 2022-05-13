@@ -25,4 +25,16 @@ public class CageServiceImpl implements CageService {
     public Page<CageListDTO> findAllCage(Pageable pageable) {
         return cageRepo.findAllCage(pageable);
     }
+
+    @Override
+    public Page<CageListDTO> findCageByCreatedDate( String searchCageId,String dateFrom, String dateTo,Pageable pageable) {
+        return cageRepo.findCageByCreatedDate(searchCageId,dateFrom,dateTo,pageable);
+    }
+
+    @Override
+    public Page<CageListDTO> findCageByCloseDate(String searchCageId, String dateFrom, String dateTo, Pageable pageable) {
+        return cageRepo.findCageByClosedDate(searchCageId,dateFrom,dateTo,pageable);
+    }
+
+
 }

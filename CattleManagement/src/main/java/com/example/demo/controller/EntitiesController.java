@@ -88,8 +88,6 @@ public class EntitiesController {
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
         else {
-            
-            System.out.println("tao moi thanh cong"+entities.toString());
             entitiesService.updateAutoRender(entities.getCageId());
             entities.setDelete(false);
             return new ResponseEntity<>(entitiesService.save(entities), HttpStatus.CREATED);
@@ -99,7 +97,7 @@ public class EntitiesController {
 
 
     @PatchMapping(value = "/update/{id}",consumes ={MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Entities> updateCustomer(@PathVariable String id, @RequestBody Entities entities) {
+    public ResponseEntity<Entities> updateEntities(@PathVariable String id, @RequestBody Entities entities) {
         Optional<Entities> entitiesOptional = entitiesService.findById(id);
         if (!entitiesOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
