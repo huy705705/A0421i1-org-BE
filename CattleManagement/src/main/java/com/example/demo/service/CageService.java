@@ -14,4 +14,5 @@ public interface CageService {
     Page<CageListDTO> findCageByCreatedDate(  String searchCageId, String dateFrom, String dateTo,Pageable pageable);
     Page<CageListDTO> findCageByCloseDate(String searchCageId, String dateFrom, String dateTo,Pageable pageable);
 
+
 }

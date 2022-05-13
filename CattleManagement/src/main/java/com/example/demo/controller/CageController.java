@@ -56,11 +56,10 @@ public class CageController {
             cageListDTOPage=cageService.findCageByCloseDate(searchCageId,dateFrom,dateTo,pageable);
         }
         if(cageListDTOPage.isEmpty()){
-           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         else {
             return new ResponseEntity<>(cageListDTOPage, HttpStatus.OK);
         }
     }
 }
-
