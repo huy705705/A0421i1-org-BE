@@ -1,10 +1,20 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Employee;
 import com.example.demo.model.Entities;
+import com.example.demo.model.dto.EmployeeDTO;
+import com.example.demo.model.dto.EmployeeEditDTO;
+import com.example.demo.model.dto.EmployeeFindIdDTO;
+import com.example.demo.model.dto.EmployeeListDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface EmployeeService extends IGeneralService<Employee> {
-    Page<Employee> findAllEmployeeByNameAndId(String searchName, String searchId, Pageable pageable);
+import java.util.Optional;
+
+public interface EmployeeService{
+    Page<EmployeeListDTO> findAllEmployeeByNameAndId(String searchName, String searchId, Pageable pageable);
+    Page<EmployeeListDTO> findAllEmployee(Pageable pageable);
+    Optional<EmployeeFindIdDTO> findEmployeeById(String id);
+    void editEmployee(EmployeeDTO EmployeeDTO);
+    void createNewEmployee(EmployeeDTO employeeDTO);
+    void deleteEmployee(String id);
 }

@@ -48,6 +48,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public void addNew(String accountName, String password, String email) {
+        accountRepo.addNew(accountName, password, email);
+    }
+
+    @Override
+    public void editAccount(String accountName, String password, Long accountId) {
+        accountRepo.editAccount(accountName, password, accountId);
+    }
+
+    @Override
     public List<Account> getAllAccount() {
         return accountRepo.getAllAccount();
     }
