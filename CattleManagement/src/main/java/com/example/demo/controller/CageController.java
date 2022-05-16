@@ -20,16 +20,15 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "*")
-@RequestMapping("/api/public/cage")
+@RequestMapping("employee/cage")
 public class CageController {
     @Autowired
     CageService cageService;
-    @Autowired
-    EmployeeService employeeService;
+
 
     @GetMapping("/get_employee")
     public ResponseEntity<List<GetEmployeeNameDTO>> getAllEmployeeName(){
-        List<GetEmployeeNameDTO> employeeList=employeeService.getAllEmployeeName();
+        List<GetEmployeeNameDTO> employeeList=cageService.getAllEmployeeName();
         if(employeeList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -57,6 +56,7 @@ public class CageController {
                 return new ResponseEntity<>(cageListDTOPage,HttpStatus.OK);
             }
     }
+
     @GetMapping("/search")
     public ResponseEntity<?> findCage(@PageableDefault(size = 2) Pageable pageable,
                                       @RequestParam(value = "dateType", defaultValue = "") String dateType,

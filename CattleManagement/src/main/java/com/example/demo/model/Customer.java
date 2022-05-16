@@ -62,8 +62,8 @@ public class Customer {
     @JoinColumn(name = "wardId", referencedColumnName = "wardId")
     private CatWard ward;
 
-    @ManyToOne(targetEntity = Employee.class)
-    @JoinColumn(name = "employeeContact", referencedColumnName = "employeeId")
-    private Employee employeeContact;
+//    @ManyToOne(targetEntity = Employee.class)
+//    @JoinColumn(name = "employeeContact", referencedColumnName = "employeeId")
+//    private Employee employeeContact;
 
 }

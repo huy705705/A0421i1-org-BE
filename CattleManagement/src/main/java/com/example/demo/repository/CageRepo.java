@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Cage;
 import com.example.demo.model.dto.CageListDTO;
+import com.example.demo.model.dto.GetEmployeeNameDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,6 +27,9 @@ public interface CageRepo extends JpaRepository<Cage, String> {
             "group by c.cage_id",
             countQuery="select count(cage_id) from cage",nativeQuery=true)
     Page<CageListDTO> findAllCage(Pageable pageable);
+
+    @Query(value = "select distinct e.employee_id as employeeId,e.employee_name as employeeName from employee e where e.is_delete!=1 or e.is_delete=null", nativeQuery = true)
+    List<GetEmployeeNameDTO> getAllEmployeeName();
 
     @Query(value = "select c.cage_id as cageId, c.closed_date as closedDate, c.created_date as createdDate, c.quantity,e.employee_name as employeeName,count(et.entities_id) as entitiesQuantity " +
             "from cage c left join employee e on c.employee_id=e.employee_id left join entities et on c.cage_id=et.cage_id " +

@@ -22,10 +22,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepo.findAllEmployeeByNameAndId(searchName, searchId, pageable);
     }
 
-    @Override
-    public List<GetEmployeeNameDTO> getAllEmployeeName() {
-        return employeeRepo.getAllEmployeeName();
-    }
 
     @Override
     public Page<Employee> findAll(Pageable pageable) {

@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Cage;
 import com.example.demo.model.dto.CageListDTO;
+import com.example.demo.model.dto.GetEmployeeNameDTO;
 import com.example.demo.repository.CageRepo;
 import com.example.demo.service.CageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class CageServiceImpl implements CageService {
     public Page<CageListDTO> findCageByCloseDate(String searchCageId,String employeeId, String dateFrom, String dateTo, Pageable pageable) {
         return cageRepo.findCageByClosedDate(searchCageId,employeeId,dateFrom,dateTo,pageable);
     }
-
+    @Override
+    public List<GetEmployeeNameDTO> getAllEmployeeName() {
+        return cageRepo.getAllEmployeeName();
+    }
 
 }

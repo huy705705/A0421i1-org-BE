@@ -9,5 +9,4 @@ import java.util.List;
 
 public interface EmployeeService extends IGeneralService<Employee> {
     Page<Employee> findAllEmployeeByNameAndId(String searchName, String searchId, Pageable pageable);
-    List<GetEmployeeNameDTO> getAllEmployeeName();
 }
