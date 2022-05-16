@@ -4,6 +4,7 @@ import com.example.demo.model.Cage;
 import com.example.demo.model.Employee;
 import com.example.demo.model.dto.CageCreateDto;
 import com.example.demo.model.dto.CageEditDto;
+import com.example.demo.model.dto.CageForEditDto;
 import com.example.demo.model.dto.EmployeeForCageDto;
 import com.example.demo.service.impl.CageServiceImpl;
 import com.example.demo.service.impl.EmployeeServiceImpl;
@@ -23,15 +24,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-@Controller
-//@RequestMapping("employee/cage")
-@RequestMapping("api/public")
-@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("employee/cage")
+//@RequestMapping("api/public")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class CageController {
     @Autowired
     private CageServiceImpl cageService;
@@ -39,49 +37,38 @@ public class CageController {
     @Autowired
     private EmployeeServiceImpl employeeService;
 
-    // get employee from login account to FE when create cage
-    // send auto increase Id to FE (done)
-    // validate openDate vs closeDate (done)
-    // autoIncreaseId in create function (done)
-    // not update openDate (done)
-    // get outDate of entities for closeDate (done)
-    // auto update closeDate (done)
-
-    //ok
     @GetMapping("/createId")
     public ResponseEntity<Integer> getCageIdForCreate() {
        int cageId = cageService.getNextId();
-       return new ResponseEntity<>(cageId,HttpStatus.OK);
+       return new ResponseEntity<>(cageId, HttpStatus.OK);
     }
 
-    // get current employeeId for create (fix)
-    @GetMapping("/employeeId")
-    public ResponseEntity<?> getEmployeeIdForCreate(){
-        return null;
-    }
-    
-    // fix
-    @GetMapping(value = "/username")
-    @ResponseBody
-    public ResponseEntity<?> currentUserName(Authentication authentication) {
-        System.out.println(authentication.getName());
-        String username =  authentication.getName();
-        return new ResponseEntity<>(username, HttpStatus.OK);
+    @GetMapping("/username/{user}")
+    public ResponseEntity<?> getEmployeeIdForCreate(@PathVariable String user){
+        EmployeeForCageDto employee = cageService.getEmployeeIdAndName(user);
+
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
-    // ok
     @PostMapping("/create")
     public ResponseEntity<?> createCage(@Valid @RequestBody CageCreateDto cageCreateDto, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
         }
+        System.out.println("cageCreateDTO: " + cageCreateDto.toString());
 
         Cage cage = new Cage();
 
         Map<String, String> listErrors = new HashMap<>();
 
-        System.out.println("Mã nhân viên tạo: " + (cageCreateDto.getEmployeeId()));
-        if (!cageService.checkEmployee(cageCreateDto.getEmployeeId())) {
+        String employeeIdFromDto = cageCreateDto.getEmployeeId().trim();
+        System.out.println("employeeId before substring: " + employeeIdFromDto);
+        String employeeId = employeeIdFromDto.substring(0, 3);
+        System.out.println("employeeId after substring: " + employeeId);
+
+        System.out.println("Mã nhân viên tạo: " + employeeId);
+        System.out.println("checkEmployee: " + !cageService.checkEmployee(employeeId));
+        if (!cageService.checkEmployee(employeeId)) {
             System.out.println("tên employee không có ");
             listErrors.put("employeeError", "Tên nhân viên không tồn tại.");
         }
@@ -95,7 +82,7 @@ public class CageController {
 
         if (cage.getQuantity() < 1 || cage.getQuantity() > 50) {
             System.out.println("Sai gia tri quantity");
-            listErrors.put("quantity", "So luong ca the sai.");
+            listErrors.put("quantityError", "So luong ca the sai.");
         }
 
         if (!cageService.isValidDate(cage)){
@@ -103,21 +90,23 @@ public class CageController {
             listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
         }
 
-        Employee employee = employeeService.findEmployeeById(cageCreateDto.getEmployeeId());
+        Employee employee = employeeService.findEmployeeById(employeeId);
         if (employee != null) {
             cage.setEmployee(employee);
         } else {
             System.out.println("Lỗi tim thong tin nhan vien.");
             listErrors.put("employeeError", "Khong tim thay thong tin nhan vien.");
         }
+
         if (!listErrors.isEmpty()) {
             System.out.println(listErrors.keySet());
-            return ResponseEntity.badRequest().body(listErrors);
+//            return ResponseEntity.badRequest().body(listErrors);
+            return new ResponseEntity<>(listErrors, HttpStatus.NOT_MODIFIED);
+        } else {
+            System.out.println("cage to save: " + cage.toString());
+            cageService.save(cage);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }
-        System.out.println("cage to save: " + cage.toString());
-        cageService.save(cage);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-
     }
 
     // for edit
@@ -128,20 +117,34 @@ public class CageController {
     }
 
     // ok
+//    @GetMapping("/edit/{id}")
+//    public ResponseEntity<?> findCageByIdForEdit(@PathVariable String id) {
+//        Optional<Cage> cage = cageService.findCageById(id);
+//        if (!cage.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(cage.get(), HttpStatus.OK);
+//    }
+
     @GetMapping("/edit/{id}")
     public ResponseEntity<?> findCageByIdForEdit(@PathVariable String id) {
-        Optional<Cage> cage = cageService.findCageById(id);
+        Optional<CageForEditDto> cage = cageService.findCageById2(id);
+        System.out.println("cageID: " + id );
         if (!cage.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(cage.get(), HttpStatus.OK);
     }
 
-    // ok
+
+
     @PatchMapping(value = "/edit/{id}")
     public ResponseEntity<?> updateCage(@RequestBody @Valid CageEditDto cageEditDto, BindingResult bindingResult, @PathVariable String id){
 
-        Optional<Cage> cageOptional = cageService.findCageById(id);
+
+        //get cageID
+        System.out.println("cageId in CageEditDto: " + cageEditDto.getCageId());
+        Optional<Cage> cageOptional = cageService.findCageById(cageEditDto.getCageId());
         if (!cageOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -153,7 +156,12 @@ public class CageController {
         System.out.println("cage after find by id: "+cage.toString());
         Map<String, String> listErrors = new HashMap<>();
 
-        if (!cageService.checkEmployee(cageEditDto.getEmployeeId())) {
+        String employeeIdFromDto = cageEditDto.getEmployeeId().trim();
+        System.out.println("employeeId before substring: " + employeeIdFromDto);
+        String employeeId = employeeIdFromDto.substring(0, 3);
+        System.out.println("employeeId after substring: " + employeeId);
+
+        if (!cageService.checkEmployee(employeeId)) {
             System.out.println("tên employee không có ");
             listErrors.put("employeeError", "Tên nhân viên không tồn tại.");
         }
@@ -165,16 +173,18 @@ public class CageController {
             listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
         }
 
-        Employee employee = employeeService.findEmployeeById(cageEditDto.getEmployeeId());
+        Employee employee = employeeService.findEmployeeById(employeeId);
         cage.setEmployee(employee);
 
+        System.out.println("listError: "+ !listErrors.isEmpty());
         if (!listErrors.isEmpty()) {
             System.out.println(listErrors.keySet());
-            return ResponseEntity.badRequest().body(listErrors);
+//            return ResponseEntity.badRequest().body(listErrors);
+            return new ResponseEntity<>(listErrors, HttpStatus.NOT_MODIFIED);
+        } else {
+            cageService.save(cage);
+            return new ResponseEntity<>(cage, HttpStatus.OK);
         }
-
-        cageService.save(cage);
-        return new ResponseEntity<>(cage, HttpStatus.OK);
     }
 
 

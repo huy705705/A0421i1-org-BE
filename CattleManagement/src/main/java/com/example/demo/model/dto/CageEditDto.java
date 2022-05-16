@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CageEditDto {
     private String employeeId;
+    private String cageId;
     private LocalDate closedDate;
     private int quantity;
 

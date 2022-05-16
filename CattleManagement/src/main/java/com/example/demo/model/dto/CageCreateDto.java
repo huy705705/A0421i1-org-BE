@@ -17,4 +17,13 @@ public class CageCreateDto {
     private LocalDate closedDate;
     private int quantity;
 
+    @Override
+    public String toString() {
+        return "CageCreateDto{" +
+                "employeeId='" + employeeId + '\'' +
+                ", createdDate=" + createdDate +
+                ", closedDate=" + closedDate +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

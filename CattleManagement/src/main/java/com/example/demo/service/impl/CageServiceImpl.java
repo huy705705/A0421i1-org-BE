@@ -4,6 +4,7 @@ import com.example.demo.customUtilities.CageComparator;
 import com.example.demo.model.Cage;
 import com.example.demo.model.Employee;
 import com.example.demo.model.Entities;
+import com.example.demo.model.dto.CageForEditDto;
 import com.example.demo.model.dto.EmployeeForCageDto;
 import com.example.demo.repository.CageRepo;
 import com.example.demo.service.CageService;
@@ -38,6 +39,11 @@ public class CageServiceImpl implements CageService {
     }
 
     @Override
+    public Optional<CageForEditDto> findCageById2(String id) {
+        return cageRepo.findByCageId2(id);
+    }
+
+    @Override
     public Boolean checkEmployee(String id) {
         return employeeService.existsByEmployeeId(id);
     }
@@ -47,14 +53,16 @@ public class CageServiceImpl implements CageService {
         return cageRepo.existsByCageId(id);
     }
 
-    @Override
-    public Cage update(Cage cage, String id) {
-        return null;
-    }
+
 
     @Override
     public Integer getNextId() {
         return cageRepo.getNextId();
+    }
+
+    @Override
+    public EmployeeForCageDto getEmployeeIdAndName(String accountName) {
+        return cageRepo.getEmployeeIdAndName(accountName);
     }
 
     public Boolean isValidDate(Cage cage){
