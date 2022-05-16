@@ -1,29 +1,207 @@
 package com.example.demo.controller;
-
 import com.example.demo.model.Cage;
+import com.example.demo.model.Employee;
+import com.example.demo.model.dto.CageCreateDto;
+import com.example.demo.model.dto.CageEditDto;
+import com.example.demo.model.dto.CageForEditDto;
+import com.example.demo.model.dto.EmployeeForCageDto;
+import com.example.demo.service.impl.CageServiceImpl;
+import com.example.demo.service.impl.EmployeeServiceImpl;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
+import java.util.*;
 import com.example.demo.model.dto.CageListDTO;
 import com.example.demo.model.dto.GetEmployeeNameDTO;
-import com.example.demo.service.CageService;
-import com.example.demo.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "*")
 @RequestMapping("employee/cage")
+//@RequestMapping("api/public")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class CageController {
     @Autowired
-    CageService cageService;
+    private CageServiceImpl cageService;
+
+    @Autowired
+    private EmployeeServiceImpl employeeService;
+
+
+    @GetMapping("/createId")
+    public ResponseEntity<Integer> getCageIdForCreate() {
+        int cageId = cageService.getNextId();
+        return new ResponseEntity<>(cageId, HttpStatus.OK);
+    }
+
+    @GetMapping("/username/{user}")
+    public ResponseEntity<?> getEmployeeIdForCreate(@PathVariable String user){
+        EmployeeForCageDto employee = cageService.getEmployeeIdAndName(user);
+
+        return new ResponseEntity<>(employee, HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createCage(@Valid @RequestBody CageCreateDto cageCreateDto, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
+        }
+        System.out.println("cageCreateDTO: " + cageCreateDto.toString());
+
+        Cage cage = new Cage();
+
+        Map<String, String> listErrors = new HashMap<>();
+
+        String employeeIdFromDto = cageCreateDto.getEmployeeId().trim();
+        System.out.println("employeeId before substring: " + employeeIdFromDto);
+        String employeeId = employeeIdFromDto.substring(0, 3);
+        System.out.println("employeeId after substring: " + employeeId);
+
+        System.out.println("Mã nhân viên tạo: " + employeeId);
+        System.out.println("checkEmployee: " + !cageService.checkEmployee(employeeId));
+        if (!cageService.checkEmployee(employeeId)) {
+            System.out.println("tên employee không có ");
+            listErrors.put("employeeError", "Tên nhân viên không tồn tại.");
+        }
+
+        BeanUtils.copyProperties(cageCreateDto, cage);
+
+        if (cageService.existsByCageId(cage.getCageId())) {
+            System.out.println("Tên chuồng nuôi đã tồn tại");
+            listErrors.put("cageError", "Mã chuồng nuôi đã tồn tại.");
+        }
+
+        if (cage.getQuantity() < 1 || cage.getQuantity() > 50) {
+            System.out.println("Sai gia tri quantity");
+            listErrors.put("quantityError", "So luong ca the sai.");
+        }
+
+        if (!cageService.isValidDate(cage)){
+            System.out.println("Lỗi ngày tạo và đóng chuồng.");
+            listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
+        }
+
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        if (employee != null) {
+            cage.setEmployee(employee);
+        } else {
+            System.out.println("Lỗi tim thong tin nhan vien.");
+            listErrors.put("employeeError", "Khong tim thay thong tin nhan vien.");
+        }
+
+        if (!listErrors.isEmpty()) {
+            System.out.println(listErrors.keySet());
+//            return ResponseEntity.badRequest().body(listErrors);
+            return new ResponseEntity<>(listErrors, HttpStatus.NOT_MODIFIED);
+        } else {
+            System.out.println("cage to save: " + cage.toString());
+            cageService.save(cage);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+    }
+
+    // for edit
+    @GetMapping("/listEmployee")
+    public ResponseEntity<?> getListEmployeeForEdit(){
+        List<EmployeeForCageDto> employeeList = employeeService.getAllEmployee();
+        return new ResponseEntity<>(employeeList,HttpStatus.OK);
+    }
+
+    // ok
+//    @GetMapping("/edit/{id}")
+//    public ResponseEntity<?> findCageByIdForEdit(@PathVariable String id) {
+//        Optional<Cage> cage = cageService.findCageById(id);
+//        if (!cage.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(cage.get(), HttpStatus.OK);
+//    }
+
+    @GetMapping("/edit/{id}")
+    public ResponseEntity<?> findCageByIdForEdit(@PathVariable String id) {
+        Optional<CageForEditDto> cage = cageService.findCageById2(id);
+        System.out.println("cageID: " + id );
+        if (!cage.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(cage.get(), HttpStatus.OK);
+    }
+
+
+
+    @PatchMapping(value = "/edit/{id}")
+    public ResponseEntity<?> updateCage(@RequestBody @Valid CageEditDto cageEditDto, BindingResult bindingResult, @PathVariable String id){
+
+
+        //get cageID
+        System.out.println("cageId in CageEditDto: " + cageEditDto.getCageId());
+        Optional<Cage> cageOptional = cageService.findCageById(cageEditDto.getCageId());
+        if (!cageOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getFieldError(), HttpStatus.NOT_ACCEPTABLE);
+        }
+        Cage cage = cageOptional.get();
+        System.out.println("cage after find by id: "+cage.toString());
+        Map<String, String> listErrors = new HashMap<>();
+
+        String employeeIdFromDto = cageEditDto.getEmployeeId().trim();
+        System.out.println("employeeId before substring: " + employeeIdFromDto);
+        String employeeId = employeeIdFromDto.substring(0, 3);
+        System.out.println("employeeId after substring: " + employeeId);
+
+        if (!cageService.checkEmployee(employeeId)) {
+            System.out.println("tên employee không có ");
+            listErrors.put("employeeError", "Tên nhân viên không tồn tại.");
+        }
+
+        BeanUtils.copyProperties(cageEditDto, cage);
+
+        if (!cageService.isValidDate(cage)){
+            System.out.println("Lỗi ngày tạo và đóng chuồng.");
+            listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
+        }
+
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        cage.setEmployee(employee);
+
+        System.out.println("listError: "+ !listErrors.isEmpty());
+        if (!listErrors.isEmpty()) {
+            System.out.println(listErrors.keySet());
+//            return ResponseEntity.badRequest().body(listErrors);
+            return new ResponseEntity<>(listErrors, HttpStatus.NOT_MODIFIED);
+        } else {
+            cageService.save(cage);
+            return new ResponseEntity<>(cage, HttpStatus.OK);
+        }
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        return errors;
+    }
 
 
     @GetMapping("/get_employee")
@@ -53,10 +231,9 @@ public class CageController {
                 cageListDTOPage=cageService.findAllCage(PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(),Sort.by(sort).descending()));
 
             }
-                return new ResponseEntity<>(cageListDTOPage,HttpStatus.OK);
-            }
+            return new ResponseEntity<>(cageListDTOPage,HttpStatus.OK);
+        }
     }
-
     @GetMapping("/search")
     public ResponseEntity<?> findCage(@PageableDefault(size = 2) Pageable pageable,
                                       @RequestParam(value = "dateType", defaultValue = "") String dateType,
@@ -103,4 +280,5 @@ public class CageController {
             return new ResponseEntity<>(cageListDTOPage, HttpStatus.OK);
         }
     }
+
 }
