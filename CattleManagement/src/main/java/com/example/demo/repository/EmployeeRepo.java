@@ -2,12 +2,15 @@ package com.example.demo.repository;
 
 
 import com.example.demo.model.Employee;
+import com.example.demo.model.dto.GetEmployeeNameDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Transactional
 @Repository
@@ -23,6 +26,9 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
 
     @Query(value = "SELECT * FROM employee  where is_delete!=1 or is_delete=null", nativeQuery = true)
     Page<Employee> findAll(Pageable pageable);
+
+    @Query(value = "select distinct e.employee_id as employeeId,e.employee_name as employeeName from employee e where e.is_delete!=1 or e.is_delete=null", nativeQuery = true)
+    List<GetEmployeeNameDTO> getAllEmployeeName();
 
 //    @Query(value =  "select employee.employee_id as employeeId, employee.employee_name as employeeName, employee.birthday, \n" +
 //                    "employee.id_card as idCard, employee.address, employee.gender, employee.email, \n" +

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface DistrictRepo extends JpaRepository<CatDistrict,String> {
-    @Query(value = "SELECT c.district_id as districtId, c.district_name as districtName FROM cat_district c where c.province_id =?;",nativeQuery=true)
+    @Query(value = "SELECT c.district_id as districtId, c.district_name as districtName FROM cat_district c where c.province_id =? order by c.district_name;",nativeQuery=true)
     List<DistrictListDTO> getDistrictList(Integer id);
 }
