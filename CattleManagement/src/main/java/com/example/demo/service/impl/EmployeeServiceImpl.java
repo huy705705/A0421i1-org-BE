@@ -1,7 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.Employee;
+
 import com.example.demo.model.dto.EmployeeForCageDto;
+
+import com.example.demo.model.dto.GetEmployeeNameDTO;
+
 import com.example.demo.repository.EmployeeRepo;
 import com.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Page<Employee> findAllEmployeeByNameAndId(String searchName, String searchId, Pageable pageable) {
         return employeeRepo.findAllEmployeeByNameAndId(searchName, searchId, pageable);
+    }
+
+    @Override
+    public List<GetEmployeeNameDTO> getAllEmployeeName() {
+        return employeeRepo.getAllEmployeeName();
     }
 
     @Override

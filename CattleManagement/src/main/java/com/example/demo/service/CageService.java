@@ -2,9 +2,15 @@ package com.example.demo.service;
 
 
 import com.example.demo.model.Cage;
+
 import com.example.demo.model.Employee;
 import com.example.demo.model.dto.CageForEditDto;
 import com.example.demo.model.dto.EmployeeForCageDto;
+
+import com.example.demo.model.dto.CageListDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +18,9 @@ import java.util.Optional;
 public interface CageService {
 
     List<String> getListCageId();
+    Page<CageListDTO> findAllCage(Pageable pageable);
+    Page<CageListDTO> findCageByCreatedDate(  String searchCageId,String employeeName, String dateFrom, String dateTo,Pageable pageable);
+    Page<CageListDTO> findCageByCloseDate(String searchCageId, String employeeName, String dateFrom, String dateTo,Pageable pageable);
 
     Cage save (Cage cage);
 

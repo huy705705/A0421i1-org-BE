@@ -85,14 +85,10 @@ public class EntitiesController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createEntities(@Valid @RequestBody Entities entities, BindingResult bindingResult) throws Exception  {
-        System.out.println(entities.toString() + "vo controller");
         if(bindingResult.hasErrors()){
-
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
         else {
-            
-            System.out.println("tao moi thanh cong"+entities.toString());
             entitiesService.updateAutoRender(entities.getCageId());
             entities.setDelete(false);
             return new ResponseEntity<>(entitiesService.save(entities), HttpStatus.CREATED);
@@ -102,7 +98,7 @@ public class EntitiesController {
 
 
     @PatchMapping(value = "/update/{id}",consumes ={MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Entities> updateCustomer(@PathVariable String id, @RequestBody Entities entities) {
+    public ResponseEntity<Entities> updateEntities(@PathVariable String id, @RequestBody Entities entities) {
         Optional<Entities> entitiesOptional = entitiesService.findById(id);
         if (!entitiesOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -111,6 +107,7 @@ public class EntitiesController {
 
         return new ResponseEntity<>(entitiesService.save(entities),HttpStatus.OK);
     }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
@@ -121,6 +118,7 @@ public class EntitiesController {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+
         System.out.println(errors.toString());
         return errors;
     }

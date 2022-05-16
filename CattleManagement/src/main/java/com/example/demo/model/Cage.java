@@ -48,7 +48,6 @@ public class Cage {
     @NotNull
     private int quantity;
 
-
     @ManyToOne(targetEntity = Employee.class)
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employee;

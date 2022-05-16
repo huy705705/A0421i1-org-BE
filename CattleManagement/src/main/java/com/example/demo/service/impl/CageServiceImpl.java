@@ -1,15 +1,22 @@
 package com.example.demo.service.impl;
 
+
 import com.example.demo.customUtilities.CageComparator;
 import com.example.demo.model.Cage;
 import com.example.demo.model.Employee;
 import com.example.demo.model.Entities;
 import com.example.demo.model.dto.CageForEditDto;
 import com.example.demo.model.dto.EmployeeForCageDto;
+
+import com.example.demo.model.Cage;
+import com.example.demo.model.dto.CageListDTO;
+
 import com.example.demo.repository.CageRepo;
 import com.example.demo.service.CageService;
 import com.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -70,7 +77,7 @@ public class CageServiceImpl implements CageService {
                 && cage.getClosedDate().isAfter(cage.getCreatedDate());
     }
 
-    public void autoUpdateClosedDate(Cage cage){
+    public void autoUpdateClosedDate(Cage cage) {
 
         Set<Entities> entitiesSet = cage.getEntities();
 
@@ -79,6 +86,20 @@ public class CageServiceImpl implements CageService {
         cage.setClosedDate(greatestOutDate);
 
         cageRepo.save(cage);
+    }
+
+    public Page<CageListDTO> findAllCage(Pageable pageable) {
+        return cageRepo.findAllCage(pageable);
+    }
+    @Override
+    public Page<CageListDTO> findCageByCreatedDate( String searchCageId,String employeeId,String dateFrom, String dateTo,Pageable pageable) {
+        return cageRepo.findCageByCreatedDate(searchCageId,employeeId,dateFrom,dateTo,pageable);
+    }
+
+    @Override
+    public Page<CageListDTO> findCageByCloseDate(String searchCageId,String employeeId, String dateFrom, String dateTo, Pageable pageable) {
+        return cageRepo.findCageByClosedDate(searchCageId,employeeId,dateFrom,dateTo,pageable);
+
     }
 
 
