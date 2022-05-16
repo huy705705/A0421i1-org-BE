@@ -2,7 +2,11 @@ package com.example.demo.repository;
 
 
 import com.example.demo.model.Employee;
+
+import com.example.demo.model.dto.EmployeeForCageDto;
+
 import com.example.demo.model.dto.GetEmployeeNameDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -36,4 +40,14 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
 //                    "left join account on account.account_id = employee.account_id \n" +
 //                    "where employee.employee_id like ?1", nativeQuery = true)
 //    Page<Employee> findById(String Id, Pageable pageable);
+
+
+    // thangTD use to create Cage
+    Boolean existsByEmployeeId(String id);
+
+    @Query(value = "SELECT e.employee_id as employeeId, e.employee_name as employeeName FROM employee e where is_delete!=1 or is_delete=null", nativeQuery = true)
+    List<EmployeeForCageDto> getAllEmployee();
+
+    @Query(value = "SELECT * FROM employee  where employee_id=?", nativeQuery = true)
+    Employee findEmployeeById (String id);
 }
