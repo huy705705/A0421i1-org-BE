@@ -125,8 +125,7 @@ public class EntitiesController {
             entities.setDelete(false);
             entitiesService.save(entities);
             Cage cage = cageService.findCageById(entities.getCageId()).get();
-            System.out.println(cage.toString());
-            System.out.println(entities.toString());
+        
             cageService.autoUpdateClosedDate(cage,entities);
             return new ResponseEntity<>(entities,HttpStatus.OK);
         }
