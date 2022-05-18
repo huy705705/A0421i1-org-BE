@@ -13,9 +13,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,4 +73,11 @@ public interface CageRepo extends JpaRepository<Cage, String> {
             countQuery="select count(c.cage_id) from cage c inner join employee e on  c.employee_id=e.employee_id where c.cage_id like ?1 and e.employee_id like ?2 and c.closed_date>=?3 and c.closed_date<=?4",nativeQuery=true)
     Page<CageListDTO> findCageByClosedDate(String cageId ,String employeeId,String dateFrom, String dateTo, Pageable pageable);
 
+    @Query(value = "select count(entities_id) from entities where cage_id=?1 ", nativeQuery=true)
+    Integer getEntitiesInCage(String cageId);
+
+    @Transactional
+    @Modifying
+    @Query(value="update cage set closed_date=?1 where cage_id=?2", nativeQuery=true)
+    void updateClosedDate(LocalDate closedDate, String cageId);
 }
