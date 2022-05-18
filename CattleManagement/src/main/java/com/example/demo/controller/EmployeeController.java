@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Employee;
 import com.example.demo.model.dto.EmployeeDTO;
 import com.example.demo.model.dto.EmployeeFindIdDTO;
 import com.example.demo.model.dto.EmployeeListDTO;
 import com.example.demo.model.Account;
 import com.example.demo.service.AccountService;
 import com.example.demo.service.EmployeeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,16 +65,24 @@ public class EmployeeController {
         return new ResponseEntity<List<Account>>(accountList, HttpStatus.OK);
     }
 
+    @GetMapping("/createId")
+    public ResponseEntity<Integer> getEmployeeId() {
+        int employeeId = employeeService.getNextId();
+        return new ResponseEntity<>(employeeId, HttpStatus.OK);
+    }
+
     @PostMapping(value ="/create", consumes ={MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateEmployee(@RequestBody EmployeeDTO employeeDTO, BindingResult bindingResult) {
+        Employee employee = new Employee();
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         else {
-            employeeDTO.setDelete(false);
+            employeeService.updateAutoRender();
             employeeService.createNewEmployee(employeeDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         }
+
     }
 
     @GetMapping("/delete/{id}")

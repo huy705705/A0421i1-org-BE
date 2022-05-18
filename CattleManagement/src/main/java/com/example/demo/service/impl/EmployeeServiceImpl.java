@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -42,6 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepo.deleteEmployee(id);
     }
 
+    @Transactional
     @Override
     public void createNewEmployee(EmployeeDTO employeeDTO) {
         Account account = new Account();
@@ -62,5 +64,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepo.editEmployee(employeeDTO.getEmployeeName(), employeeDTO.getBirthday(),
                 employeeDTO.getIdCard(), employeeDTO.getAddress(), employeeDTO.getGender(),
                 employeeDTO.getEmail(), employeeDTO.getEmployeeId());
+    }
+
+    @Override
+    public Integer getNextId() {
+        return employeeRepo.getNextId();
+    }
+
+    @Override
+    public void updateAutoRender() {
+        employeeRepo.updateAutoRender();
     }
 }

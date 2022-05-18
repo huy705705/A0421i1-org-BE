@@ -1,8 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Entities;
 import com.example.demo.model.dto.EmployeeDTO;
-import com.example.demo.model.dto.EmployeeEditDTO;
 import com.example.demo.model.dto.EmployeeFindIdDTO;
 import com.example.demo.model.dto.EmployeeListDTO;
 import org.springframework.data.domain.Page;
@@ -17,4 +15,6 @@ public interface EmployeeService{
     void editEmployee(EmployeeDTO EmployeeDTO);
     void createNewEmployee(EmployeeDTO employeeDTO);
     void deleteEmployee(String id);
+    Integer getNextId();
+    void updateAutoRender();
 }

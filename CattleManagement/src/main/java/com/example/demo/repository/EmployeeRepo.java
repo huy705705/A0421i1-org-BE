@@ -63,4 +63,11 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
     @Query(value = "update employee set is_delete = 1 where employee_id = ? ", nativeQuery = true)
     void deleteEmployee(String id);
 
+    @Query(value="select current_index from auto_id where group_code=13", nativeQuery = true)
+    Integer getNextId();
+
+    @Modifying
+    @Transactional
+    @Query(value = "update auto_id set current_index=current_index+1 where group_code=13", nativeQuery = true)
+    void updateAutoRender();
 }
