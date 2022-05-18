@@ -8,6 +8,7 @@ import com.example.demo.model.dto.CageForEditDto;
 import com.example.demo.model.dto.EmployeeForCageDto;
 
 import com.example.demo.model.dto.CageListDTO;
+import com.example.demo.model.dto.GetEmployeeNameDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,6 +22,8 @@ public interface CageService {
     Page<CageListDTO> findAllCage(Pageable pageable);
     Page<CageListDTO> findCageByCreatedDate(  String searchCageId,String employeeName, String dateFrom, String dateTo,Pageable pageable);
     Page<CageListDTO> findCageByCloseDate(String searchCageId, String employeeName, String dateFrom, String dateTo,Pageable pageable);
+    List<GetEmployeeNameDTO> getAllEmployeeName();
+
 
     Cage save (Cage cage);
 
@@ -31,8 +34,6 @@ public interface CageService {
     Boolean checkEmployee(String id);
 
     Boolean existsByCageId(String id);
-
-
     Integer getNextId();
 
     EmployeeForCageDto getEmployeeIdAndName(String accountName);

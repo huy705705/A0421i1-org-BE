@@ -25,7 +25,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 
-
 import java.util.List;
 
 @RestController
@@ -42,8 +41,8 @@ public class CageController {
 
     @GetMapping("/createId")
     public ResponseEntity<Integer> getCageIdForCreate() {
-       int cageId = cageService.getNextId();
-       return new ResponseEntity<>(cageId, HttpStatus.OK);
+        int cageId = cageService.getNextId();
+        return new ResponseEntity<>(cageId, HttpStatus.OK);
     }
 
     @GetMapping("/username/{user}")
@@ -208,7 +207,7 @@ public class CageController {
 
     @GetMapping("/get_employee")
     public ResponseEntity<List<GetEmployeeNameDTO>> getAllEmployeeName(){
-        List<GetEmployeeNameDTO> employeeList=employeeService.getAllEmployeeName();
+        List<GetEmployeeNameDTO> employeeList=cageService.getAllEmployeeName();
         if(employeeList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -233,8 +232,8 @@ public class CageController {
                 cageListDTOPage=cageService.findAllCage(PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(),Sort.by(sort).descending()));
 
             }
-                return new ResponseEntity<>(cageListDTOPage,HttpStatus.OK);
-            }
+            return new ResponseEntity<>(cageListDTOPage,HttpStatus.OK);
+        }
     }
     @GetMapping("/search")
     public ResponseEntity<?> findCage(@PageableDefault(size = 2) Pageable pageable,
