@@ -48,6 +48,10 @@ public class News {
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employee;
 
+    @ManyToOne(targetEntity = NewType.class)
+    @JoinColumn(name = "typeId", referencedColumnName = "typeId")
+    private NewType newType;
+
     public int getTotalView() {
         return totalView;
     }

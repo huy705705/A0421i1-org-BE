@@ -1,11 +1,15 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.News;
+import com.example.demo.model.dto.statisticalTypeNewsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface NewsRepo extends JpaRepository<News, String> {
@@ -30,4 +34,8 @@ public interface NewsRepo extends JpaRepository<News, String> {
     News findNewsByNewsId(String newsId);
     @Query(value = "select * from news "+ " order by total_view desc " , nativeQuery = true)
     Page<News> findAllSortTotalView(Pageable pageable);
+
+    @Query(value = "SELECT `type`, sum(total_view) as totalViews FROM news group by `type`"
+            ,countQuery="SELECT `type`, sum(total_view) as totalViews FROM news group by `type`", nativeQuery = true)
+    Page<statisticalTypeNewsDTO> statisticalTotalViewsByType(Pageable pageable);
 }
