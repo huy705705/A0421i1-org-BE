@@ -81,11 +81,12 @@ public class CageServiceImpl implements CageService {
 
         Set<Entities> entitiesSet = cage.getEntities();
 
-        LocalDate greatestOutDate = (Collections.max(entitiesSet, new CageComparator())).getOutDate();
 
-        cage.setClosedDate(greatestOutDate);
+            LocalDate greatestOutDate = (Collections.max(entitiesSet, new CageComparator())).getOutDate();
 
-        cageRepo.save(cage);
+            cage.setClosedDate(greatestOutDate);
+
+            cageRepo.save(cage);
     }
 
     public Page<CageListDTO> findAllCage(Pageable pageable) {
