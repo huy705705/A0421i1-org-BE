@@ -14,13 +14,10 @@ import java.util.List;
 public interface EmployeeService extends IGeneralService<Employee> {
     Page<Employee> findAllEmployeeByNameAndId(String searchName, String searchId, Pageable pageable);
 
-
     Boolean existsByEmployeeId(String id);
 
     List<EmployeeForCageDto> getAllEmployee();
 
     Employee findEmployeeById(String id);
-
-    List<GetEmployeeNameDTO> getAllEmployeeName();
 
 }

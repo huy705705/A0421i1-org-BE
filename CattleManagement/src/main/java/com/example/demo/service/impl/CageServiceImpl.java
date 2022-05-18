@@ -10,7 +10,7 @@ import com.example.demo.model.dto.EmployeeForCageDto;
 
 import com.example.demo.model.Cage;
 import com.example.demo.model.dto.CageListDTO;
-
+import com.example.demo.model.dto.GetEmployeeNameDTO;
 import com.example.demo.repository.CageRepo;
 import com.example.demo.service.CageService;
 import com.example.demo.service.EmployeeService;
@@ -77,19 +77,24 @@ public class CageServiceImpl implements CageService {
                 && cage.getClosedDate().isAfter(cage.getCreatedDate());
     }
 
-    public void autoUpdateClosedDate(Cage cage) {
+    public void autoUpdateClosedDate(Cage cage,Entities entities) {
+        LocalDate maxDate=cage.getClosedDate();
+        LocalDate entitiesDate=entities.getOutDate();
+        System.out.println(maxDate.toString());
+        System.out.println(entitiesDate.toString());
+        System.out.println(entities.getCageId());
+        if(entitiesDate.isAfter(maxDate)){
+            cageRepo.updateClosedDate(entitiesDate,cage.getCageId());
+        }
 
-        Set<Entities> entitiesSet = cage.getEntities();
-
-        LocalDate greatestOutDate = (Collections.max(entitiesSet, new CageComparator())).getOutDate();
-
-        cage.setClosedDate(greatestOutDate);
-
-        cageRepo.save(cage);
     }
 
     public Page<CageListDTO> findAllCage(Pageable pageable) {
         return cageRepo.findAllCage(pageable);
+    }
+
+    public Integer getEntitiesInCage(String cageId){
+        return cageRepo.getEntitiesInCage(cageId);
     }
     @Override
     public Page<CageListDTO> findCageByCreatedDate( String searchCageId,String employeeId,String dateFrom, String dateTo,Pageable pageable) {
@@ -101,7 +106,10 @@ public class CageServiceImpl implements CageService {
         return cageRepo.findCageByClosedDate(searchCageId,employeeId,dateFrom,dateTo,pageable);
 
     }
-
+    @Override
+    public List<GetEmployeeNameDTO> getAllEmployeeName() {
+        return cageRepo.getAllEmployeeName();
+    }
 
 }
 
