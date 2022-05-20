@@ -1,11 +1,8 @@
 package com.example.demo.model;
 
-import com.example.demo.customUtilities.CustomGenerateId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
-import org.hibernate.annotations.Parameter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -46,7 +43,7 @@ public class Employee {
     private String idCard;
 
     @Column(columnDefinition = "VARCHAR(255)")
-    private String avartar;
+    private String avatar;
 
     private Boolean isDelete;
 
@@ -116,12 +113,12 @@ public class Employee {
         this.idCard = idCard;
     }
 
-    public String getAvartar() {
-        return avartar;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvartar(String avartar) {
-        this.avartar = avartar;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Boolean getDelete() {

@@ -53,8 +53,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         accountService.addNew(account.getAccountName(),account.getPassword(),account.getEmail());
         account.setAccountId(accountService.findAccountIdByAccountName(employeeDTO.getAccountName()));
         employeeRepo.createNewEmployee( employeeDTO.getEmployeeId(), employeeDTO.getEmployeeName(), employeeDTO.getBirthday(),
-                                        employeeDTO.getIdCard(), employeeDTO.getAddress(), employeeDTO.getGender(),
-                                        employeeDTO.getEmail(), account.getAccountId(), false);
+                employeeDTO.getAvatar(),employeeDTO.getIdCard(), employeeDTO.getAddress(), employeeDTO.getGender(),
+                employeeDTO.getEmail(), account.getAccountId(), false);
     }
 
     @Override

@@ -19,7 +19,7 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepo extends PagingAndSortingRepository<Employee, String> {
 
-    @Query(value =  "select e.employee_id as employeeId, e.employee_name as employeeName, e.avartar, e.birthday, \n" +
+    @Query(value =  "select e.employee_id as employeeId, e.employee_name as employeeName, e.avatar, e.birthday, \n" +
                     "e.id_card as idCard, e.address, e.gender, e.email, e.is_delete as isDelete, \n" +
                     "a.account_name as accountName from employee e \n" +
                     "join account a on a.account_id = e.account_id \n" +
@@ -28,7 +28,7 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
                     countQuery="select count(employee_id) from employee", nativeQuery = true)
     Page<EmployeeListDTO> findAllEmployeeByNameAndId(String searchName, String searchId, Pageable pageable);
 
-    @Query(value =  "select e.employee_id as employeeId, e.employee_name as employeeName, e.avartar, e.birthday, \n" +
+    @Query(value =  "select e.employee_id as employeeId, e.employee_name as employeeName, e.avatar, e.birthday, \n" +
                     "e.id_card as idCard, e.address, e.gender, e.email, e.is_delete as isDelete, \n" +
                     "a.account_name as accountName from employee e \n" +
                     "inner join account a on a.account_id = e.account_id \n" +
@@ -37,7 +37,7 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
                     countQuery="select count(employee_id) from employee", nativeQuery = true)
     Page<EmployeeListDTO> findAllEmployee(Pageable pageable);
 
-    @Query(value =  "select e.employee_id as employeeId, e.employee_name as employeeName, e.avartar, e.birthday, \n" +
+    @Query(value =  "select e.employee_id as employeeId, e.employee_name as employeeName, e.avatar, e.birthday, \n" +
                     "e.id_card as idCard, e.address, e.gender, e.email, e.is_delete as isDelete, \n" +
                     "e.account_id as accountId, a.account_name as accountName, a.password as password from employee e \n" +
                     "inner join account a on a.account_id = e.account_id \n" +
@@ -45,10 +45,10 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
     Optional<EmployeeFindIdDTO> findEmployeeById(String Id);
 
     @Modifying
-    @Query(value =  "insert into employee(employee_id, employee_name, birthday, id_card, address, gender, email, " +
-                    "account_id, is_delete) values (?1,?2,?3,?4,?5,?6,?7,?8,?9)", nativeQuery = true)
+    @Query(value =  "insert into employee(employee_id, employee_name, birthday, avatar, id_card, address, gender, email, " +
+                    "account_id, is_delete) values (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10)", nativeQuery = true)
     void createNewEmployee(String employeeId, String employeeName, String birthday,
-                           String idCard, String address, String gender,
+                           String avatar, String idCard, String address, String gender,
                            String email, Long accountId, Boolean isDelete);
 
     @Transactional
