@@ -59,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void editEmployee(EmployeeDTO employeeDTO) {
-        accountService.editAccount(employeeDTO.getAccountName(), employeeDTO.getPassword(), employeeDTO.getAccountId());
+        accountService.editAccount(employeeDTO.getEmail(), employeeDTO.getPassword(), employeeDTO.getAccountId());
 
         employeeRepo.editEmployee(employeeDTO.getEmployeeName(), employeeDTO.getBirthday(),
                 employeeDTO.getIdCard(), employeeDTO.getAddress(), employeeDTO.getGender(),

@@ -53,8 +53,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void editAccount(String accountName, String password, Long accountId) {
-        accountRepo.editAccount(accountName, password, accountId);
+    public void editAccount(String email, String password, Long accountId) {
+        accountRepo.editAccount(email, password, accountId);
     }
 
     @Override

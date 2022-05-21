@@ -33,8 +33,8 @@ public interface AccountRepo extends JpaRepository<Account, String> {
 
     @Transactional
     @Modifying
-    @Query(value = "update account as a set a.account_name = ?1, a.password = ?2 where a.account_id = ?3", nativeQuery = true)
-    void editAccount(String accountName, String password, Long accountId);
+    @Query(value = "update account as a set a.email = ?1, a.password = ?2 where a.account_id = ?3", nativeQuery = true)
+    void editAccount(String email, String password, Long accountId);
 
     @Modifying
     @Query(value = "insert into account(account_name,password) values (?1,?2)", nativeQuery = true)

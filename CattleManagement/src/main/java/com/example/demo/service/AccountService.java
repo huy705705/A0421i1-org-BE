@@ -16,7 +16,7 @@ public interface AccountService {
 
     void addNew(String accountName, String password, String email);
 
-    void editAccount(String accountName, String password, Long accountId);
+    void editAccount(String email, String password, Long accountId);
 
     List<Account> getAllAccount();
 

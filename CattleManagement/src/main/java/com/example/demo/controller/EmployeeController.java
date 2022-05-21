@@ -73,12 +73,24 @@ public class EmployeeController {
     @PostMapping(value ="/create", consumes ={MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateEmployee(@RequestBody EmployeeDTO employeeDTO, BindingResult bindingResult) {
         Employee employee = new Employee();
+
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        else {
-            employeeService.updateAutoRender();
+
+        Map<String, String> listErrors = new HashMap<>();
+
+        if(accountService.findAccountByAccountName(employeeDTO.getAccountName())!=null){
+            listErrors.put("employeeError", "Tên tài khoản đã tồn tại.");
+        }
+
+        if (!listErrors.isEmpty()) {
+            System.out.println(listErrors.keySet());
+//            return ResponseEntity.badRequest().body(listErrors);
+            return new ResponseEntity<>(listErrors, HttpStatus.NOT_MODIFIED);
+        } else {
             employeeService.createNewEmployee(employeeDTO);
+            employeeService.updateAutoRender();
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
