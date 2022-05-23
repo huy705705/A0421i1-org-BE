@@ -29,35 +29,39 @@ public class EmployeeController_listEmployee {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void getListStudent_1() {
-        ResponseEntity<Page<Employee>> responseEntity
-                = this.employeeController.listEmployee(PageRequest.of(0, 2), "");
+//    @Test
+//    public void getListStudent_1() {
+//        ResponseEntity<Page<Employee>> responseEntity
+//                = this.employeeController.listEmployee(PageRequest.of(0, 2), "");
+//
+//        Assertions.assertEquals(404, responseEntity.getStatusCodeValue());
+//    }
+<<<<<<< HEAD
+//
+=======
 
-        Assertions.assertEquals(404, responseEntity.getStatusCodeValue());
-    }
-
-    @Test
-    public void getListStudent_2() {
-        ResponseEntity<Page<Employee>> responseEntity
-                = this.employeeController.listEmployee(PageRequest.of(0, 2), "");
-
-        Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
-        Assertions.assertEquals(3, responseEntity.getBody().getTotalPages());
-        Assertions.assertEquals(5, responseEntity.getBody().getTotalElements());
-        Assertions.assertEquals("N02",
-                responseEntity.getBody().getContent().get(1).getEmployeeId());
-        Assertions.assertEquals("Trần Thuỳ My",
-                responseEntity.getBody().getContent().get(1).getEmployeeName());
-        Assertions.assertEquals(LocalDate.of(1999,12,30),
-                responseEntity.getBody().getContent().get(1).getBirthday());
-        Assertions.assertEquals("my@gmail.com",
-                responseEntity.getBody().getContent().get(1).getEmail());
-        Assertions.assertEquals("18992193",
-                responseEntity.getBody().getContent().get(1).getIdCard());
-        Assertions.assertEquals("false",
-                responseEntity.getBody().getContent().get(1).getGender());
-    }
+>>>>>>> cage
+//    @Test
+//    public void getListStudent_2() {
+//        ResponseEntity<Page<Employee>> responseEntity
+//                = this.employeeController.listEmployee(PageRequest.of(0, 2), "");
+//
+//        Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
+//        Assertions.assertEquals(3, responseEntity.getBody().getTotalPages());
+//        Assertions.assertEquals(5, responseEntity.getBody().getTotalElements());
+//        Assertions.assertEquals("N02",
+//                responseEntity.getBody().getContent().get(1).getEmployeeId());
+//        Assertions.assertEquals("Trần Thuỳ My",
+//                responseEntity.getBody().getContent().get(1).getEmployeeName());
+//        Assertions.assertEquals(LocalDate.of(1999,12,30),
+//                responseEntity.getBody().getContent().get(1).getBirthday());
+//        Assertions.assertEquals("my@gmail.com",
+//                responseEntity.getBody().getContent().get(1).getEmail());
+//        Assertions.assertEquals("18992193",
+//                responseEntity.getBody().getContent().get(1).getIdCard());
+//        Assertions.assertEquals("false",
+//                responseEntity.getBody().getContent().get(1).getGender());
+//    }
 
     @Test
     public void getInfoStudent_3() throws Exception {

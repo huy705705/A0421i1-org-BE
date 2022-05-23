@@ -1,10 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.Account;
-import com.example.demo.model.dto.EmployeeDTO;
-import com.example.demo.model.dto.EmployeeEditDTO;
-import com.example.demo.model.dto.EmployeeFindIdDTO;
+import com.example.demo.model.dto.EmployeeDTO;import com.example.demo.model.dto.EmployeeFindIdDTO;
 import com.example.demo.model.dto.EmployeeListDTO;
+import com.example.demo.model.Employee;
+
+import com.example.demo.model.dto.EmployeeForCageDto;
 import com.example.demo.repository.EmployeeRepo;
 import com.example.demo.service.AccountService;
 import com.example.demo.service.EmployeeService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Page<EmployeeListDTO> findAllEmployeeByNameAndId(String searchName, String searchId, Pageable pageable) {
         return employeeRepo.findAllEmployeeByNameAndId(searchName, searchId, pageable);
     }
+
 
     @Override
     public Page<EmployeeListDTO> findAllEmployee(Pageable pageable) {
@@ -75,4 +78,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void updateAutoRender() {
         employeeRepo.updateAutoRender();
     }
+
+
+    // thangTD use to create Cage
+    @Override
+    public Boolean existsByEmployeeId(String id) {
+        return employeeRepo.existsByEmployeeId(id);
+    }
+
+    @Override
+    public List<EmployeeForCageDto> getAllEmployee() {
+        return employeeRepo.getAllEmployee();
+    }
+
+    @Override
+    public Employee findEmpById(String id) {
+        return employeeRepo.findEmpById(id);
+    }
+
+
 }

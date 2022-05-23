@@ -14,5 +14,5 @@ public interface EntitiesService extends IGeneralEntitiesService<Entities> {
     Page<Entities> findAllByInDateAndCage22(Pageable pageable,String inDate,String cage);
     Integer getEntitiesId(String cageId);
     void updateAutoRender(String cageId);
-
+    Page<Entities> findAllByInDateAndCage3(Pageable pageable,String inDateMin,String inDateMax,String cage);
 }

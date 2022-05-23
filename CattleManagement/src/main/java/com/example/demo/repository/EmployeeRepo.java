@@ -5,6 +5,11 @@ import com.example.demo.model.dto.EmployeeDTO;
 import com.example.demo.model.dto.EmployeeFindIdDTO;
 import com.example.demo.model.dto.EmployeeListDTO;
 import com.example.demo.model.Employee;
+
+import com.example.demo.model.dto.EmployeeForCageDto;
+
+import com.example.demo.model.dto.GetEmployeeNameDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -66,8 +72,27 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
     @Query(value="select current_index from auto_id where group_code=13", nativeQuery = true)
     Integer getNextId();
 
+
     @Modifying
     @Transactional
     @Query(value = "update auto_id set current_index=current_index+1 where group_code=13", nativeQuery = true)
     void updateAutoRender();
+
+
+//    @Query(value =  "select employee.employee_id as employeeId, employee.employee_name as employeeName, employee.birthday, \n" +
+//                    "employee.id_card as idCard, employee.address, employee.gender, employee.email, \n" +
+//                    "employee.account_name as accountName, employee.account_password as accountPassword from employee \n" +
+//                    "left join account on account.account_id = employee.account_id \n" +
+//                    "where employee.employee_id like ?1", nativeQuery = true)
+//    Page<Employee> findById(String Id, Pageable pageable);
+
+
+    // thangTD use to create Cage
+    Boolean existsByEmployeeId(String id);
+
+    @Query(value = "SELECT e.employee_id as employeeId, e.employee_name as employeeName FROM employee e where is_delete!=1 or is_delete=null", nativeQuery = true)
+    List<EmployeeForCageDto> getAllEmployee();
+
+    @Query(value = "SELECT * FROM employee  where employee_id=?", nativeQuery = true)
+    Employee findEmpById(String id);
 }
