@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Cage;
 import com.example.demo.model.Entities;
 import com.example.demo.service.CageService;
 import com.example.demo.service.EntitiesService;
+import com.example.demo.service.impl.CageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +30,9 @@ public class EntitiesController {
     @Autowired
     private EntitiesService entitiesService;
     @Autowired
-    private CageService cageService;
+    private CageServiceImpl cageService;
+
+
     @GetMapping("/create")
     public ResponseEntity<?> getListCageId() {
         List<String> cageList = cageService.getListCageId();
@@ -44,8 +48,18 @@ public class EntitiesController {
     public ResponseEntity<String> getEntitiesId(@PathVariable String cageId) {
         Integer currentId=entitiesService.getEntitiesId(cageId);
         String entitiesId=currentId.toString();
-        return new ResponseEntity<>(entitiesId,HttpStatus.OK);
+        Integer entitiesInCage=cageService.getEntitiesInCage(cageId);
+        Integer quantity=cageService.findCageById(cageId).get().getQuantity();
+
+        if(quantity>entitiesInCage){
+            return new ResponseEntity<>(entitiesId,HttpStatus.OK);
+
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
+
     @GetMapping("")
     public ResponseEntity<Page<Entities>> findAllEntities(@PageableDefault(size = 10) Pageable pageable){
         Page<Entities> entities= entitiesService.findAll(pageable);
@@ -84,13 +98,18 @@ public class EntitiesController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createEntities(@Valid @RequestBody Entities entities, BindingResult bindingResult) throws Exception  {
+
         if(bindingResult.hasErrors()){
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
         else {
             entitiesService.updateAutoRender(entities.getCageId());
             entities.setDelete(false);
-            return new ResponseEntity<>(entitiesService.save(entities), HttpStatus.CREATED);
+
+            entitiesService.save(entities);
+            Cage cage = cageService.findCageById(entities.getCageId()).get();
+            cageService.autoUpdateClosedDate(cage,entities);
+            return new ResponseEntity<>(entities, HttpStatus.CREATED);
         }
 
     }
@@ -102,9 +121,15 @@ public class EntitiesController {
         if (!entitiesOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        entities.setDelete(false);
+        else {
+            entities.setDelete(false);
+            entitiesService.save(entities);
+            Cage cage = cageService.findCageById(entities.getCageId()).get();
+        
+            cageService.autoUpdateClosedDate(cage,entities);
+            return new ResponseEntity<>(entities,HttpStatus.OK);
+        }
 
-        return new ResponseEntity<>(entitiesService.save(entities),HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -63,9 +63,14 @@ public class Employee {
     @JsonBackReference(value = "JsonBackNews")
     private Set<News> news;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeCage", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee", cascade = CascadeType.REMOVE)
     @JsonBackReference(value = "JsonBackCage")
     private Set<Cage> cage;
+
+
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeContact", cascade = CascadeType.REMOVE)
+//    @JsonBackReference(value = "EmployeeToCustomer")
+//    private Set<Customer> customers;
 
     public String getEmployeeId() {
         return employeeId;

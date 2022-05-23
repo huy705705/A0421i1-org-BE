@@ -118,4 +118,17 @@ public class Entities {
     public void setCage(Cage cage) {
         this.cage = cage;
     }
+
+    @Override
+    public String toString() {
+        return "Entities{" +
+                "entitiesId='" + entitiesId + '\'' +
+                ", inDate=" + inDate +
+                ", outDate=" + outDate +
+                ", status='" + status + '\'' +
+                ", weight=" + weight +
+                ", isDelete=" + isDelete +
+                ", cageId='" + cageId + '\'' +
+                '}';
+    }
 }
