@@ -32,7 +32,7 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
                     "e.id_card as idCard, e.address, e.gender, e.email, e.is_delete as isDelete, \n" +
                     "a.account_name as accountName from employee e \n" +
                     "inner join account a on a.account_id = e.account_id \n" +
-                    "where  is_delete!=1 \n" +
+                    "where is_delete!=1 \n" +
                     "group by e.employee_id",
                     countQuery="select count(employee_id) from employee", nativeQuery = true)
     Page<EmployeeListDTO> findAllEmployee(Pageable pageable);

@@ -107,7 +107,7 @@ public class EmployeeController {
     }
 
     @PatchMapping("/delete/{id}")
-    public  ResponseEntity<Void> deleteEmployee(@PathVariable String id){
+    public  ResponseEntity<Employee> deleteEmployee(@PathVariable String id){
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
