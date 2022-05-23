@@ -21,7 +21,6 @@ public class Entities {
     @Id
     @NotBlank(message = "{Mã vật nuôi không được trống !}")
     @Column(columnDefinition = "VARCHAR(255)",nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String entitiesId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

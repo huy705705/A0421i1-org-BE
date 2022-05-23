@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Optional;
 
 @Service
@@ -44,8 +43,6 @@ public class EntitiesServiceImpl implements EntitiesService {
         System.out.println("Service-inDateMax: "+inDateMax);
         return entitiesRepo.findAllByInDateAndCage3(pageable,inDateMin,inDateMax,cage);
     }
-
-
     public Integer getEntitiesId(String cageId) {
         return entitiesRepo.getEntitiesId(cageId);
     }
