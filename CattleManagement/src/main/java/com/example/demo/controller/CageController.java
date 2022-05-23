@@ -92,7 +92,7 @@ public class CageController {
             listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
         }
 
-        Employee employee = employeeService.findEmployeeById(employeeId);
+        Employee employee = employeeService.findEmpById(employeeId);
         if (employee != null) {
             cage.setEmployee(employee);
         } else {
@@ -175,7 +175,7 @@ public class CageController {
             listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
         }
 
-        Employee employee = employeeService.findEmployeeById(employeeId);
+        Employee employee = employeeService.findEmpById(employeeId);
         cage.setEmployee(employee);
 
         System.out.println("listError: "+ !listErrors.isEmpty());
