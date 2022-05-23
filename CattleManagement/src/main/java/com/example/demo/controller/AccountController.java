@@ -69,9 +69,9 @@ public class AccountController {
 
         if (email != null){
 
-                Account account = accountService.findAccountByEmail(email.trim());
-                accountService.addResetPasswordToken(account.getAccountName());
-                return ResponseEntity.ok(new ResponseMessage("Sent email "));
+            Account account = accountService.findAccountByEmail(email.trim());
+            accountService.addResetPasswordToken(account.getAccountName());
+            return ResponseEntity.ok(new ResponseMessage("Sent email "));
 
         }
 //        else if (accountName != null){
@@ -106,4 +106,3 @@ public class AccountController {
     }
 
 }
-
