@@ -33,9 +33,9 @@ public class CatProvince {
     @JsonBackReference(value = "ProvinceToDistrict")
     private Set<CatDistrict> districts;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "province", cascade = CascadeType.REMOVE)
-    @JsonBackReference(value = "ProvinceToWard")
-    private Set<CatWard> wards;
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "province", cascade = CascadeType.REMOVE)
+//    @JsonBackReference(value = "ProvinceToWard")
+//    private Set<CatWard> wards;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "province", cascade = CascadeType.REMOVE)
     @JsonBackReference(value = "ProvinceToCustomer")

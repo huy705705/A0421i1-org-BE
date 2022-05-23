@@ -1,6 +1,6 @@
 package com.example.demo.model.dto;
 
-public class CustomerCreateDTO {
+public class CustomerModifyDTO {
     String fullName;
     String address;
     String createDate;
@@ -12,7 +12,7 @@ public class CustomerCreateDTO {
     int district;
     int ward;
 
-    public CustomerCreateDTO(String fullName, String address, String createDate, String phone, String email, Boolean gender, String message, int province, int district, int ward) {
+    public CustomerModifyDTO(String fullName, String address, String createDate, String phone, String email, Boolean gender, String message, int province, int district, int ward) {
         this.fullName = fullName;
         this.address = address;
         this.createDate = createDate;

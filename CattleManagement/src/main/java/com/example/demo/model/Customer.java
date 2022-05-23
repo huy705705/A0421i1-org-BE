@@ -66,4 +66,22 @@ public class Customer {
 //    @JoinColumn(name = "employeeContact", referencedColumnName = "employeeId")
 //    private Employee employeeContact;
 
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", createdDate=" + createdDate +
+                ", fullName='" + fullName + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", message='" + message + '\'' +
+                ", comment='" + comment + '\'' +
+                ", gender=" + gender +
+                ", status=" + status +
+                ", isDelete=" + isDelete +
+                ", ward=" + ward +
+                '}';
+    }
 }

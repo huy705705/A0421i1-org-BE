@@ -30,17 +30,22 @@ public class CatWard {
         @JoinColumn(name = "district_id",nullable = false,columnDefinition = "int")
         private CatDistrict district;
 
-        @ManyToOne(targetEntity = CatProvince.class)
-        @JoinColumn(name = "province_id",nullable = false,columnDefinition = "int")
-        private CatProvince province;
+//        @ManyToOne(targetEntity = CatProvince.class)
+//        @JoinColumn(name = "province_id",nullable = false,columnDefinition = "int")
+//        private CatProvince province;
 
         @OneToMany(fetch = FetchType.EAGER, mappedBy = "ward", cascade = CascadeType.REMOVE)
         @JsonBackReference(value = "WardToCustomer")
         private Set<Customer> customers;
 
-        public CatWard(int wardId,String wardName,String wardPrefix) {
-                this.wardId = wardId;
-                this.wardName = wardName;
-                this.wardPrefix = wardPrefix;
+
+        @Override
+        public String toString() {
+                return "CatWard{" +
+                        "wardId=" + wardId +
+                        ", wardName='" + wardName + '\'' +
+                        ", wardPrefix='" + wardPrefix + '\'' +
+                        ", district=" + district +
+                        '}';
         }
 }
