@@ -25,7 +25,7 @@ public class NotificationRestontroller_createNotification {
     @Test
     public void createNotification_Id_13() throws Exception {
         Notification notification = new Notification();
-        notification.setNotificationId(null);
+//        notification.setNotificationId(null);
         notification.setContent("Hoa An");
 //        employee.setAccountId();
         LocalDate birthday = LocalDate.of(1998, 10, 20);
@@ -45,7 +45,7 @@ public class NotificationRestontroller_createNotification {
     @Test
     public void createNotification_Id_14() throws Exception {
         Notification notification = new Notification();
-        notification.setNotificationId("");
+//        notification.setNotificationId("");
         notification.setContent("Hoa An");
 //        employee.setAccountId();
         LocalDate birthday = LocalDate.of(1998, 10, 20);
@@ -64,7 +64,7 @@ public class NotificationRestontroller_createNotification {
     @Test
     public void createNotification_Id_15() throws Exception {
         Notification notification = new Notification();
-        notification.setNotificationId("L01");
+//        notification.setNotificationId("L01");
         notification.setContent("Hoa An");
 //        employee.setAccountId();
         LocalDate birthday = LocalDate.of(1998, 10, 20);
@@ -83,7 +83,7 @@ public class NotificationRestontroller_createNotification {
     @Test
     public void createNotification_Id_16() throws Exception {
         Notification notification = new Notification();
-        notification.setNotificationId("0");
+//        notification.setNotificationId("0");
         notification.setContent("Hoa An");
 //        employee.setAccountId();
         LocalDate birthday = LocalDate.of(1998, 10, 20);
@@ -102,7 +102,7 @@ public class NotificationRestontroller_createNotification {
     @Test
     public void createNotification_Id_17() throws Exception {
         Notification notification = new Notification();
-        notification.setNotificationId("123123");
+//        notification.setNotificationId("123123");
         notification.setContent("Hoa An");
 //        employee.setAccountId();
         LocalDate birthday = LocalDate.of(1998, 10, 20);
@@ -121,7 +121,7 @@ public class NotificationRestontroller_createNotification {
     @Test
     public void createEntities_Id_18() throws Exception {
         Notification notification = new Notification();
-        notification.setNotificationId("3");
+//        notification.setNotificationId("3");
         notification.setContent("Hoa An");
 //        employee.setAccountId();
         LocalDate birthday = LocalDate.of(1998, 10, 20);

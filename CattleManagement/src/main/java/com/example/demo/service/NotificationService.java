@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public interface NotificationService extends IGeneralNotificationService<Notification> {
     Page<Notification> findAll(Pageable pageable);
-    Optional<Notification> findById(String id);
+    Optional<Notification> findById(int id);
     Notification save(Notification notification);
-    void deleteNotification(String id);
+    void deleteNotification(int id);
 //    Page<Entities> findAllByInDateAndCage22(Pageable pageable,String inDate,String cage);
 //    Page<Entities> findAllByInDateAndCage3(Pageable pageable,String inDateMin,String inDateMax,String cage);
-    Integer getNotificationId(String notificationId);
+    Integer getNotificationId(int notificationId);
 }

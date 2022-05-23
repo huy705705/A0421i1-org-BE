@@ -5,9 +5,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
@@ -16,15 +14,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Notification {
     @Id
-    @NotBlank(message = "{Mã thông báo không được trống !}")
-    @Column(columnDefinition = "VARCHAR(255)",nullable = false)
-    private String notificationId;
+//    @Column(columnDefinition = "int",nullable = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int notificationId;
 
 
 
     @Column(columnDefinition = "VARCHAR(255)")
     @NotBlank(message = "{Content can't be blank}")
-    @Length(min = 3,max = 1500,message = "Độ dài sai")
+    @Length(min = 30,max = 1500,message = "Độ dài sai")
     private String content;
 
     @Column(columnDefinition = "VARCHAR(255)")
@@ -44,11 +42,11 @@ public class Notification {
         isDelete = delete;
     }
 
-    public String getNotificationId() {
+    public int getNotificationId() {
         return notificationId;
     }
 
-    public void setNotificationId(String notificationId) {
+    public void setNotificationId(int notificationId) {
         this.notificationId = notificationId;
     }
 
@@ -74,5 +72,16 @@ public class Notification {
 
     public void setUploadDate(LocalDate uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "notificationId=" + notificationId +
+                ", content='" + content + '\'' +
+                ", image='" + image + '\'' +
+                ", uploadDate=" + uploadDate +
+                ", isDelete=" + isDelete +
+                '}';
     }
 }

@@ -13,14 +13,14 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface NotificationRepo extends JpaRepository<Notification,String> {
+public interface NotificationRepo extends JpaRepository<Notification,Integer> {
     @Query(value = "SELECT * FROM notification  where is_delete!=1 or is_delete=null", nativeQuery = true)
     Page<Notification> findAll(Pageable pageable);
-    Optional<Notification> findByNotificationId(String id);
+    Optional<Notification> findByNotificationId(int id);
 
 
     @Modifying
     @Transactional
     @Query(value = "  update notification  set is_delete = 1 where notification_id = ? ", nativeQuery = true)
-    void deleteNotification(String id);
+    void deleteNotification(int id);
 }

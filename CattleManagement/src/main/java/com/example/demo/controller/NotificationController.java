@@ -25,7 +25,7 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping("")
-    public ResponseEntity<Page<Notification>> findAllNotification(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Page<Notification>> findAllNotification(@PageableDefault(size = 2) Pageable pageable) {
         Page<Notification> notifications = notificationService.findAll(pageable);
         if (notifications.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -37,18 +37,22 @@ public class NotificationController {
     @PostMapping("/create")
     public ResponseEntity<?> createEntities(@Valid @RequestBody Notification notification, BindingResult bindingResult) throws Exception {
 //        System.out.println(entities.toString() + "vo controller");
+        System.out.println(bindingResult.toString());
+        System.out.println(notification.toString());
+        notification.setDelete(false);
+
         if (bindingResult.hasErrors()) {
 
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
         } else {
             System.out.println("tao moi thanh cong" + notification.toString());
 //            notificationService.updateAutoRender(entities.getCageId());
-//            entities.setDelete(false);
+            notification.setDelete(false);
             return new ResponseEntity<>(notificationService.save(notification), HttpStatus.CREATED);
         }
     }
     @GetMapping("/delete/{id}")
-    public ResponseEntity<Notification> findNotificationById(@PathVariable String id) {
+    public ResponseEntity<Notification> findNotificationById(@PathVariable int id) {
         Optional<Notification> notification = notificationService.findById(id);
         if (!notification.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -57,12 +61,12 @@ public class NotificationController {
         return new ResponseEntity<>(notification.get(), HttpStatus.OK);
     }
     @PatchMapping("/delete/{id}")
-    public ResponseEntity<Notification> deleteEntities(@PathVariable String id) {
+    public ResponseEntity<Notification> deleteEntities(@PathVariable int id) {
         notificationService.deleteNotification(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/update/{id}")
-    public ResponseEntity<Notification> findNotificationByIdToUpdate(@PathVariable String id) {
+    public ResponseEntity<Notification> findNotificationByIdToUpdate(@PathVariable int id) {
         Optional<Notification> notificationOptional = notificationService.findById(id);
         if (!notificationOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -72,7 +76,7 @@ public class NotificationController {
 
     }
     @PatchMapping(value = "/update/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Notification> updateNotification(@PathVariable String id, @RequestBody Notification notification) {
+    public ResponseEntity<Notification> updateNotification(@PathVariable int id, @RequestBody Notification notification) {
         Optional<Notification> notificationOptional  = notificationService.findById(id);
         if (!notificationOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

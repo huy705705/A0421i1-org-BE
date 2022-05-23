@@ -20,7 +20,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Optional<Notification> findById(String id) {
+    public Optional<Notification> findById(int id) {
         return notificationRepo.findByNotificationId(id);
     }
 
@@ -30,12 +30,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void deleteNotification(String id) {
+    public void deleteNotification(int id) {
         notificationRepo.deleteNotification(id);
     }
 
     @Override
-    public Integer getNotificationId(String notificationId) {
+    public Integer getNotificationId(int notificationId) {
         return null;
     }
 }
