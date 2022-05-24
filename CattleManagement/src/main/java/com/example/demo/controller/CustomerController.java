@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Customer;
+import com.example.demo.model.dto.CustomerCreateDTO;
 import com.example.demo.model.dto.DistrictListDTO;
 import com.example.demo.model.dto.ProvinceDTO;
 import com.example.demo.model.dto.WardDTO;
@@ -9,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
-@Controller
+@RestController
 @CrossOrigin(origins = "http://localhost:4200",allowedHeaders = "*")
 @RequestMapping("api/public/contact")
 public class CustomerController {
@@ -23,6 +28,17 @@ public class CustomerController {
     @Autowired
     private CategoryService categoryService;
 
+    @PostMapping("/create")
+    public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerCreateDTO customer, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
+        }
+        else {
+            customer.setCreateDate(LocalDate.now().toString());
+            customerService.createCustomer(customer);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
     @GetMapping("")
     public ResponseEntity<?> getListProvince(){
         List<ProvinceDTO>catProvinceList=categoryService.getProvinceList();

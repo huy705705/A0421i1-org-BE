@@ -14,6 +14,10 @@ public interface AccountService {
 
     Boolean existsByAccountName(String accountName);
 
+    void addNew(String accountName, String password, String email);
+
+    void editAccount(String email, String password, Long accountId);
+
     List<Account> getAllAccount();
 
     Account save(Account account);

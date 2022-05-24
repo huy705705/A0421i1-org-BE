@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.model.Entities;
 import com.example.demo.model.Notification;
 import com.example.demo.repository.NotificationRepo;
 import com.example.demo.service.NotificationService;
@@ -37,5 +38,10 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Integer getNotificationId(int notificationId) {
         return null;
+    }
+
+    @Override
+    public Page<Notification> findAllByUploadDate3(Pageable pageable, String uploadDateMin, String uploadDateMax) {
+        return notificationRepo.findAllByUploadDate3(pageable,uploadDateMin,uploadDateMax);
     }
 }

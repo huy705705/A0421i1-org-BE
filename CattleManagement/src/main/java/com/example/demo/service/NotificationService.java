@@ -15,4 +15,6 @@ public interface NotificationService extends IGeneralNotificationService<Notific
 //    Page<Entities> findAllByInDateAndCage22(Pageable pageable,String inDate,String cage);
 //    Page<Entities> findAllByInDateAndCage3(Pageable pageable,String inDateMin,String inDateMax,String cage);
     Integer getNotificationId(int notificationId);
+    Page<Notification> findAllByUploadDate3(Pageable pageable,String uploadDateMin,String uploadDateMax);
+
 }

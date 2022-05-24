@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Account;
 import com.example.demo.model.Employee;
+import com.example.demo.model.dto.EmployeeDTO;
+import com.example.demo.model.dto.EmployeeFindIdDTO;
+import com.example.demo.model.dto.EmployeeListDTO;
+import com.example.demo.model.Account;
 import com.example.demo.service.AccountService;
 import com.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +36,16 @@ public class EmployeeController {
     AccountService accountService;
 
     @GetMapping("")
-    public ResponseEntity<Page<Employee>> listEmployee(
+    public ResponseEntity<Page<EmployeeListDTO>> listEmployee(
             @PageableDefault(size = 8) Pageable pageable,
             @RequestParam(defaultValue = "") String searchName,
             @RequestParam(defaultValue = "") String searchId) {
-        Page<Employee> employees;
+        Page<EmployeeListDTO> employees;
         if (!searchName.equals("") || !searchId.equals("")) {
-            return new ResponseEntity<Page<Employee>>(employeeService.findAllEmployeeByNameAndId
+            return new ResponseEntity<Page<EmployeeListDTO>>(employeeService.findAllEmployeeByNameAndId
                     ("%" + searchName + "%", "%" + searchId + "%", pageable),(HttpStatus.OK));
         } else{
-            employees = employeeService.findAll(pageable);
+            employees = employeeService.findAllEmployee(pageable);
             System.out.println("finish query from db");
         }
 
@@ -60,10 +63,58 @@ public class EmployeeController {
         }
         return new ResponseEntity<List<Account>>(accountList, HttpStatus.OK);
     }
-    
+
+    @GetMapping("/createId")
+    public ResponseEntity<Integer> getEmployeeId() {
+        int employeeId = employeeService.getNextId();
+        return new ResponseEntity<>(employeeId, HttpStatus.OK);
+    }
+
+    @PostMapping(value ="/create", consumes ={MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> updateEmployee(@RequestBody EmployeeDTO employeeDTO, BindingResult bindingResult) {
+        Employee employee = new Employee();
+
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Map<String, String> listErrors = new HashMap<>();
+
+        if(accountService.findAccountByAccountName(employeeDTO.getAccountName())!=null){
+            listErrors.put("employeeError", "Tên tài khoản đã tồn tại.");
+        }
+
+        if (!listErrors.isEmpty()) {
+            System.out.println(listErrors.keySet());
+//            return ResponseEntity.badRequest().body(listErrors);
+            return new ResponseEntity<>(listErrors, HttpStatus.NOT_MODIFIED);
+        } else {
+            employeeService.createNewEmployee(employeeDTO);
+            employeeService.updateAutoRender();
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+    }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<EmployeeFindIdDTO> findEmployeeByIdToDelete(@PathVariable String id) {
+        Optional<EmployeeFindIdDTO> employeeOptional = employeeService.findEmployeeById(id);
+        if (!employeeOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+        return new ResponseEntity<>(employeeOptional.get(), HttpStatus.OK);
+    }
+
+    @PatchMapping("/delete/{id}")
+    public  ResponseEntity<Employee> deleteEmployee(@PathVariable String id){
+        employeeService.deleteEmployee(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/update/{id}")
-    public ResponseEntity<Employee> findEmployeeById(@PathVariable String id) {
-        Optional<Employee> employeeOptional = employeeService.findById(id);
+    public ResponseEntity<EmployeeFindIdDTO> findEmployeeById(@PathVariable String id) {
+        Optional<EmployeeFindIdDTO> employeeOptional = employeeService.findEmployeeById(id);
         if (!employeeOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -71,9 +122,10 @@ public class EmployeeController {
     }
 
     @PatchMapping(value ="/update/{id}", consumes ={MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Employee> updateEmployee(@PathVariable String id,
-                                                   @RequestBody Employee employee, BindingResult bindingResult) {
-        Optional<Employee> employeeOptional = employeeService.findById(id);
+    public ResponseEntity<?> updateEmployee(@PathVariable String id,
+                                            @RequestBody EmployeeDTO employeeDTO,
+                                            BindingResult bindingResult) {
+        Optional<EmployeeFindIdDTO> employeeOptional = employeeService.findEmployeeById(id);
         if (!employeeOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -81,9 +133,9 @@ public class EmployeeController {
 //            return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
 //        }
         else {
-            employee.setEmployeeId(employeeOptional.get().getEmployeeId());
-            employee.setDelete(false);
-            return new ResponseEntity<>(employeeService.save(employee), HttpStatus.OK);
+            employeeDTO.setEmployeeId(employeeOptional.get().getEmployeeId());
+            employeeService.editEmployee(employeeDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 

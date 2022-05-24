@@ -25,7 +25,7 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping("")
-    public ResponseEntity<Page<Notification>> findAllNotification(@PageableDefault(size = 2) Pageable pageable) {
+    public ResponseEntity<Page<Notification>> findAllNotification(@PageableDefault(size = 10) Pageable pageable) {
         Page<Notification> notifications = notificationService.findAll(pageable);
         if (notifications.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -84,5 +84,27 @@ public class NotificationController {
         notification.setDelete(false);
 
         return new ResponseEntity<>(notificationService.save(notification), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Notification>> findAllEntitiesByInDateAndCage(@PageableDefault(size = 10) Pageable pageable,
+                                                                         @RequestParam(defaultValue = "", name = "uploadDateMin") String uploadDateMin,
+                                                                         @RequestParam(defaultValue = "", name = "uploadDateMax") String uploadDateMax) {
+        System.out.println("uploadDateMin" + uploadDateMin);
+        System.out.println("uploadDateMax" + uploadDateMax);
+        if (uploadDateMin.isEmpty()){
+            uploadDateMin="2000-03-15";
+        }
+        if (uploadDateMax.isEmpty()){
+            uploadDateMax="2025-03-13";
+        }
+        System.out.println("uploadDateMax" + uploadDateMax);
+        System.out.println("uploadDateMin " + uploadDateMin);
+        Page<Notification> notifications = notificationService.findAllByUploadDate3(pageable, uploadDateMin,uploadDateMax);
+
+        if (notifications.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 }

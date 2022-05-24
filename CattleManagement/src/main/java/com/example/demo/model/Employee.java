@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Set;
-
 
 @Entity
 @NoArgsConstructor
@@ -45,7 +43,7 @@ public class Employee {
     private String idCard;
 
     @Column(columnDefinition = "VARCHAR(255)")
-    private String avartar;
+    private String avatar;
 
     private Boolean isDelete;
 
@@ -63,9 +61,14 @@ public class Employee {
     @JsonBackReference(value = "JsonBackNews")
     private Set<News> news;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeCage", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee", cascade = CascadeType.REMOVE)
     @JsonBackReference(value = "JsonBackCage")
     private Set<Cage> cage;
+
+
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeContact", cascade = CascadeType.REMOVE)
+//    @JsonBackReference(value = "EmployeeToCustomer")
+//    private Set<Customer> customers;
 
     public String getEmployeeId() {
         return employeeId;
@@ -115,12 +118,12 @@ public class Employee {
         this.idCard = idCard;
     }
 
-    public String getAvartar() {
-        return avartar;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvartar(String avartar) {
-        this.avartar = avartar;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Boolean getDelete() {
