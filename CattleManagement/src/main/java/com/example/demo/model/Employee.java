@@ -30,7 +30,7 @@ public class Employee {
     @Email(message = "Phải đúng định dạng Email")
     private String email;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @NotNull(message = "{employeeBirthday.empty}")
     private LocalDate birthday;
 
