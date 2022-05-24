@@ -216,7 +216,7 @@ public class CageController {
         }
     }
     @GetMapping("")
-    public ResponseEntity<?> findAllCage(@PageableDefault(size = 2) Pageable pageable,
+    public ResponseEntity<?> findAllCage(@PageableDefault(size = 10) Pageable pageable,
                                          @RequestParam(value = "sort",defaultValue = "") String sort,
                                          @RequestParam(value = "type",defaultValue = "") boolean type){
         Page<CageListDTO> cageListDTOPage=cageService.findAllCage(pageable);
@@ -236,7 +236,7 @@ public class CageController {
         }
     }
     @GetMapping("/search")
-    public ResponseEntity<?> findCage(@PageableDefault(size = 2) Pageable pageable,
+    public ResponseEntity<?> findCage(@PageableDefault(size = 10) Pageable pageable,
                                       @RequestParam(value = "dateType", defaultValue = "") String dateType,
                                       @RequestParam(value = "dateFrom",defaultValue = "") String dateFrom,
                                       @RequestParam(value = "dateTo",defaultValue = "") String dateTo,
