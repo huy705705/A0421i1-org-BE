@@ -60,9 +60,9 @@ public interface EmployeeRepo extends PagingAndSortingRepository<Employee, Strin
     @Transactional
     @Modifying
     @Query(value =  "update employee as e set e.employee_name = ?1, e.birthday = ?2, e.id_card = ?3,"+
-                    " e.address = ?4, e.gender = ?5, e.email =?6 where e.employee_id = ?7", nativeQuery = true)
+                    " e.address = ?4, e.gender = ?5, e.email =?6, e.avatar =?7 where e.employee_id = ?8", nativeQuery = true)
     void editEmployee(String employeeName, String birthday, String idCard,
-                      String address, String gender, String email, String employeeId);
+                      String address, String gender, String email, String avatar, String employeeId);
 
     @Modifying
     @Transactional

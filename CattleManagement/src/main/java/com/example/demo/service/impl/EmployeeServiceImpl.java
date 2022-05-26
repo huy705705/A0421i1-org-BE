@@ -66,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeRepo.editEmployee(employeeDTO.getEmployeeName(), employeeDTO.getBirthday(),
                 employeeDTO.getIdCard(), employeeDTO.getAddress(), employeeDTO.getGender(),
-                employeeDTO.getEmail(), employeeDTO.getEmployeeId());
+                employeeDTO.getEmail(),employeeDTO.getAvatar(), employeeDTO.getEmployeeId());
     }
 
     @Override

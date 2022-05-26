@@ -8,6 +8,7 @@ public interface EmployeeFindIdDTO {
     String getGender();
     String getIdCard();
     String getAddress();
+    String getAvatar();
     String getAccountId();
     String getAccountName();
     String getPassword();

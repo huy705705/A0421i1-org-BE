@@ -79,8 +79,8 @@ public class AccountController {
 //                Account account = accountService.findAccountByAccountName(accountName);
 //                accountService.addResetPasswordToken(accountName);
 //                return ResponseEntity.ok(new ResponseMessage("Sent email "));
-//
 //        }
+
         else {
             return ResponseEntity
                     .badRequest()

@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,6 +35,9 @@ public class EmployeeController {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("")
     public ResponseEntity<Page<EmployeeListDTO>> listEmployee(
@@ -89,6 +93,7 @@ public class EmployeeController {
 //            return ResponseEntity.badRequest().body(listErrors);
             return new ResponseEntity<>(listErrors, HttpStatus.NOT_MODIFIED);
         } else {
+            employeeDTO.setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
             employeeService.createNewEmployee(employeeDTO);
             employeeService.updateAutoRender();
             return new ResponseEntity<>(HttpStatus.OK);
@@ -134,6 +139,7 @@ public class EmployeeController {
 //        }
         else {
             employeeDTO.setEmployeeId(employeeOptional.get().getEmployeeId());
+            employeeDTO.setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
             employeeService.editEmployee(employeeDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         }
