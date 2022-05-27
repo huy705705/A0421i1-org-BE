@@ -66,6 +66,10 @@ public class Employee {
     private Set<Cage> cage;
 
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee", cascade = CascadeType.REMOVE)
+    @JsonBackReference(value = "JsonBackNewsComment")
+    private Set<NewsComment> newsComments;
+
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employeeContact", cascade = CascadeType.REMOVE)
 //    @JsonBackReference(value = "EmployeeToCustomer")
 //    private Set<Customer> customers;

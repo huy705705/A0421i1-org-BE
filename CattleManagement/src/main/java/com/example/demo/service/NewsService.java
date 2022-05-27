@@ -1,13 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Entities;
 import com.example.demo.model.News;
-import com.example.demo.model.dto.statisticalTypeNewsDTO;
+import com.example.demo.model.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface NewsService {
     Page<News> findAll(Pageable pageable);
@@ -20,4 +16,7 @@ public interface NewsService {
     News findNewsByNewsId(String newsId);
     News save(News news);
     Page<statisticalTypeNewsDTO> statisticalTotalViewsByType(Pageable pageable);
+    Page<CommentNewsDTO> findNewsByNewsComments(String id, Pageable pageable);
+    UserCommentDTO findUser(String idAccount);
+    void createComment(CommentCreateDTO commentCreateDTO);
 }

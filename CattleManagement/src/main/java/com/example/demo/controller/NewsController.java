@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Entities;
 import com.example.demo.model.News;
+import com.example.demo.model.NewsComment;
+import com.example.demo.model.dto.CommentCreateDTO;
+import com.example.demo.model.dto.UserCommentDTO;
+import com.example.demo.model.dto.CommentNewsDTO;
 import com.example.demo.model.dto.statisticalTypeNewsDTO;
 import com.example.demo.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -93,4 +97,37 @@ public class NewsController {
 //        }
         return new ResponseEntity<>(news, HttpStatus.OK);
     }
+    @GetMapping("/comment")
+    public ResponseEntity<Page<CommentNewsDTO>> statistical(@PageableDefault(size = 6 ) Pageable pageable,
+                                                            @RequestParam(value = "id", defaultValue = "")  String idNews) {
+        Page<CommentNewsDTO> comments;
+        comments = newsService.findNewsByNewsComments(idNews, pageable);
+//        System.out.println(news.toString());
+        if (comments.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
+    @GetMapping("/inforUser")
+    public ResponseEntity<UserCommentDTO> findUser(@RequestParam(value = "id", defaultValue = "")  String nameAccount) {
+        UserCommentDTO comments;
+        comments = newsService.findUser(nameAccount);
+        if (comments == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
+    @PostMapping(value ="/comment/create")
+    public ResponseEntity<?> createComment(@Valid @RequestBody CommentCreateDTO commentCreateDTO, BindingResult bindingResult) {
+        NewsComment comment = new NewsComment();
+        System.out.println(commentCreateDTO);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        newsService.createComment(commentCreateDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
 }

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -47,6 +49,10 @@ public class News {
     @ManyToOne(targetEntity = Employee.class)
     @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
     private Employee employee;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "news", cascade = CascadeType.REMOVE)
+    @JsonBackReference(value = "JsonBackNewsComment")
+    private Set<NewsComment> newsComments;
 
     public int getTotalView() {
         return totalView;
