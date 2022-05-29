@@ -30,6 +30,7 @@ public interface CageRepo extends JpaRepository<Cage, String> {
     Optional<Cage> findByCageId(String Id);
 
 
+
     @Query(value = "select cage_id from cage",nativeQuery = true)
     List<String> getListCageId();
 

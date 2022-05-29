@@ -73,7 +73,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Boolean findAccountByResetPasswordToken(String token) {
+    public Account findAccountResetPasswordToken(String token) {
+        return accountRepo.findAccountByResetPasswordToken(token);
+    }
+
+    @Override
+    public Boolean checkAccountByResetPasswordToken(String token) {
         Account account = accountRepo.findAccountByResetPasswordToken(token);
         return account != null;
     }

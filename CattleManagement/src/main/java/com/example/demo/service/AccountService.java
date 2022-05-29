@@ -24,7 +24,9 @@ public interface AccountService {
 
     Account findAccountByEmail(String email);
 
-    Boolean findAccountByResetPasswordToken(String token);
+    Account findAccountResetPasswordToken(String token);
+
+    Boolean checkAccountByResetPasswordToken(String token);
 
     void saveNewPassword(String password,String code);
 

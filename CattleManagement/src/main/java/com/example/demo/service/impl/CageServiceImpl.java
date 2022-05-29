@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 
 import com.example.demo.customUtilities.CageComparator;
+import com.example.demo.edit_logger.TractChange;
 import com.example.demo.model.Cage;
 import com.example.demo.model.Employee;
 import com.example.demo.model.Entities;
@@ -40,8 +41,20 @@ public class CageServiceImpl implements CageService {
         return cageRepo.save(cage);
     }
 
+    @TractChange
+    @Override
+    public Cage update(Cage cage) {
+        return cageRepo.save(cage);
+    }
+
+
     @Override
     public Optional<Cage> findCageById(String id) {
+        return cageRepo.findByCageId(id);
+    }
+
+
+    public Optional<Cage> findCageById3(String id) {
         return cageRepo.findByCageId(id);
     }
 

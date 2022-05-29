@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.edit_logger.TractChange;
 import com.example.demo.model.Cage;
 
 import com.example.demo.model.Employee;
@@ -24,6 +25,8 @@ public interface CageService {
     Page<CageListDTO> findCageByCloseDate(String searchCageId, String employeeName, String dateFrom, String dateTo,Pageable pageable);
     List<GetEmployeeNameDTO> getAllEmployeeName();
 
+
+    Cage update(Cage cage);
 
     Cage save (Cage cage);
 

@@ -37,22 +37,6 @@ public class JwtTokenUtil implements Serializable {
                 .compact();
     }
 
-    // from git tq
-    private String generateToken(Map<String, Object> claims) {
-        Date expirationDate = new Date(System.currentTimeMillis() + 18000L * 1000); /* expiration in 5 hr */
-        return Jwts.builder()
-                .setClaims(claims)
-                .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
-
-    public String doGenerateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>(2);
-        claims.put("sub", userDetails.getUsername());
-        claims.put("created", new Date());
-        return generateToken(claims);
-    }
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();

@@ -55,6 +55,10 @@ public class Account {
     @JsonBackReference(value = "Json_back_roleset")
     private Set<AccountRole> roleSet;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.REMOVE)
+    @JsonBackReference(value = "Json_back_passHis_set")
+    private Set<PasswordHistory> passwordHistorySet;
+
 
     public Account(@NotBlank @Size(min = 3, max = 50) String userName,
                    @NotBlank @Size(min = 6, max = 50)String encode) {
@@ -68,5 +72,19 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountId=" + accountId +
+                ", accountName='" + accountName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", resetPasswordToken='" + resetPasswordToken + '\'' +
+                ", employee=" + employee +
+                ", roleSet=" + roleSet +
+                ", passwordHistorySet=" + passwordHistorySet +
+                '}';
     }
 }

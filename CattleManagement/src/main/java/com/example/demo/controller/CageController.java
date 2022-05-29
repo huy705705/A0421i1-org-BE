@@ -1,11 +1,14 @@
 package com.example.demo.controller;
+import com.example.demo.edit_logger.TractChange;
 import com.example.demo.model.Cage;
+import com.example.demo.model.EditLog;
 import com.example.demo.model.Employee;
 import com.example.demo.model.dto.CageCreateDto;
 import com.example.demo.model.dto.CageEditDto;
 import com.example.demo.model.dto.CageForEditDto;
 import com.example.demo.model.dto.EmployeeForCageDto;
 import com.example.demo.service.impl.CageServiceImpl;
+import com.example.demo.service.impl.EditLogServiceImpl;
 import com.example.demo.service.impl.EmployeeServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,9 @@ public class CageController {
     @Autowired
     private EmployeeServiceImpl employeeService;
 
+    @Autowired
+    private EditLogServiceImpl editLogService;
+
 
     @GetMapping("/createId")
     public ResponseEntity<Integer> getCageIdForCreate() {
@@ -48,7 +54,7 @@ public class CageController {
     @GetMapping("/username/{user}")
     public ResponseEntity<?> getEmployeeIdForCreate(@PathVariable String user){
         EmployeeForCageDto employee = cageService.getEmployeeIdAndName(user);
-
+        System.out.println("id: " + employee.getEmployeeId() + " name: " + employee.getEmployeeName());
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
@@ -131,6 +137,7 @@ public class CageController {
     @GetMapping("/edit/{id}")
     public ResponseEntity<?> findCageByIdForEdit(@PathVariable String id) {
         Optional<CageForEditDto> cage = cageService.findCageById2(id);
+        Optional<Cage> cageOptional = cageService.findCageById3(id);
         System.out.println("cageID: " + id );
         if (!cage.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -146,6 +153,7 @@ public class CageController {
 
         //get cageID
         System.out.println("cageId in CageEditDto: " + cageEditDto.getCageId());
+
         Optional<Cage> cageOptional = cageService.findCageById(cageEditDto.getCageId());
         if (!cageOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -184,10 +192,19 @@ public class CageController {
 //            return ResponseEntity.badRequest().body(listErrors);
             return new ResponseEntity<>(listErrors, HttpStatus.NOT_MODIFIED);
         } else {
-            cageService.save(cage);
+            cageService.update(cage);
             return new ResponseEntity<>(cage, HttpStatus.OK);
         }
     }
+
+    @GetMapping("/edit-detail/{id}")
+    public ResponseEntity<?> getEditDetail(@PathVariable String id) {
+        List<EditLog> logList = editLogService.findAllByCageId(id);
+        System.out.println("logList: " + Arrays.toString(logList.toArray()));
+        return new ResponseEntity<>(logList, HttpStatus.OK);
+    }
+
+
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

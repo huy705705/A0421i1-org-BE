@@ -19,6 +19,7 @@ public interface AccountRepo extends JpaRepository<Account, String> {
 
     Account findAccountByEmail(String email);
 
+    @Query(value = "select * from account where reset_password_token = ? ", nativeQuery = true)
     Account findAccountByResetPasswordToken(String token);
 
     @Query(value = "select account_id from account where account_name = ?", nativeQuery = true)
