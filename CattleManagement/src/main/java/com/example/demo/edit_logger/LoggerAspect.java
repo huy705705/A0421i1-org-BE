@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -47,7 +48,7 @@ public class LoggerAspect {
         List<String> listChange = getDifference(this.previousCage, cage);
         StringBuilder result = new StringBuilder();
         for (String s: listChange) {
-            result.append(s).append(";");
+            result.append(s).append("; ");
         }
         logger.info("result of change: " + result);
         LocalDate now = LocalDate.now();
@@ -73,4 +74,6 @@ public class LoggerAspect {
         }
         return values;
     }
+
+
 }

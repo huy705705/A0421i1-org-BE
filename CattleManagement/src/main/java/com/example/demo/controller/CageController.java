@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -178,7 +179,7 @@ public class CageController {
 
         BeanUtils.copyProperties(cageEditDto, cage);
 
-        if (!cageService.isValidDate(cage)){
+        if (!cageService.isValidDateForEdit(cage)){
             System.out.println("Lỗi ngày tạo và đóng chuồng.");
             listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
         }
@@ -186,7 +187,7 @@ public class CageController {
         Employee employee = employeeService.findEmpById(employeeId);
         cage.setEmployee(employee);
 
-        System.out.println("listError: "+ !listErrors.isEmpty());
+        System.out.println("listError: "+ (!listErrors.isEmpty()));
         if (!listErrors.isEmpty()) {
             System.out.println(listErrors.keySet());
 //            return ResponseEntity.badRequest().body(listErrors);

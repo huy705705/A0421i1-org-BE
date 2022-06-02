@@ -22,4 +22,9 @@ public class EditLogServiceImpl implements EditLogService {
     public EditLog save(EditLog editLog) {
         return editLogRepo.save(editLog);
     }
+
+    @Override
+    public void deleteAll() {
+        editLogRepo.deleteAll();
+    }
 }

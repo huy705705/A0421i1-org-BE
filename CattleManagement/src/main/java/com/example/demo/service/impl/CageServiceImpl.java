@@ -90,6 +90,10 @@ public class CageServiceImpl implements CageService {
                 && cage.getClosedDate().isAfter(cage.getCreatedDate());
     }
 
+    public Boolean isValidDateForEdit(Cage cage){
+        return  cage.getClosedDate().isAfter(cage.getCreatedDate());
+    }
+
     public void autoUpdateClosedDate(Cage cage,Entities entities) {
         LocalDate maxDate=cage.getClosedDate();
         LocalDate entitiesDate=entities.getOutDate();
