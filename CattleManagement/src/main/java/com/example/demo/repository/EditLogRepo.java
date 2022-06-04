@@ -17,6 +17,6 @@ public interface EditLogRepo extends JpaRepository<EditLog, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value="delete from edit_log", nativeQuery= true)
+    @Query(value="delete from edit_log where edit_date < current_date() - 90;", nativeQuery= true)
     void deleteAll();
 }

@@ -11,10 +11,10 @@ public class ClearLogSchedule {
     @Autowired
     private EditLogServiceImpl editLogService;
 
-    @Scheduled(cron = "30 * * * * *")
-//    @Scheduled(cron = "0 0 30 3,6,9,12 *")
+//    @Scheduled(cron = "30 * * * * *")
+    @Scheduled(cron = "0 0 * * *")
     public void scheduleClearLog(){
-//        editLogService.deleteAll();
+        editLogService.deleteAll();
         System.out.println("finish delete all " );
     }
 }
