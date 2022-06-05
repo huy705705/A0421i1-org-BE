@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
-@RequestMapping("api/public/notification")
+@RequestMapping("/employee/notification")
 public class NotificationController {
     @Autowired
     private NotificationService notificationService;
