@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.News;
+import com.example.demo.model.NewsComment;
 import com.example.demo.model.dto.UserCommentDTO;
 import com.example.demo.model.dto.CommentNewsDTO;
 import com.example.demo.model.dto.statisticalTypeNewsDTO;
@@ -52,4 +53,5 @@ public interface NewsRepo extends JpaRepository<News, String> {
     @Query(value="INSERT INTO news_comment(content,is_delete,employee_id,news_id)" +
             " values(?1,?2,?3,?4)",nativeQuery=true)
     void createCustomer(String content, Boolean isDelete, String employeeId, String newsId);
+
 }

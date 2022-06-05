@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Cage;
+import com.example.demo.model.Employee;
 import com.example.demo.model.News;
 import com.example.demo.model.NewsComment;
-import com.example.demo.model.dto.CommentCreateDTO;
-import com.example.demo.model.dto.UserCommentDTO;
-import com.example.demo.model.dto.CommentNewsDTO;
-import com.example.demo.model.dto.statisticalTypeNewsDTO;
+import com.example.demo.model.dto.*;
+import com.example.demo.service.CommentService;
 import com.example.demo.service.NewsService;
+import com.example.demo.service.impl.EmployeeServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -25,6 +28,13 @@ import javax.validation.Valid;
 public class NewsController {
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private EmployeeServiceImpl employeeService;
+
     @GetMapping()
     public ResponseEntity<Page<News>> findAllNews(@PageableDefault(size = 6 ) Pageable pageable,
                                                   @RequestParam(value = "search", defaultValue = "")  String search,
@@ -129,5 +139,34 @@ public class NewsController {
         newsService.createComment(commentCreateDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         }
+
+    @GetMapping(value = "comment/delete/{id}")
+    public ResponseEntity<NewsComment> deleteComment(@PathVariable Long id){
+        System.out.println(id);
+        NewsComment newsComment;
+        newsComment = commentService.findNewsCommentByCommentId(id);
+        if (newsComment==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        newsComment.setDelete(true);
+        commentService.save(newsComment);
+        return new ResponseEntity<>(newsComment, HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "comment/edit")
+    public ResponseEntity<?> editComment(@Valid @RequestBody CommentEditDTO commentEditDTO, BindingResult bindingResult) {
+        NewsComment newsComment = commentService.findNewsCommentByCommentId(commentEditDTO.getCommentId());
+        System.out.println(commentEditDTO);
+        BeanUtils.copyProperties(commentEditDTO, newsComment);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Employee employee = employeeService.findEmpById(commentEditDTO.getEmployeeId());
+        newsComment.setEmployee(employee);
+        News news = newsService.findNewsByNewsId(commentEditDTO.getNewsId());
+        newsComment.setNews(news);
+        commentService.save(newsComment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
