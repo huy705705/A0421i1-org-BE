@@ -12,7 +12,7 @@ public class ClearLogSchedule {
     private EditLogServiceImpl editLogService;
 
 //    @Scheduled(cron = "30 * * * * *")
-    @Scheduled(cron = "0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void scheduleClearLog(){
         editLogService.deleteAll();
         System.out.println("finish delete all " );

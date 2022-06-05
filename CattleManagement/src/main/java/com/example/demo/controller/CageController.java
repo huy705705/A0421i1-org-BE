@@ -82,6 +82,8 @@ public class CageController {
             listErrors.put("employeeError", "Tên nhân viên không tồn tại.");
         }
 
+        cageService.findCageById3("-1");
+
         BeanUtils.copyProperties(cageCreateDto, cage);
 
         if (cageService.existsByCageId(cage.getCageId())) {
@@ -125,15 +127,6 @@ public class CageController {
         return new ResponseEntity<>(employeeList,HttpStatus.OK);
     }
 
-    // ok
-//    @GetMapping("/edit/{id}")
-//    public ResponseEntity<?> findCageByIdForEdit(@PathVariable String id) {
-//        Optional<Cage> cage = cageService.findCageById(id);
-//        if (!cage.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<>(cage.get(), HttpStatus.OK);
-//    }
 
     @GetMapping("/edit/{id}")
     public ResponseEntity<?> findCageByIdForEdit(@PathVariable String id) {

@@ -36,6 +36,7 @@ public class CageServiceImpl implements CageService {
         return cageRepo.getListCageId();
     }
 
+    @TractChange
     @Override
     public Cage save(Cage cage) {
         return cageRepo.save(cage);

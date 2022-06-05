@@ -33,29 +33,37 @@ public class LoggerAspect {
         if (oldCage.isPresent()){
             logger.info("Log cage after find by ID: " + oldCage.get().toString());
             this.previousCage = oldCage.get();
+        } else {
+            this.previousCage = null;
         }
-
-//        EditLog editLog = new EditLog();
-//        editLog.setEditDate(LocalDate.now());
 
     }
 
     @AfterReturning(value = "@annotation(com.example.demo.edit_logger.TractChange)", returning = "cage")
     public void logChangeFields(JoinPoint joinPoint, Cage cage) throws Throwable {
-        logger.info("old cage: "+this.previousCage.toString());
+//        logger.info("old cage: " + this.previousCage.toString());
         logger.info("Log cage after edit: " + cage.toString());
-
-        List<String> listChange = getDifference(this.previousCage, cage);
         StringBuilder result = new StringBuilder();
-        for (String s: listChange) {
-            result.append(s).append("; ");
+
+        if (previousCage==null) {
+            result.append("Tạo mới chuồng nuôi");
+        } else {
+            List<String> listChange = getDifference(this.previousCage, cage);
+            for (int i = 0; i < listChange.size(); i++) {
+                if (i < listChange.size() - 1) {
+                    result.append(listChange.get(i)).append(";");
+                } else {
+                    result.append(listChange.get(i));
+                }
+            }
         }
-        logger.info("result of change: " + result);
-        LocalDate now = LocalDate.now();
-        String cageId = cage.getCageId();
-        String employee = cage.getEmployee().getEmployeeName();
-        EditLog editLog = new EditLog(cageId, now, employee, result.toString());
-        editLogService.save(editLog);
+            logger.info("result of change: " + result);
+            LocalDate now = LocalDate.now();
+            String cageId = cage.getCageId();
+            String employee = cage.getEmployee().getEmployeeName();
+            EditLog editLog = new EditLog(cageId, now, employee, result.toString());
+            editLogService.save(editLog);
+
     }
 
     private static List<String> getDifference(Object s1, Object s2) throws IllegalAccessException, NoSuchFieldException {
