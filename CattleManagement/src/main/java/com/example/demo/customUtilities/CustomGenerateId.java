@@ -33,6 +33,4 @@ public class CustomGenerateId extends SequenceStyleGenerator {
         numberFormat = ConfigurationHelper.getString(NUMBER_FORMAT_PARAMETER, params, NUMBER_FORMAT_DEFAULT);
 
     }
-
 }
-

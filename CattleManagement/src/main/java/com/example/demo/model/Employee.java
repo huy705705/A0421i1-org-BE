@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Set;
+
 
 @Entity
 @NoArgsConstructor
@@ -43,7 +45,7 @@ public class Employee {
     private String idCard;
 
     @Column(columnDefinition = "VARCHAR(255)")
-    private String avatar;
+    private String avartar;
 
     private Boolean isDelete;
 
@@ -118,12 +120,12 @@ public class Employee {
         this.idCard = idCard;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getAvartar() {
+        return avartar;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setAvartar(String avartar) {
+        this.avartar = avartar;
     }
 
     public Boolean getDelete() {

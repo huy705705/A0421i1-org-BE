@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Entities;
 import com.example.demo.model.News;
-import com.example.demo.model.dto.statisticalTypeNewsDTO;
 import com.example.demo.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,9 +10,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -83,14 +79,5 @@ public class NewsController {
         newsService.save(news);
         return new ResponseEntity<>(news, HttpStatus.OK);
     }
-    @GetMapping("/statistical")
-    public ResponseEntity<Page<statisticalTypeNewsDTO>> statistical(@PageableDefault(size = 5 ) Pageable pageable){
-        Page<statisticalTypeNewsDTO> news;
-        news = newsService.statisticalTotalViewsByType(pageable);
-//        System.out.println(news.toString());
-//        if (news.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-        return new ResponseEntity<>(news, HttpStatus.OK);
-    }
+//'/'
 }

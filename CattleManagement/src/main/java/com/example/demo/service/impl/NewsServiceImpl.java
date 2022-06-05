@@ -1,16 +1,12 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.News;
-import com.example.demo.model.dto.statisticalTypeNewsDTO;
 import com.example.demo.repository.NewsRepo;
 import com.example.demo.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NewsServiceImpl implements NewsService {
@@ -58,11 +54,6 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public News save(News news) {
         return newsRepo.save(news);
-    }
-
-    @Override
-    public Page<statisticalTypeNewsDTO> statisticalTotalViewsByType(Pageable pageable) {
-        return newsRepo.statisticalTotalViewsByType(pageable);
     }
 
 

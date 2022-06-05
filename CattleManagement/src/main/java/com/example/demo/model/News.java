@@ -34,23 +34,19 @@ public class News {
     @Column(columnDefinition = "VARCHAR(500)")
     private String image;
 
-    private Boolean isDelete;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdDate;
-
-    @ManyToOne(targetEntity = Employee.class)
-    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
-    private Employee employee;
 
     private int totalView;
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String type;
 
+    private Boolean isDelete;
 
-
-;
+    @ManyToOne(targetEntity = Employee.class)
+    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId")
+    private Employee employee;
 
     public int getTotalView() {
         return totalView;

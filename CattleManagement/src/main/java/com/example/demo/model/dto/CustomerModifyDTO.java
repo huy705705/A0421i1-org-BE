@@ -4,26 +4,16 @@ public class CustomerModifyDTO {
     String fullName;
     String address;
     String createDate;
+    String modifyDate;
     String phone;
     String email;
     Boolean gender;
     String message;
+    String status;
+    String comment;
     int province;
     int district;
     int ward;
-
-    public CustomerModifyDTO(String fullName, String address, String createDate, String phone, String email, Boolean gender, String message, int province, int district, int ward) {
-        this.fullName = fullName;
-        this.address = address;
-        this.createDate = createDate;
-        this.phone = phone;
-        this.email = email;
-        this.gender = gender;
-        this.message = message;
-        this.province = province;
-        this.district = district;
-        this.ward = ward;
-    }
 
     public String getFullName() {
         return fullName;
@@ -39,6 +29,22 @@ public class CustomerModifyDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(String modifyDate) {
+        this.modifyDate = modifyDate;
     }
 
     public String getPhone() {
@@ -97,11 +103,33 @@ public class CustomerModifyDTO {
         this.ward = ward;
     }
 
-    public String getCreateDate() {
-        return createDate;
+    public String getStatus() {
+        return status;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public CustomerModifyDTO(String fullName, String address, String createDate, String modifyDate, String phone, String email, Boolean gender, String message, int province, int district, int ward) {
+        this.fullName = fullName;
+        this.address = address;
         this.createDate = createDate;
+        this.modifyDate = modifyDate;
+        this.phone = phone;
+        this.email = email;
+        this.gender = gender;
+        this.message = message;
+        this.province = province;
+        this.district = district;
+        this.ward = ward;
     }
 }

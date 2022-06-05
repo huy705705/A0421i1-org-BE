@@ -92,7 +92,7 @@ public class CageController {
             listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
         }
 
-        Employee employee = employeeService.findEmpById(employeeId);
+        Employee employee = employeeService.findEmployeeById(employeeId);
         if (employee != null) {
             cage.setEmployee(employee);
         } else {
@@ -175,7 +175,7 @@ public class CageController {
             listErrors.put("cageError", "Lỗi ngày tạo và đóng chuồng.");
         }
 
-        Employee employee = employeeService.findEmpById(employeeId);
+        Employee employee = employeeService.findEmployeeById(employeeId);
         cage.setEmployee(employee);
 
         System.out.println("listError: "+ !listErrors.isEmpty());
@@ -216,7 +216,7 @@ public class CageController {
         }
     }
     @GetMapping("")
-    public ResponseEntity<?> findAllCage(@PageableDefault(size = 10) Pageable pageable,
+    public ResponseEntity<?> findAllCage(@PageableDefault(size = 2) Pageable pageable,
                                          @RequestParam(value = "sort",defaultValue = "") String sort,
                                          @RequestParam(value = "type",defaultValue = "") boolean type){
         Page<CageListDTO> cageListDTOPage=cageService.findAllCage(pageable);
@@ -236,7 +236,7 @@ public class CageController {
         }
     }
     @GetMapping("/search")
-    public ResponseEntity<?> findCage(@PageableDefault(size = 10) Pageable pageable,
+    public ResponseEntity<?> findCage(@PageableDefault(size = 2) Pageable pageable,
                                       @RequestParam(value = "dateType", defaultValue = "") String dateType,
                                       @RequestParam(value = "dateFrom",defaultValue = "") String dateFrom,
                                       @RequestParam(value = "dateTo",defaultValue = "") String dateTo,

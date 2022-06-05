@@ -1,12 +1,19 @@
 package com.example.demo.controller;
-import com.example.demo.model.dto.*;
+
+import com.example.demo.model.Customer;
+import com.example.demo.model.dto.CustomerCreateDTO;
+import com.example.demo.model.dto.DistrictListDTO;
+import com.example.demo.model.dto.ProvinceDTO;
+import com.example.demo.model.dto.WardDTO;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,7 +29,7 @@ public class CustomerController {
     private CategoryService categoryService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerModifyDTO customer, BindingResult bindingResult){
+    public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerCreateDTO customer, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.NOT_MODIFIED);
         }
@@ -32,35 +39,10 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<CustomerModifyDTO> updateCustomer(@RequestBody CustomerModifyDTO customer,
-                                                            @PathVariable Integer id){
-        Boolean checked=customerService.existsByCustomerId(id);
-        System.out.println("+++++++++++++++++++Checked"+checked);
-        if(checked){
-            customer.setCreateDate(LocalDate.now().toString());
-            customerService.updateCustomer(customer,id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-    }
-    @GetMapping("/checkInfo")
-    public ResponseEntity<GetOldCustomerDTO> checkCustomerInfo(
-            @RequestParam(value = "email") String email,
-            @RequestParam(value = "phone") String phone){
-        GetOldCustomerDTO customer=customerService.getUpdateCustomer(email,phone);
-        if(customer!=null){
-            return new ResponseEntity<>(customer,HttpStatus.OK);
-        }
-        return null;
-
-    }
     @GetMapping("")
-    public ResponseEntity<List<ProvinceDTO>> getListProvince(){
+    public ResponseEntity<?> getListProvince(){
         List<ProvinceDTO>catProvinceList=categoryService.getProvinceList();
+        System.out.println(catProvinceList.size());
         if(catProvinceList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -69,7 +51,7 @@ public class CustomerController {
         }
     }
     @GetMapping(value ="/district/{id}")
-    public ResponseEntity<List<DistrictListDTO>> getDistrictList(@PathVariable Integer id){
+    public ResponseEntity<?> getDistrictList(@PathVariable Integer id){
         List<DistrictListDTO> catDistrictList=categoryService.getDistrictList(id);
         if(catDistrictList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -78,13 +60,13 @@ public class CustomerController {
             return new ResponseEntity<>(catDistrictList, HttpStatus.OK);
         }
     }
-    @GetMapping("/ward/{id}")
-    public ResponseEntity<List<WardDTO>> getWardList(@PathVariable Integer id){
+   @GetMapping("/ward/{id}")
+    public ResponseEntity<?> getWardList(@PathVariable Integer id){
         List<WardDTO> wardDTOList= categoryService.getWardsList(id);
         if (wardDTOList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         else return new ResponseEntity<>(wardDTOList,HttpStatus.OK);
-    }
+   }
 
 }

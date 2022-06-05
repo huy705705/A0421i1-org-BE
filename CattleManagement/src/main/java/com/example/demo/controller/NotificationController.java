@@ -19,13 +19,13 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
-@RequestMapping("/admin/notification")
+@RequestMapping("api/public/notification")
 public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
     @GetMapping("")
-    public ResponseEntity<Page<Notification>> findAllNotification(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Page<Notification>> findAllNotification(@PageableDefault(size = 2) Pageable pageable) {
         Page<Notification> notifications = notificationService.findAll(pageable);
         if (notifications.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

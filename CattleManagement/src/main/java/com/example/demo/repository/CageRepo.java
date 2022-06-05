@@ -55,7 +55,7 @@ public interface CageRepo extends JpaRepository<Cage, String> {
             countQuery="select count(cage_id) from cage",nativeQuery=true)
     Page<CageListDTO> findAllCage(Pageable pageable);
 
-    @Query(value = "select distinct e.employee_id as employeeId,e.employee_name as employeeName from employee e inner join cage c on e.employee_id=c.employee_id where e.is_delete!=1 or e.is_delete=null", nativeQuery = true)
+    @Query(value = "select distinct e.employee_id as employeeId,e.employee_name as employeeName from employee e where e.is_delete!=1 or e.is_delete=null", nativeQuery = true)
     List<GetEmployeeNameDTO> getAllEmployeeName();
 
     @Query(value = "select c.cage_id as cageId, c.closed_date as closedDate, c.created_date as createdDate, c.quantity,e.employee_name as employeeName,count(et.entities_id) as entitiesQuantity " +
